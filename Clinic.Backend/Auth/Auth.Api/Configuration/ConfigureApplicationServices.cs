@@ -1,4 +1,5 @@
-﻿using Auth.Infrastructure.Data;
+﻿using Auth.Core.Entities;
+using Auth.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -42,11 +43,11 @@ public static class ConfigureApplicationServices
         {
             var context = services.GetRequiredService<AuthenticationDbContext>();
             var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-            var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+            var userManager = services.GetRequiredService<UserManager<Account>>();
 
             await context.Database.MigrateAsync();
             await DataSeeder.SetApplicationRoleConfiguration(roleManager);
-            //seed workers
+            await DataSeeder.SetWorkers(userManager);
         }
         catch (Exception ex)
         {

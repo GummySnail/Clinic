@@ -1,4 +1,5 @@
-﻿using Auth.Core.Interface.Data.Repositories;
+﻿using Auth.Core.Entities;
+using Auth.Core.Interface.Data.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
@@ -7,10 +8,10 @@ namespace Auth.Infrastructure.Data.Repositories;
 
 public class UserRepository : IUserRepository
 {
-    private readonly UserManager<IdentityUser> _userManager;
-    private readonly SignInManager<IdentityUser> _signInManager;
+    private readonly UserManager<Account> _userManager;
+    private readonly SignInManager<Account> _signInManager;
 
-    public UserRepository(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+    public UserRepository(UserManager<Account> userManager, SignInManager<Account> signInManager)
     {
         _userManager = userManager;
         _signInManager = signInManager;
@@ -23,7 +24,7 @@ public class UserRepository : IUserRepository
 
     public async Task<IdentityResult> CreateUserAsync(string email, string password)
     {
-        var user = new IdentityUser
+        var user = new Account
         {
             Email = email,
             UserName = email
@@ -40,24 +41,24 @@ public class UserRepository : IUserRepository
         return IdentityResult.Failed();
     }
 
-    public async Task<IdentityUser> GetUserByEmailAsync(string email)
+    public async Task<Account> GetUserByEmailAsync(string email)
     {
         return await _userManager.FindByEmailAsync(email.ToUpperInvariant());
     }
 
-    public async Task<bool> CheckPasswordAsync(IdentityUser user, string password)
+    public async Task<bool> CheckPasswordAsync(Account user, string password)
     {
         return await _userManager.CheckPasswordAsync(user, password);
     }
 
-    public async Task<SignInResult> PasswordSignInAsync(IdentityUser user, string password)
+    public async Task<SignInResult> PasswordSignInAsync(Account user, string password)
     {
         var result = await _signInManager.PasswordSignInAsync(user, password, false, false);
         
         return result;
     }
 
-    public async Task<bool> CheckEmailConfirmation(IdentityUser user)
+    public async Task<bool> CheckEmailConfirmation(Account user)
     {
         return await _userManager.IsEmailConfirmedAsync(user);
     }

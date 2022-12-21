@@ -1,4 +1,5 @@
-﻿using Auth.Core.Interface.Data.Repositories;
+﻿using Auth.Core.Entities;
+using Auth.Core.Interface.Data.Repositories;
 using Auth.Core.Interface.Services;
 using Auth.Infrastructure.Data;
 using Auth.Infrastructure.Data.Repositories;
@@ -18,7 +19,7 @@ public static class ConfigureInfrastructureServices
                 build => build.MigrationsAssembly(typeof(AuthenticationDbContext).Assembly.FullName));
         });
 
-        services.AddIdentity<IdentityUser, IdentityRole>(opt =>
+        services.AddIdentity<Account, IdentityRole>(opt =>
             {
                 opt.Password.RequireDigit = true;
                 opt.Password.RequiredLength = 6;
@@ -33,7 +34,7 @@ public static class ConfigureInfrastructureServices
             {
                 opt.EmitStaticAudienceClaim = true;
             })
-            .AddAspNetIdentity<IdentityUser>()
+            .AddAspNetIdentity<Account>()
             .AddInMemoryApiResources(IdentityServerConfiguration.ApiResources)
             .AddInMemoryIdentityResources(IdentityServerConfiguration.IdentityResources)
             .AddInMemoryApiScopes(IdentityServerConfiguration.ApiScopes)
