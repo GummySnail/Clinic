@@ -73,4 +73,9 @@ public class AuthService
             //throw new EmailConfirmationException("Unable to confirm email");
         }
     }
+
+    public async Task logoutAsync()
+    {
+        _userRepository.LogoutAsync();
+    }
 }

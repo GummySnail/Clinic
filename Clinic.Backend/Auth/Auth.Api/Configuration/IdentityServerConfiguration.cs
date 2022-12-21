@@ -1,8 +1,6 @@
-﻿using System.Security.Claims;
-using IdentityModel;
+﻿using IdentityModel;
 using IdentityServer4.Models;
 using IdentityServer4;
-using IdentityServer4.Test;
 
 namespace Auth.Api.Configuration;
 

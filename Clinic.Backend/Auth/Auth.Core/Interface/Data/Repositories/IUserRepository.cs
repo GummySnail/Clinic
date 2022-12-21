@@ -8,8 +8,7 @@ public interface IUserRepository
     Task<IdentityResult> CreateUserAsync(string email, string password);
     Task<IdentityUser> GetUserByEmailAsync(string email);
     Task<bool> CheckPasswordAsync(IdentityUser user, string password);
-
     Task<SignInResult> PasswordSignInAsync(IdentityUser user, string password);
     Task<bool> CheckEmailConfirmation(IdentityUser user);
-    //Task<IList<string>> GetUserRoleAsync(IdentityUser user);
+    Task LogoutAsync();
 }

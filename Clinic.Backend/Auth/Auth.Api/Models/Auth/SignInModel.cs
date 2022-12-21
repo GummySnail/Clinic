@@ -12,6 +12,4 @@ public class SignInModel
     [MaxLength(15, ErrorMessage = "Max length 15")]
     [DataType(DataType.Password)]
     public string Password { get; set; }
-
-    public string? ReturnUrl { get; set; }
 }

@@ -1,6 +1,7 @@
 ﻿using Auth.Core.Interface.Data.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace Auth.Infrastructure.Data.Repositories;
 
@@ -59,5 +60,10 @@ public class UserRepository : IUserRepository
     public async Task<bool> CheckEmailConfirmation(IdentityUser user)
     {
         return await _userManager.IsEmailConfirmedAsync(user);
+    }
+
+    public async Task LogoutAsync()
+    {
+        await _signInManager.SignOutAsync();
     }
 }

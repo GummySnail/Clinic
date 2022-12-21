@@ -1,5 +1,6 @@
 ﻿using Auth.Api.Models.Auth;
 using Auth.Core.Logic.Auth;
+using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Auth.Api.Controllers;
@@ -41,7 +42,7 @@ public class AuthController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> SignIn(string? returnUrl)
+    public async Task<IActionResult> SignIn()
     {
         return View();
     }
@@ -63,7 +64,7 @@ public class AuthController : Controller
             return View(signInModel);
         }
         
-        return View(signInModel);
+        return RedirectToAction("Index", "Home");
     }
     
     public IActionResult EmailVerification() => View();
@@ -72,5 +73,11 @@ public class AuthController : Controller
     {
         await _authService.ConfirmEmailAsync(email, token);
         return View();
+    }
+
+    public async Task<IActionResult> Logout()
+    {
+        await _authService.logoutAsync();
+        return RedirectToAction("Index", "Home");
     }
 }
