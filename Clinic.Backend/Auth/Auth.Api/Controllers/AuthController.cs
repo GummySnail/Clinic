@@ -1,6 +1,5 @@
 ﻿using Auth.Api.Models.Auth;
 using Auth.Core.Logic.Auth;
-using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Auth.Api.Controllers;
