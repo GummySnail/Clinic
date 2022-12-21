@@ -10,6 +10,6 @@ public interface IUserRepository
     Task<bool> CheckPasswordAsync(IdentityUser user, string password);
 
     Task<SignInResult> PasswordSignInAsync(IdentityUser user, string password);
-    /*Task<bool> CheckEmailConfirmation(IdentityUser user);
-    Task<IList<string>> GetUserRoleAsync(IdentityUser user);*/
+    Task<bool> CheckEmailConfirmation(IdentityUser user);
+    //Task<IList<string>> GetUserRoleAsync(IdentityUser user);
 }

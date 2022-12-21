@@ -1,8 +1,10 @@
 using Auth.Api.Configuration;
 using Auth.Core.Interface.Data.Repositories;
+using Auth.Core.Interface.Services;
 using Auth.Core.Logic.Auth;
 using Auth.Infrastructure.Data;
 using Auth.Infrastructure.Data.Repositories;
+using Auth.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,7 +24,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(opt =>
         opt.Password.RequiredLength = 6;
         opt.Password.RequireUppercase = false;
         opt.User.RequireUniqueEmail = true;
-        //opt.SignIn.RequireConfirmedEmail = true;
+        opt.SignIn.RequireConfirmedEmail = true;
     })
     .AddEntityFrameworkStores<AuthenticationDbContext>()
     .AddDefaultTokenProviders();
@@ -43,7 +45,7 @@ builder.Services.AddIdentityServer(opt =>
     opt.LoginPath = "";
     opt.LogoutPath = "";
 });*/
-
+builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<AuthService>();
 var app = builder.Build();

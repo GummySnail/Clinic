@@ -37,7 +37,7 @@ public class AuthController : Controller
             return View(signUpModel);
         }
 
-        return RedirectToAction("Index", "Home");
+        return RedirectToAction("EmailVerification");
     }
 
     [HttpGet]
@@ -65,5 +65,12 @@ public class AuthController : Controller
         
         return View(signInModel);
     }
+    
+    public IActionResult EmailVerification() => View();
 
+    public async Task<IActionResult> VerifyEmail(string token, string email)
+    {
+        await _authService.ConfirmEmailAsync(email, token);
+        return View();
+    }
 }

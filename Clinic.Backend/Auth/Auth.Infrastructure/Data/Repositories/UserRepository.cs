@@ -55,4 +55,9 @@ public class UserRepository : IUserRepository
         
         return result;
     }
+
+    public async Task<bool> CheckEmailConfirmation(IdentityUser user)
+    {
+        return await _userManager.IsEmailConfirmedAsync(user);
+    }
 }
