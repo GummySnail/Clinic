@@ -31,18 +31,39 @@ public class AuthController : Controller
 
         var result = await _authService.SignUpAsync(signUpModel.Email, signUpModel.Password);
 
-        if (!result.Succeeded)
+        if (!string.IsNullOrEmpty(result))
         {
-            foreach (var error in result.Errors)
-            {
-                ModelState.TryAddModelError(error.Code, error.Description);
-            }
-
+            ModelState.AddModelError(String.Empty, result);
             return View(signUpModel);
         }
 
         return RedirectToAction("Index", "Home");
     }
-    
-    
+
+    [HttpGet]
+    public async Task<IActionResult> SignIn(string? returnUrl)
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> SignIn(SignInModel signInModel)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(signInModel);
+        }
+
+        var result = await _authService.SignInAsync(signInModel.Email, signInModel.Password);
+        
+        if (!string.IsNullOrEmpty(result))
+        {
+            ModelState.AddModelError(String.Empty, result);
+            return View(signInModel);
+        }
+        
+        return View(signInModel);
+    }
+
 }

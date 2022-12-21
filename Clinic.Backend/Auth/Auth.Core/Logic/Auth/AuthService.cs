@@ -12,15 +12,34 @@ public class AuthService
         _userRepository = userRepository;
     }
 
-    public async Task<IdentityResult> SignUpAsync(string email, string password)
+    public async Task<string?> SignUpAsync(string email, string password)
     {
         if (await _userRepository.IsUserExistByEmailAsync(email))
         {
-            return IdentityResult.Failed();
+            return "Someone already uses this email";
         }
 
         var result = await _userRepository.CreateUserAsync(email, password);
 
-        return result;
+        if (!result.Succeeded)
+        {
+            return "Unable to create user";
+        }
+        
+        return "";
+    }
+
+    public async Task<string> SignInAsync(string email, string password)
+    {
+        var user = await _userRepository.GetUserByEmailAsync(email);
+
+        if (user is null && !await _userRepository.CheckPasswordAsync(user, password))
+        {
+            return "Either an email or a password is incorrect";
+        }
+
+        var result = await _userRepository.PasswordSignInAsync(user, password);
+
+        return "";
     }
 }

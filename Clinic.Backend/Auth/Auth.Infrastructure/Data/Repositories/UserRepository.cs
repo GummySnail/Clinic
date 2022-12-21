@@ -1,5 +1,4 @@
 ﻿using Auth.Core.Interface.Data.Repositories;
-using Auth.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,11 +6,13 @@ namespace Auth.Infrastructure.Data.Repositories;
 
 public class UserRepository : IUserRepository
 {
-    private readonly UserManager<User> _userManager;
+    private readonly UserManager<IdentityUser> _userManager;
+    private readonly SignInManager<IdentityUser> _signInManager;
 
-    public UserRepository(UserManager<User> userManager)
+    public UserRepository(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
     {
         _userManager = userManager;
+        _signInManager = signInManager;
     }
 
     public async Task<bool> IsUserExistByEmailAsync(string email)
@@ -21,7 +22,7 @@ public class UserRepository : IUserRepository
 
     public async Task<IdentityResult> CreateUserAsync(string email, string password)
     {
-        var user = new User
+        var user = new IdentityUser
         {
             Email = email,
             UserName = email
@@ -36,5 +37,22 @@ public class UserRepository : IUserRepository
         }
 
         return IdentityResult.Failed();
+    }
+
+    public async Task<IdentityUser> GetUserByEmailAsync(string email)
+    {
+        return await _userManager.FindByEmailAsync(email.ToUpperInvariant());
+    }
+
+    public async Task<bool> CheckPasswordAsync(IdentityUser user, string password)
+    {
+        return await _userManager.CheckPasswordAsync(user, password);
+    }
+
+    public async Task<SignInResult> PasswordSignInAsync(IdentityUser user, string password)
+    {
+        var result = await _signInManager.PasswordSignInAsync(user, password, false, false);
+        
+        return result;
     }
 }

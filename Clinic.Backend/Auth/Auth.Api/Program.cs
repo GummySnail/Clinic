@@ -3,7 +3,6 @@ using Auth.Core.Interface.Data.Repositories;
 using Auth.Core.Logic.Auth;
 using Auth.Infrastructure.Data;
 using Auth.Infrastructure.Data.Repositories;
-using Auth.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,7 +16,7 @@ builder.Services.AddDbContext<AuthenticationDbContext>(opt =>
         build => build.MigrationsAssembly(typeof(AuthenticationDbContext).Assembly.FullName));
 });
 
-builder.Services.AddIdentity<User, IdentityRole>(opt =>
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(opt =>
     {
         opt.Password.RequireDigit = true;
         opt.Password.RequiredLength = 6;
@@ -32,7 +31,7 @@ builder.Services.AddIdentityServer(opt =>
     {
         opt.EmitStaticAudienceClaim = true;
     })
-    .AddAspNetIdentity<User>()
+    .AddAspNetIdentity<IdentityUser>()
     .AddInMemoryApiResources(IdentityServerConfiguration.ApiResources)
     .AddInMemoryIdentityResources(IdentityServerConfiguration.IdentityResources)
     .AddInMemoryApiScopes(IdentityServerConfiguration.ApiScopes)

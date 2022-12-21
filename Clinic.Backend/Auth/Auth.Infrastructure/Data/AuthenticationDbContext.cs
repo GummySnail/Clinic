@@ -1,10 +1,10 @@
-﻿using Auth.Infrastructure.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Auth.Infrastructure.Data;
 
-public class AuthenticationDbContext : IdentityDbContext<User>
+public class AuthenticationDbContext : IdentityDbContext<IdentityUser>
 {
     public AuthenticationDbContext(DbContextOptions options) : base(options) { }
 
