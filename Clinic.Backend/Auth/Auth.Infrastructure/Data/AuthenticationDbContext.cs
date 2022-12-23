@@ -7,7 +7,7 @@ namespace Auth.Infrastructure.Data;
 
 public class AuthenticationDbContext : IdentityDbContext<Account>
 {
-    public AuthenticationDbContext(DbContextOptions options) : base(options) { }
+    public AuthenticationDbContext(DbContextOptions<AuthenticationDbContext> options) : base(options) { }
     
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -17,6 +17,6 @@ public class AuthenticationDbContext : IdentityDbContext<Account>
 
     public static void ConfigureTableNames(ModelBuilder builder)
     {
-        builder.Entity<IdentityUser>().ToTable("Accounts");
+        builder.Entity<Account>().ToTable("Accounts");
     }
 }

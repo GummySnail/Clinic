@@ -1,4 +1,5 @@
-﻿using Auth.Core.Entities;
+﻿using Auth.Api.InitialSeed;
+using Auth.Core.Entities;
 using Auth.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -48,6 +49,7 @@ public static class ConfigureApplicationServices
             await context.Database.MigrateAsync();
             await DataSeeder.SetApplicationRoleConfiguration(roleManager);
             await DataSeeder.SetWorkers(userManager);
+            MigrationManager.MigrateDatabase(app).Run();
         }
         catch (Exception ex)
         {

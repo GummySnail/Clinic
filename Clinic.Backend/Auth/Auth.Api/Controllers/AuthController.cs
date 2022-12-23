@@ -1,5 +1,8 @@
 ﻿using Auth.Api.Models.Auth;
 using Auth.Core.Logic.Auth;
+using IdentityServer4.Extensions;
+using IdentityServer4.Services;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Auth.Api.Controllers;
@@ -8,10 +11,11 @@ namespace Auth.Api.Controllers;
 public class AuthController : Controller
 {
     private readonly AuthService _authService;
-
-    public AuthController(AuthService authService)
+    private readonly IIdentityServerInteractionService _interaction;
+    public AuthController(AuthService authService, IIdentityServerInteractionService interaction)
     {
         _authService = authService;
+        _interaction = interaction;
     }
 
     [HttpGet]

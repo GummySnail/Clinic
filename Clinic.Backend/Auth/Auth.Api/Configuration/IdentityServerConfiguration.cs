@@ -43,6 +43,7 @@ public static class IdentityServerConfiguration
                 ClientName = "ClinicClient",
                 ClientId = "client",
                 AllowedGrantTypes = GrantTypes.Code,
+                RedirectUris = new List<string>{ "https://localhost:5005/signin-oidc" },
                 AllowedScopes =
                 {
                     IdentityServerConstants.StandardScopes.OpenId,
@@ -54,7 +55,8 @@ public static class IdentityServerConfiguration
                 {
                     new Secret("client-secret".Sha256())
                 },
-                AccessTokenLifetime = 180,
+                PostLogoutRedirectUris = new List<string> { "https://localhost:5005/signout-callback-oidc" },
+                AccessTokenLifetime = 120,
                 AllowOfflineAccess = true,
                 UpdateAccessTokenClaimsOnRefresh = true
             }
