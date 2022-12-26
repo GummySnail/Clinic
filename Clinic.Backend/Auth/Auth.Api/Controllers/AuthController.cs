@@ -1,5 +1,7 @@
 ﻿using Auth.Api.Models.Auth;
 using Auth.Core.Logic.Auth;
+using IdentityServer4.Extensions;
+using IdentityServer4.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Auth.Api.Controllers;
@@ -8,10 +10,14 @@ namespace Auth.Api.Controllers;
 public class AuthController : Controller
 {
     private readonly AuthService _authService;
+    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly IIdentityServerInteractionService _interaction;
 
-    public AuthController(AuthService authService)
+    public AuthController(AuthService authService, IHttpClientFactory httpClientFactory, IIdentityServerInteractionService interaction)
     {
         _authService = authService;
+        _httpClientFactory = httpClientFactory;
+        _interaction = interaction;
     }
 
     [HttpGet]
@@ -41,13 +47,37 @@ public class AuthController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> SignIn()
+    public async Task<IActionResult> SignIn(string? returnUrl)
     {
-        return View();
+        /*var serverClient = _httpClientFactory.CreateClient();
+        var discoveryDocument = await serverClient.GetDiscoveryDocumentAsync("https://localhost:5005/");
+
+        var tokenResponse = await serverClient.RequestClientCredentialsTokenAsync(
+            new ClientCredentialsTokenRequest
+            {
+                Address = discoveryDocument.TokenEndpoint,
+
+                ClientId = "client",
+                ClientSecret = "client-secret",
+                Scope = "UserInfoScope"
+            });
+
+        var apiClient = _httpClientFactory.CreateClient();
+        
+        apiClient.SetBearerToken(tokenResponse.AccessToken);
+
+        var response = await apiClient.GetAsync("https://localhost:5005/secret");
+
+        var content = await response.Content.ReadAsStringAsync();*/
+        
+        var signInModel = new SignInModel
+        {
+            ReturnUrl = returnUrl.IsNullOrEmpty() ? "https://localhost:5005" : returnUrl
+        };
+        return View(signInModel);
     }
 
     [HttpPost]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> SignIn(SignInModel signInModel)
     {
         if (!ModelState.IsValid)
@@ -63,7 +93,8 @@ public class AuthController : Controller
             return View(signInModel);
         }
         
-        return RedirectToAction("Index", "Home");
+
+        return Redirect("https://localhost:5005");
     }
     
     public IActionResult EmailVerification() => View();

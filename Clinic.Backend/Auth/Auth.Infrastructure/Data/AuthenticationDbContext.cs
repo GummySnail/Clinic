@@ -17,6 +17,12 @@ public class AuthenticationDbContext : IdentityDbContext<Account>
 
     public static void ConfigureTableNames(ModelBuilder builder)
     {
-        builder.Entity<IdentityUser>().ToTable("Accounts");
+        builder.Entity<Account>().ToTable("Accounts");
+        builder.Entity<IdentityRole>().ToTable("Roles");
+        builder.Entity<IdentityUserClaim<string>>().ToTable("AccountClaims");
+        builder.Entity<IdentityUserRole<string>>().ToTable("AccountRoles");
+        builder.Entity<IdentityUserLogin<string>>().ToTable("AccountLogins");
+        builder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims");
+        builder.Entity<IdentityUserToken<string>>().ToTable("AccountTokens");
     }
 }

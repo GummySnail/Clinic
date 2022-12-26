@@ -1,6 +1,7 @@
 ﻿using IdentityModel;
 using IdentityServer4.Models;
 using IdentityServer4;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace Auth.Api.Configuration;
 
@@ -19,7 +20,7 @@ public static class IdentityServerConfiguration
         {
             new("UserInfoScope",new List<string>
             {
-                JwtClaimTypes.Name, JwtClaimTypes.Role, JwtClaimTypes.ClientId
+                JwtClaimTypes.Subject, JwtClaimTypes.Name, JwtClaimTypes.Role, JwtClaimTypes.ClientId
             })
         };
 
@@ -28,6 +29,10 @@ public static class IdentityServerConfiguration
         {
             new("Client")
             {
+                ApiSecrets = 
+                {
+                    new Secret("client-secret".Sha256())
+                },
                 Scopes =
                 {
                     "UserInfoScope"
@@ -40,9 +45,16 @@ public static class IdentityServerConfiguration
         {
             new()
             {
-                ClientName = "ClinicClient",
                 ClientId = "client",
+                ClientName = "Clinic Client",
+                //AllowedGrantTypes = GrantTypes.Hybrid,
                 AllowedGrantTypes = GrantTypes.Code,
+                ClientSecrets =
+                {
+                    new Secret("client-secret".Sha256())
+                },
+                RedirectUris = new List<string>{ "https://localhost:5005/signin-oidc" },
+                PostLogoutRedirectUris = {"https://localhost:5005/signout-callback-oidc"},
                 AllowedScopes =
                 {
                     IdentityServerConstants.StandardScopes.OpenId,
@@ -50,13 +62,11 @@ public static class IdentityServerConfiguration
                     "user-profile",
                     "Client"
                 },
-                ClientSecrets =
-                {
-                    new Secret("client-secret".Sha256())
-                },
                 AccessTokenLifetime = 180,
                 AllowOfflineAccess = true,
-                UpdateAccessTokenClaimsOnRefresh = true
+                UpdateAccessTokenClaimsOnRefresh = true,
+                RequirePkce = true,
+                RequireConsent = true
             }
         };
 }

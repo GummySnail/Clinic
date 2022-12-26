@@ -43,7 +43,7 @@ public class AuthService
     {
         var user = await _userRepository.GetUserByEmailAsync(email);
 
-        if (user is null && !await _userRepository.CheckPasswordAsync(user, password))
+        if (user is null || !await _userRepository.CheckPasswordAsync(user, password))
         {
             return "Either an email or a password is incorrect";
         }
