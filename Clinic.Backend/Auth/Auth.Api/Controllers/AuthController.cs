@@ -49,27 +49,6 @@ public class AuthController : Controller
     [HttpGet]
     public async Task<IActionResult> SignIn(string? returnUrl)
     {
-        /*var serverClient = _httpClientFactory.CreateClient();
-        var discoveryDocument = await serverClient.GetDiscoveryDocumentAsync("https://localhost:5005/");
-
-        var tokenResponse = await serverClient.RequestClientCredentialsTokenAsync(
-            new ClientCredentialsTokenRequest
-            {
-                Address = discoveryDocument.TokenEndpoint,
-
-                ClientId = "client",
-                ClientSecret = "client-secret",
-                Scope = "UserInfoScope"
-            });
-
-        var apiClient = _httpClientFactory.CreateClient();
-        
-        apiClient.SetBearerToken(tokenResponse.AccessToken);
-
-        var response = await apiClient.GetAsync("https://localhost:5005/secret");
-
-        var content = await response.Content.ReadAsStringAsync();*/
-        
         var signInModel = new SignInModel
         {
             ReturnUrl = returnUrl.IsNullOrEmpty() ? "https://localhost:5005" : returnUrl
@@ -94,7 +73,7 @@ public class AuthController : Controller
         }
         
 
-        return Redirect("https://localhost:5005");
+        return Redirect(signInModel.ReturnUrl);
     }
     
     public IActionResult EmailVerification() => View();
