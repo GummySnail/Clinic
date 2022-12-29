@@ -7,6 +7,8 @@ using Auth.Infrastructure.Data.Repositories;
 using Auth.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using IdentityModel.AspNetCore.AccessTokenManagement;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
@@ -54,28 +56,39 @@ public static class ConfigureInfrastructureServices
         });
         
         services.AddAuthentication(opt =>
-        {
-            opt.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-        }).AddCookie("AspNetCore.Identity.Application")
-            .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, opt =>
             {
-                opt.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = "oidc"; 
+            })
+            .AddCookie("Cookie", opt =>
+            {
+                opt.Events.OnSigningOut = async e =>
+                {
+                    await e.HttpContext.RevokeUserRefreshTokenAsync();
+                };
+            })
+            .AddOpenIdConnect("oidc", opt =>
+            {
                 opt.Authority = "https://localhost:5005";
                 opt.RequireHttpsMetadata = false;
                 opt.ClientId = "client";
                 opt.ClientSecret = "client-secret";
-                //opt.ResponseType = "code id_token";
-                opt.ResponseType = OpenIdConnectResponseType.Code;
+                opt.ResponseType = "code";
+                opt.SaveTokens = true;
+                
+                opt.GetClaimsFromUserInfoEndpoint = true;
                 
                 opt.Scope.Clear();
                 opt.Scope.Add("openid");
                 opt.Scope.Add("offline_access");
                 opt.Scope.Add("UserInfoScope");
                 opt.Scope.Add("user-profile");
-                
-                opt.GetClaimsFromUserInfoEndpoint = true;
-                opt.SaveTokens = true;
             });
+        
+        services.AddAccessTokenManagement(options =>
+            {
+                options.Client.DefaultClient.Scope = "user-profile";
+            })
+            .ConfigureBackchannelHttpClient();
 
         services.AddScoped<IEmailService, EmailService>();
         

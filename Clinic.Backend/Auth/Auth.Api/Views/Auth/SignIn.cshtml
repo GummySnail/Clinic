@@ -6,6 +6,7 @@
     <div class="col-md-4">
         <form asp-action="SignIn">
             <partial name="_ValidationSummary"/>
+            <input type="hidden" class="form-control form-control-lg" asp-for="ReturnUrl" value="@Model.ReturnUrl"/>
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" />

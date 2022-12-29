@@ -1,7 +1,6 @@
 ﻿using IdentityModel;
 using IdentityServer4.Models;
 using IdentityServer4;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace Auth.Api.Configuration;
 
@@ -29,10 +28,6 @@ public static class IdentityServerConfiguration
         {
             new("Client")
             {
-                ApiSecrets = 
-                {
-                    new Secret("client-secret".Sha256())
-                },
                 Scopes =
                 {
                     "UserInfoScope"
@@ -46,13 +41,11 @@ public static class IdentityServerConfiguration
             new()
             {
                 ClientId = "client",
-                ClientName = "Clinic Client",
-                //AllowedGrantTypes = GrantTypes.Hybrid,
-                AllowedGrantTypes = GrantTypes.Code,
                 ClientSecrets =
                 {
                     new Secret("client-secret".Sha256())
                 },
+                AllowedGrantTypes = GrantTypes.Code,
                 RedirectUris = new List<string>{ "https://localhost:5005/signin-oidc" },
                 PostLogoutRedirectUris = {"https://localhost:5005/signout-callback-oidc"},
                 AllowedScopes =
@@ -60,13 +53,14 @@ public static class IdentityServerConfiguration
                     IdentityServerConstants.StandardScopes.OpenId,
                     "UserInfoScope",
                     "user-profile",
-                    "Client"
+                    "Client",
+                    IdentityServerConstants.StandardScopes.OfflineAccess
                 },
+                RequireConsent = false,
                 AccessTokenLifetime = 180,
                 AllowOfflineAccess = true,
                 UpdateAccessTokenClaimsOnRefresh = true,
                 RequirePkce = true,
-                RequireConsent = true
             }
         };
 }
