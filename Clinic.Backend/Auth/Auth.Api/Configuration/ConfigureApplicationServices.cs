@@ -27,6 +27,11 @@ public static class ConfigureApplicationServices
 
         app.UseAuthorization();
 
+        app.UseCors(opt => opt
+            .AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod());
+        
         app.MapControllerRoute(
             name: "default",
             pattern: "{controller=Home}/{action=Index}/{id?}");

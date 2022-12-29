@@ -22,16 +22,9 @@ public class HomeController : Controller
         return View();
     }
     
-    [Authorize(Roles = "Doctor")]
+    [Authorize]
     public async Task<IActionResult> Privacy()
     {
-        /*var f = HttpContext;
-        var accessToken = await HttpContext.GetTokenAsync("access_token");
-        var idToken = await HttpContext.GetTokenAsync("id_token");
-        var refreshToken = await HttpContext.GetTokenAsync("refresh_token");
-
-        var _accessToken = new JwtSecurityTokenHandler().ReadJwtToken(accessToken);
-        var _idToken = new JwtSecurityTokenHandler().ReadJwtToken(idToken);*/
         return View();
     }
 

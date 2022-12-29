@@ -1,23 +1,17 @@
 ﻿using Auth.Api.Models.Auth;
 using Auth.Core.Logic.Auth;
 using IdentityServer4.Extensions;
-using IdentityServer4.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Auth.Api.Controllers;
 
-
 public class AuthController : Controller
 {
     private readonly AuthService _authService;
-    private readonly IHttpClientFactory _httpClientFactory;
-    private readonly IIdentityServerInteractionService _interaction;
 
-    public AuthController(AuthService authService, IHttpClientFactory httpClientFactory, IIdentityServerInteractionService interaction)
+    public AuthController(AuthService authService)
     {
         _authService = authService;
-        _httpClientFactory = httpClientFactory;
-        _interaction = interaction;
     }
 
     [HttpGet]
@@ -27,7 +21,6 @@ public class AuthController : Controller
     }
     
     [HttpPost]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> SignUp(SignUpModel signUpModel)
     {
         if (!ModelState.IsValid)
@@ -77,13 +70,14 @@ public class AuthController : Controller
     }
     
     public IActionResult EmailVerification() => View();
-
+    
     public async Task<IActionResult> VerifyEmail(string token, string email)
     {
         await _authService.ConfirmEmailAsync(email, token);
         return View();
     }
 
+    [HttpGet]
     public async Task<IActionResult> Logout()
     {
         await _authService.logoutAsync();
