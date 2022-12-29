@@ -61,21 +61,10 @@ public class AuthService
     public async Task ConfirmEmailAsync(string email, string token)
     {
         var user = await _userRepository.GetUserByEmailAsync(email);
-        
-        if (user is null)
-        {
-            //throw new NotFoundException("User is not exist");
-        }
-        var result = await _emailService.ConfirmEmailAsync(user, token);
-
-        if (result == false)
-        {
-            //throw new EmailConfirmationException("Unable to confirm email");
-        }
     }
 
     public async Task logoutAsync()
     {
-        _userRepository.LogoutAsync();
+        await _userRepository.LogoutAsync();
     }
 }

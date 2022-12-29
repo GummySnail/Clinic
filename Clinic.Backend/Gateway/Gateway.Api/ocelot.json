@@ -1,0 +1,35 @@
+﻿{
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost:5001"
+  },
+    "Routes": [{
+      "UpstreamPathTemplate": "/gateway/signin",
+      "UpstreamHttpMethod": ["GET", "POST"],
+      "DownstreamPathTemplate": "/auth/signin",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5179
+      }]
+    },
+    {
+    "UpstreamPathTemplate": "/gateway/signup",
+    "UpstreamHttpMethod": ["POST", "GET"],
+    "DownstreamPathTemplate": "/auth/signup",
+    "DownstreamScheme": "http",
+    "DownstreamHostAndPorts": [{
+      "Host": "localhost",
+      "Port": 5179
+    }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/logout",
+      "UpstreamHttpMethod": ["GET"],
+      "DownstreamPathTemplate": "/auth/logout",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5179
+      }]
+    }]  
+}
