@@ -1,14 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "5bn1Vx7/SlI00QGPJnfOkieKMPbDsMfSZ8xP3BVWsH416nZwpO/qbVwUQIsSa7CozdmZKz0ceVxdWrrAi7pG/Q==",
+  "dgSpecHash": "x8XbW02zAvvfr8DW/lEtbxeXv3FdlYmnR5KWblBAaqHYjCKVJgSjr713cxjeLLELhDArfQFuHtD1+j1old4UpA==",
   "success": true,
   "projectFilePath": "F:\\Programming\\Innowise Internship\\Clinic\\Clinic.Backend\\Profiles\\Profiles.Infrastructure\\Profiles.Infrastructure.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\f_df_\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
     "C:\\Users\\f_df_\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\f_df_\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
     "C:\\Users\\f_df_\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\f_df_\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
-    "C:\\Users\\f_df_\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
+    "C:\\Users\\f_df_\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\f_df_\\.nuget\\packages\\microsoft.data.sqlclient\\5.0.1\\microsoft.data.sqlclient.5.0.1.nupkg.sha512",
     "C:\\Users\\f_df_\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\5.0.1\\microsoft.data.sqlclient.sni.runtime.5.0.1.nupkg.sha512",
     "C:\\Users\\f_df_\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.1\\microsoft.entityframeworkcore.7.0.1.nupkg.sha512",

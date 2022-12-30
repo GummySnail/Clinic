@@ -2,6 +2,7 @@
 using Profiles.Core.Interfaces.Data.Repositories;
 using Profiles.Infrastructure.Data;
 using Profiles.Infrastructure.Data.Repositories;
+using Profiles.Infrastructure.Mapping;
 
 namespace Profiles.Api.Configuration;
 
@@ -15,10 +16,10 @@ public static class ConfigureInfrastructureServices
                 build => build.MigrationsAssembly(typeof(ProfileDbContext).Assembly.FullName));
         });
 
-        services.AddScoped<IPatientRepository, PatientRepository>();
-        services.AddScoped<IDoctorRepository, DoctorRepository>();
-        services.AddScoped<IReceptionistRepository, ReceptionistRepository>();
+        services.AddAutoMapper(typeof(MapperProfile).Assembly);
         
+        services.AddScoped<IRepositoryManager, RepositoryManager>();
+
         return services;
     }
 
