@@ -1,26 +1,27 @@
 ﻿using Profiles.Core.Entities;
 using Profiles.Core.Enums;
 using Profiles.Core.Interfaces.Data.Repositories;
+using Profiles.Core.Logic.Profile.Responses;
 
 namespace Profiles.Core.Logic.Profile;
 
 public class ProfileService
 {
-    private readonly IPatientRepository _patientRepository;
-    private readonly IDoctorRepository _doctorRepository;
-    private readonly IReceptionistRepository _receptionistRepository;
-    public ProfileService(IPatientRepository patientRepository, IDoctorRepository doctorRepository, IReceptionistRepository receptionistRepository)
+    private readonly IRepositoryManager _repositoryManager;
+    public ProfileService(IRepositoryManager repositoryManager)
     {
-        _patientRepository = patientRepository;
-        _doctorRepository = doctorRepository;
-        _receptionistRepository = receptionistRepository;
+        _repositoryManager = repositoryManager;
     }
 
     public async Task CreatePatientProfileAsync(string firstName, string lastName, string? middleName,
         DateTime dateOfBirth, string phoneNumber)
     {
         var patient = new Patient(firstName, lastName, middleName, dateOfBirth, phoneNumber);
-        var result = await _patientRepository.CreatePatientProfileAsync(patient);
+        
+        await _repositoryManager.PatientRepository.CreatePatientProfileAsync(patient);
+        
+        var result = await _repositoryManager.UnitOfWork.SaveChangesAsync();
+        
         if (result == 0)
         {
             throw new Exception();
@@ -31,7 +32,11 @@ public class ProfileService
         DateTime dateOfBirth, int careerStartYear, Status status)
     {
         var doctor = new Doctor(firstName, lastName, middleName, dateOfBirth, careerStartYear, status);
-        var result = await _doctorRepository.CreateDoctorProfileAsync(doctor);
+        
+        await _repositoryManager.DoctorRepository.CreateDoctorProfileAsync(doctor);
+        
+        var result = await _repositoryManager.UnitOfWork.SaveChangesAsync();
+        
         if (result == 0)
         {
             throw new Exception();
@@ -41,10 +46,22 @@ public class ProfileService
     public async Task CreateReceptionistProfileAsync(string firstName, string lastName, string? middleName)
     {
         var receptionist = new Receptionist(firstName, lastName, middleName);
-        var result = await _receptionistRepository.CreateReceptionistProfileAsync(receptionist);
+        
+        await _repositoryManager.ReceptionistRepository.CreateReceptionistProfileAsync(receptionist);
+        
+        var result = await _repositoryManager.UnitOfWork.SaveChangesAsync();
+        
         if (result == 0)
         {
             throw new Exception();
         }
+        
+    }
+
+    public async Task<ICollection<DoctorProfileResponse>> GetDoctorsAtWorkAsync(DoctorParams doctorParams)
+    {
+        var doctors = await _repositoryManager.DoctorRepository.GetDoctorsAtWorkAsync(doctorParams);
+
+        return _repositoryManager.DoctorRepository.MappingToResponseListDoctorModel(doctors);
     }
 }

@@ -4,5 +4,5 @@ namespace Profiles.Core.Interfaces.Data.Repositories;
 
 public interface IReceptionistRepository
 {
-    public Task<int> CreateReceptionistProfileAsync(Receptionist receptionist);
+    public Task CreateReceptionistProfileAsync(Receptionist receptionist);
 }

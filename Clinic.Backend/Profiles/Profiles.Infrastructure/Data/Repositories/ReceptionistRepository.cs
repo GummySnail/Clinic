@@ -12,9 +12,8 @@ public class ReceptionistRepository : IReceptionistRepository
         _context = context;
     }
 
-    public async Task<int> CreateReceptionistProfileAsync(Receptionist receptionist)
+    public async Task CreateReceptionistProfileAsync(Receptionist receptionist)
     {
         await _context.Receptionists.AddAsync(receptionist);
-        return await _context.SaveChangesAsync();
     }
 }

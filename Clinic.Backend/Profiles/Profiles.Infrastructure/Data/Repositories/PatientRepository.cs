@@ -14,10 +14,9 @@ public class PatientRepository : IPatientRepository
     }
 
 
-    public async Task<int> CreatePatientProfileAsync(Patient patient)
+    public async Task CreatePatientProfileAsync(Patient patient)
     {
         await _context.Patients.AddAsync(patient);
-        return await _context.SaveChangesAsync();
     }
 
     //I can better do this method but later =)

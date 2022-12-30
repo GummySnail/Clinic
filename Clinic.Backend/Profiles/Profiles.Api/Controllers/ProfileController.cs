@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Profiles.Api.Models.Profile.Doctor.Requests;
 using Profiles.Api.Models.Profile.Patient.Requests;
 using Profiles.Api.Models.Profile.Receptionist.Requests;
+using Profiles.Core.Logic;
 using Profiles.Core.Logic.Profile;
+using Profiles.Core.Logic.Profile.Responses;
 
 namespace Profiles.Api.Controllers;
 
@@ -44,5 +46,13 @@ public class ProfileController : ControllerBase
         await _profileService.CreateReceptionistProfileAsync(request.FirstName, request.LastName, request.MiddleName);
 
         return Ok();
+    }
+
+    [HttpGet("view-doctors")]
+    public async Task<ActionResult<ICollection<DoctorProfileResponse>>> GetDoctorsAtWork([FromQuery] DoctorParams doctorParams)
+    {
+        var result = await _profileService.GetDoctorsAtWorkAsync(doctorParams);
+
+        return Ok(result);
     }
 }

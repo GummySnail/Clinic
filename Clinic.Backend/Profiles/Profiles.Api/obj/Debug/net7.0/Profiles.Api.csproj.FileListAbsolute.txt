@@ -90,3 +90,5 @@ F:\Programming\Innowise Internship\Clinic\Clinic.Backend\Profiles\Profiles.Api\o
 F:\Programming\Innowise Internship\Clinic\Clinic.Backend\Profiles\Profiles.Api\obj\Debug\net7.0\Profiles.Api.pdb
 F:\Programming\Innowise Internship\Clinic\Clinic.Backend\Profiles\Profiles.Api\obj\Debug\net7.0\Profiles.Api.genruntimeconfig.cache
 F:\Programming\Innowise Internship\Clinic\Clinic.Backend\Profiles\Profiles.Api\obj\Debug\net7.0\ref\Profiles.Api.dll
+F:\Programming\Innowise Internship\Clinic\Clinic.Backend\Profiles\Profiles.Api\bin\Debug\net7.0\AutoMapper.dll
+F:\Programming\Innowise Internship\Clinic\Clinic.Backend\Profiles\Profiles.Api\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

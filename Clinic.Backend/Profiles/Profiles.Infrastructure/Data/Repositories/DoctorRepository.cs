@@ -1,20 +1,55 @@
-﻿using Profiles.Core.Entities;
+﻿using AutoMapper;
+using Profiles.Core.Entities;
+using Profiles.Core.Enums;
 using Profiles.Core.Interfaces.Data.Repositories;
+using Profiles.Core.Logic;
+using Profiles.Core.Logic.Profile.Responses;
 
 namespace Profiles.Infrastructure.Data.Repositories;
 
 public class DoctorRepository : IDoctorRepository
 {
     private readonly ProfileDbContext _context;
-
-    public DoctorRepository(ProfileDbContext context)
+    private readonly IMapper _mapper;
+    public DoctorRepository(ProfileDbContext context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
 
-    public async Task<int> CreateDoctorProfileAsync(Doctor doctor)
+    public async Task CreateDoctorProfileAsync(Doctor doctor)
     {
         await _context.Doctors.AddAsync(doctor);
-        return await _context.SaveChangesAsync();
+    }
+
+    public async Task<PagedList<Doctor>> GetDoctorsAtWorkAsync(DoctorParams doctorParams)
+    {
+        var query = _context.Doctors
+            .Where(d => d.Status == Status.AtWork && 
+                        (d.FirstName.ToLower().Contains(doctorParams.FullName.ToLower()) ||
+                         d.LastName.ToLower().Contains(doctorParams.FullName.ToLower()) ||
+                         d.MiddleName.ToLower().Contains(doctorParams.FullName.ToLower())
+                        ));
+
+        query = doctorParams.OrderByExperience switch
+        {
+            "Upcoming" => query.OrderBy(q => q.CareerStartYear),
+            _ => query.OrderByDescending(q => q.CareerStartYear)
+        };
+
+        return await PagedList<Doctor>
+            .CreateAsync(query, doctorParams.PageNumber, doctorParams.PageSize);
+    }
+
+    public ICollection<DoctorProfileResponse> MappingToResponseListDoctorModel(PagedList<Doctor> doctors)
+    {
+        List<DoctorProfileResponse> doctorsList = new List<DoctorProfileResponse>();
+
+        foreach (var doctor in doctors)
+        {
+            doctorsList.Add(_mapper.Map<Doctor, DoctorProfileResponse>(doctor));
+        }
+
+        return doctorsList;
     }
 }
