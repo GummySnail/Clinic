@@ -12,7 +12,7 @@ using Profiles.Infrastructure.Data;
 namespace Profiles.Infrastructure.Migrations
 {
     [DbContext(typeof(ProfileDbContext))]
-    [Migration("20221229170256_PatientModel")]
+    [Migration("20221230091627_PatientModel")]
     partial class PatientModel
     {
         /// <inheritdoc />
@@ -45,6 +45,10 @@ namespace Profiles.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MiddleName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

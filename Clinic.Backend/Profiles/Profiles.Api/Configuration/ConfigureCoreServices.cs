@@ -6,7 +6,7 @@ public static class ConfigureCoreServices
 {
     public static IServiceCollection AddCoreServices(this IServiceCollection services)
     {
-        services.AddScoped<PatientService>();
+        services.AddScoped<ProfileService>();
         return services;
     }
 }
