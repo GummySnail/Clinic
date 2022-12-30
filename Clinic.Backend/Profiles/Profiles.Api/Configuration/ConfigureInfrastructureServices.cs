@@ -17,6 +17,7 @@ public static class ConfigureInfrastructureServices
 
         services.AddScoped<IPatientRepository, PatientRepository>();
         services.AddScoped<IDoctorRepository, DoctorRepository>();
+        services.AddScoped<IReceptionistRepository, ReceptionistRepository>();
         
         return services;
     }
