@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Profiles.Api.Models.Profile.Doctor.Requests;
 using Profiles.Api.Models.Profile.Patient.Requests;
+using Profiles.Api.Models.Profile.Receptionist.Requests;
 using Profiles.Core.Logic.Profile;
 
 namespace Profiles.Api.Controllers;
@@ -22,6 +23,7 @@ public class ProfileController : ControllerBase
     {
         await _profileService.CreatePatientProfileAsync(request.FirstName, request.LastName, request?.MiddleName,
             request.DateOfBirth, request.PhoneNumber);
+     
         return Ok();
     }
     
@@ -31,6 +33,15 @@ public class ProfileController : ControllerBase
     {
         await _profileService.CreateDoctorProfileAsync(request.FirstName, request.LastName, request.MiddleName,
             request.DateOfBirth, request.CareerStartYear, request.Status);
+
+        return Ok();
+    }
+    
+    //[Authorize(Roles = "Receptionist")]
+    [HttpPost("create-receptionist-profile")]
+    public async Task<ActionResult> CreateReceptionistProfile([FromBody] CreateReceptionistProfileRequest request)
+    {
+        await _profileService.CreateReceptionistProfileAsync(request.FirstName, request.LastName, request.MiddleName);
 
         return Ok();
     }
