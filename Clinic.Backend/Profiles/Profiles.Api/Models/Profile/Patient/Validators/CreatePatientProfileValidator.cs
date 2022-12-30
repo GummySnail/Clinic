@@ -19,6 +19,11 @@ public class CreatePatientProfileValidator : AbstractValidator<CreatePatientProf
             .NotNull().WithMessage("Date of birth can't be null")
             .NotEmpty().WithMessage("Date of birth can't be empty")
             .Must(ValidateDateOfBirth).WithMessage("Date of birth mus be lower than the current one");
+
+        RuleFor(x => x.PhoneNumber)
+            .NotNull().WithMessage("Phone number can't be null")
+            .NotEmpty().WithMessage("Phone number can't be empty")
+            .Matches(@"^[0-9]*$").WithMessage("Phone number should contains only numbers");
     }
 
     private bool ValidateDateOfBirth(DateTime dateOfBirth) => dateOfBirth < DateTime.UtcNow;

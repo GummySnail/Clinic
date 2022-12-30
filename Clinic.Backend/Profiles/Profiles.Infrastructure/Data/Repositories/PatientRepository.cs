@@ -1,4 +1,5 @@
-﻿using Profiles.Core.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Profiles.Core.Entities;
 using Profiles.Core.Interfaces.Data.Repositories;
 
 namespace Profiles.Infrastructure.Data.Repositories;
@@ -17,5 +18,47 @@ public class PatientRepository : IPatientRepository
     {
         await _context.Patients.AddAsync(patient);
         return await _context.SaveChangesAsync();
+    }
+
+    //I can better do this method but later =)
+    public async Task<bool> IsProfileExistAsync(string firstName, string lastName, string? middleName, DateTime dateOfBirth)
+    {
+        var coeff = 0;
+        var profiles = _context.Patients
+            .Where(x => x.FirstName.ToLowerInvariant() == firstName.ToLowerInvariant() ||
+                             x.LastName.ToLowerInvariant() == lastName.ToLowerInvariant() ||
+                             x.MiddleName.ToLowerInvariant() == middleName.ToLowerInvariant() ||
+                             x.DateOfBirth.Date == dateOfBirth.Date);
+
+        foreach (var profile in profiles)
+        {
+            if (profile.FirstName.ToLowerInvariant() == firstName.ToLowerInvariant())
+            {
+                coeff += 5;
+            }
+
+            if (profile.LastName.ToLowerInvariant() == lastName.ToLowerInvariant())
+            {
+                coeff += 5;
+            }
+
+            if (profile.MiddleName?.ToLowerInvariant() == middleName?.ToLowerInvariant())
+            {
+                coeff += 5;
+            }
+
+            if (profile.DateOfBirth.Date == dateOfBirth.Date)
+            {
+                coeff += 3;
+            }
+
+            if (coeff >= 13)
+            {
+                return true;
+                //return profile;
+            }
+        }
+
+        return false;
     }
 }
