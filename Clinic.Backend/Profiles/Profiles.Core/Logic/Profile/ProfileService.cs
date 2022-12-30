@@ -62,6 +62,13 @@ public class ProfileService
     {
         var doctors = await _repositoryManager.DoctorRepository.GetDoctorsAtWorkAsync(doctorParams);
 
-        return _repositoryManager.DoctorRepository.MappingToResponseListDoctorModel(doctors);
+        return _repositoryManager.DoctorRepository.MappingToDoctorProfileResponse(doctors);
+    }
+
+    public async Task<ICollection<DoctorProfileSearchByAdminResponse>> GetDoctorsByAdminAsync(DoctorParams doctorParams)
+    {
+        var doctors = await _repositoryManager.DoctorRepository.GetDoctorsByAdminAsync(doctorParams);
+        
+        return _repositoryManager.DoctorRepository.MappingToDoctorProfileSearchByAdminResponse(doctors);
     }
 }
