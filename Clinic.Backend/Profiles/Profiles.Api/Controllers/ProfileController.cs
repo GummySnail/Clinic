@@ -55,4 +55,14 @@ public class ProfileController : ControllerBase
 
         return Ok(result);
     }
+    
+    //[Authorize(Roles = "Receptionist")]
+    [HttpGet("view-doctors-by-admin")]
+    public async Task<ActionResult<DoctorProfileSearchByAdminResponse>> GetDoctorsByAdmin(
+        [FromQuery] DoctorParams doctorParams)
+    {
+        var result = await _profileService.GetDoctorsByAdminAsync(doctorParams);
+
+        return Ok(result);
+    }
 }

@@ -41,7 +41,7 @@ public class DoctorRepository : IDoctorRepository
             .CreateAsync(query, doctorParams.PageNumber, doctorParams.PageSize);
     }
 
-    public ICollection<DoctorProfileResponse> MappingToResponseListDoctorModel(PagedList<Doctor> doctors)
+    public ICollection<DoctorProfileResponse> MappingToDoctorProfileResponse(PagedList<Doctor> doctors)
     {
         List<DoctorProfileResponse> doctorsList = new List<DoctorProfileResponse>();
 
@@ -51,5 +51,28 @@ public class DoctorRepository : IDoctorRepository
         }
 
         return doctorsList;
+    }
+
+    public ICollection<DoctorProfileSearchByAdminResponse> MappingToDoctorProfileSearchByAdminResponse(PagedList<Doctor> doctors)
+    {
+        List<DoctorProfileSearchByAdminResponse> doctorsList = new List<DoctorProfileSearchByAdminResponse>();
+
+        foreach (var doctor in doctors)
+        {
+            doctorsList.Add(_mapper.Map<Doctor, DoctorProfileSearchByAdminResponse>(doctor));
+        }
+
+        return doctorsList;
+    }
+
+    public async Task<PagedList<Doctor>> GetDoctorsByAdminAsync(DoctorParams doctorParams)
+    {
+        var query = _context.Doctors
+            .Where(d => d.FirstName.ToLower().Contains(doctorParams.FullName.ToLower()) ||
+                         d.LastName.ToLower().Contains(doctorParams.FullName.ToLower()) ||
+                         d.MiddleName.ToLower().Contains(doctorParams.FullName.ToLower()));
+
+        return await PagedList<Doctor>
+            .CreateAsync(query, doctorParams.PageNumber, doctorParams.PageSize);
     }
 }

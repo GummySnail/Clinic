@@ -13,5 +13,5 @@ public class DoctorParams
     }
 
     public string FullName { get; set; } = string.Empty;
-    public string OrderByExperience { get; set; } = "Upcoming";
+    public string OrderByExperience { get; set; } = "Upcoming"; // для списка запрашиваемым админом не нужен но есть ли смысл убирать
 }

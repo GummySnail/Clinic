@@ -8,5 +8,7 @@ public interface IDoctorRepository
 {
     public Task CreateDoctorProfileAsync(Doctor doctor);
     public Task<PagedList<Doctor>> GetDoctorsAtWorkAsync(DoctorParams doctorParams);
-    public ICollection<DoctorProfileResponse> MappingToResponseListDoctorModel(PagedList<Doctor> doctors);
+    public Task<PagedList<Doctor>> GetDoctorsByAdminAsync(DoctorParams doctorParams);
+    public ICollection<DoctorProfileResponse> MappingToDoctorProfileResponse(PagedList<Doctor> doctors);
+    public ICollection<DoctorProfileSearchByAdminResponse> MappingToDoctorProfileSearchByAdminResponse(PagedList<Doctor> doctors);
 }
