@@ -59,6 +59,21 @@ public class ProfileService
         
     }
 
+    public async Task CreatePatientProfileByAdminAsync(string firstName, string lastName, string? middleName,
+        DateTime dateOfBirth)
+    {
+        var patient = new Patient(firstName, lastName, middleName, dateOfBirth);
+        
+        await _repositoryManager.PatientRepository.CreatePatientProfileAsync(patient);
+        
+        var result = await _repositoryManager.UnitOfWork.SaveChangesAsync();
+        
+        if (result == 0)
+        {
+            throw new DatabaseException("Unable to create patient");
+        }
+    }
+
     public async Task<ICollection<DoctorProfileResponse>> GetDoctorsAtWorkAsync(SearchParams searchParams)
     {
         var doctors = await _repositoryManager.DoctorRepository.GetDoctorsAtWorkAsync(searchParams);

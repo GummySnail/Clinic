@@ -2,6 +2,14 @@
 
 public class Patient
 {
+    public Patient(string firstName, string lastName, string? middleName, DateTime dateOfBirth)
+    {
+        FirstName = firstName;
+        LastName = lastName;
+        MiddleName = middleName;
+        DateOfBirth = dateOfBirth.Date;
+        IsLinkedToAccount = false;
+    }
     public Patient(string firstName, string lastName, string? middleName, DateTime dateOfBirth, string phoneNumber)
     {
         FirstName = firstName;
@@ -17,6 +25,6 @@ public class Patient
     public string? MiddleName { get; set; }
     public bool IsLinkedToAccount { get; set; } = true;
     public DateTime DateOfBirth { get; set; }
-    public string PhoneNumber { get; set; }
+    public string? PhoneNumber { get; set; }
     
 }
