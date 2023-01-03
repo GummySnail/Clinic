@@ -12,7 +12,7 @@ public class RepositoryManager : IRepositoryManager
 
     public RepositoryManager(ProfileDbContext context, IMapper mapper)
     {
-        _lazyReceptionistRepository = new Lazy<IReceptionistRepository>(() => new ReceptionistRepository(context));
+        _lazyReceptionistRepository = new Lazy<IReceptionistRepository>(() => new ReceptionistRepository(context, mapper));
         _lazyPatientRepository = new Lazy<IPatientRepository>(() => new PatientRepository(context));
         _lazyDoctorRepository = new Lazy<IDoctorRepository>(() => new DoctorRepository(context, mapper));
         _lazyUnitOfWork = new Lazy<IUnitOfWork>(() => new UnitOfWork(context));

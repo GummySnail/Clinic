@@ -22,23 +22,23 @@ public class DoctorRepository : IDoctorRepository
         await _context.Doctors.AddAsync(doctor);
     }
 
-    public async Task<PagedList<Doctor>> GetDoctorsAtWorkAsync(DoctorParams doctorParams)
+    public async Task<PagedList<Doctor>> GetDoctorsAtWorkAsync(SearchParams searchParams)
     {
         var query = _context.Doctors
             .Where(d => d.Status == Status.AtWork && 
-                        (d.FirstName.ToLower().Contains(doctorParams.FullName.ToLower()) ||
-                         d.LastName.ToLower().Contains(doctorParams.FullName.ToLower()) ||
-                         d.MiddleName.ToLower().Contains(doctorParams.FullName.ToLower())
+                        (d.FirstName.ToLower().Contains(searchParams.FullName.ToLower()) ||
+                         d.LastName.ToLower().Contains(searchParams.FullName.ToLower()) ||
+                         d.MiddleName.ToLower().Contains(searchParams.FullName.ToLower())
                         ));
 
-        query = doctorParams.OrderByExperience switch
+        query = searchParams.OrderByExperience switch
         {
             "Upcoming" => query.OrderBy(q => q.CareerStartYear),
             _ => query.OrderByDescending(q => q.CareerStartYear)
         };
 
         return await PagedList<Doctor>
-            .CreateAsync(query, doctorParams.PageNumber, doctorParams.PageSize);
+            .CreateAsync(query, searchParams.PageNumber, searchParams.PageSize);
     }
 
     public ICollection<DoctorProfileResponse> MappingToDoctorProfileResponse(PagedList<Doctor> doctors)
@@ -65,14 +65,14 @@ public class DoctorRepository : IDoctorRepository
         return doctorsList;
     }
 
-    public async Task<PagedList<Doctor>> GetDoctorsByAdminAsync(DoctorParams doctorParams)
+    public async Task<PagedList<Doctor>> GetDoctorsByAdminAsync(SearchParams searchParams)
     {
         var query = _context.Doctors
-            .Where(d => d.FirstName.ToLower().Contains(doctorParams.FullName.ToLower()) ||
-                         d.LastName.ToLower().Contains(doctorParams.FullName.ToLower()) ||
-                         d.MiddleName.ToLower().Contains(doctorParams.FullName.ToLower()));
+            .Where(d => d.FirstName.ToLower().Contains(searchParams.FullName.ToLower()) ||
+                         d.LastName.ToLower().Contains(searchParams.FullName.ToLower()) ||
+                         d.MiddleName.ToLower().Contains(searchParams.FullName.ToLower()));
 
         return await PagedList<Doctor>
-            .CreateAsync(query, doctorParams.PageNumber, doctorParams.PageSize);
+            .CreateAsync(query, searchParams.PageNumber, searchParams.PageSize);
     }
 }

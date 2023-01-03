@@ -1,6 +1,6 @@
 ﻿namespace Profiles.Core.Logic;
 
-public class DoctorParams
+public class SearchParams
 {
     private const int MaxPageSize = 50;
     public int PageNumber { get; set; } = 1;

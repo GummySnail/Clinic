@@ -58,17 +58,24 @@ public class ProfileService
         
     }
 
-    public async Task<ICollection<DoctorProfileResponse>> GetDoctorsAtWorkAsync(DoctorParams doctorParams)
+    public async Task<ICollection<DoctorProfileResponse>> GetDoctorsAtWorkAsync(SearchParams searchParams)
     {
-        var doctors = await _repositoryManager.DoctorRepository.GetDoctorsAtWorkAsync(doctorParams);
+        var doctors = await _repositoryManager.DoctorRepository.GetDoctorsAtWorkAsync(searchParams);
 
         return _repositoryManager.DoctorRepository.MappingToDoctorProfileResponse(doctors);
     }
 
-    public async Task<ICollection<DoctorProfileSearchByAdminResponse>> GetDoctorsByAdminAsync(DoctorParams doctorParams)
+    public async Task<ICollection<DoctorProfileSearchByAdminResponse>> GetDoctorsByAdminAsync(SearchParams searchParams)
     {
-        var doctors = await _repositoryManager.DoctorRepository.GetDoctorsByAdminAsync(doctorParams);
+        var doctors = await _repositoryManager.DoctorRepository.GetDoctorsByAdminAsync(searchParams);
         
         return _repositoryManager.DoctorRepository.MappingToDoctorProfileSearchByAdminResponse(doctors);
+    }
+
+    public async Task<ICollection<ReceptionistProfileResponse>> GetReceptionistsAsync(SearchParams searchParams)
+    {
+        var receptionists = await _repositoryManager.ReceptionistRepository.GetReceptionistsAsync(searchParams);
+
+        return await _repositoryManager.ReceptionistRepository.MappingToReceptionistProfileResponse(receptionists);
     }
 }

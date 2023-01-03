@@ -49,9 +49,9 @@ public class ProfileController : ControllerBase
     }
 
     [HttpGet("view-doctors")]
-    public async Task<ActionResult<ICollection<DoctorProfileResponse>>> GetDoctorsAtWork([FromQuery] DoctorParams doctorParams)
+    public async Task<ActionResult<ICollection<DoctorProfileResponse>>> GetDoctorsAtWork([FromQuery] SearchParams searchParams)
     {
-        var result = await _profileService.GetDoctorsAtWorkAsync(doctorParams);
+        var result = await _profileService.GetDoctorsAtWorkAsync(searchParams);
 
         return Ok(result);
     }
@@ -59,9 +59,18 @@ public class ProfileController : ControllerBase
     //[Authorize(Roles = "Receptionist")]
     [HttpGet("view-doctors-by-admin")]
     public async Task<ActionResult<DoctorProfileSearchByAdminResponse>> GetDoctorsByAdmin(
-        [FromQuery] DoctorParams doctorParams)
+        [FromQuery] SearchParams doctorParams)
     {
         var result = await _profileService.GetDoctorsByAdminAsync(doctorParams);
+
+        return Ok(result);
+    }
+    //[Authorize(Roles = "Receptionist")]
+    [HttpGet("view-receptionists")]
+    public async Task<ActionResult<ICollection<ReceptionistProfileResponse>>> GetReceptionists(
+        [FromQuery] SearchParams searchParams)
+    {
+        var result = await _profileService.GetReceptionistsAsync(searchParams);
 
         return Ok(result);
     }
