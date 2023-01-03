@@ -205,4 +205,23 @@ public class ProfileService
 
         return result;
     }
+
+    public async Task DeletePatientProfileAsync(string id)
+    {
+        var patient = await _repositoryManager.PatientRepository.GetPatientByIdAsync(id);
+
+        if (patient is null)
+        {
+            throw new NotFoundException("Patient is not exist");
+        }
+
+        _repositoryManager.PatientRepository.DeletePatientAsync(patient);
+        
+        var result = await _repositoryManager.UnitOfWork.SaveChangesAsync();
+        
+        if (result == 0)
+        {
+            throw new DatabaseException("Unable to delete patient profile");
+        }
+    }
 }

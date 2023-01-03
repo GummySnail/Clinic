@@ -129,4 +129,13 @@ public class ProfileController : ControllerBase
 
         return Ok(result);
     }
+    
+    //[Authorize(Roles = "Receptionist")]
+    [HttpDelete("delete-patient's-profile/{id}")]
+    public async Task<ActionResult> DeletePatientProfile(string id)
+    {
+        await _profileService.DeletePatientProfileAsync(id);
+
+        return Ok();
+    }
 }

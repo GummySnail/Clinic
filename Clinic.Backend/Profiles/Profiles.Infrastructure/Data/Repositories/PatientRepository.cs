@@ -67,6 +67,11 @@ public class PatientRepository : IPatientRepository
         return Task.FromResult<ICollection<PatientsProfileSearchByAdminResponse>>(patientsList);
     }
 
+    public void DeletePatientAsync(Patient patient)
+    {
+        var result = _context.Patients.Remove(patient);
+    }
+
     //I can better do this method but later =)
     public Task<bool> IsProfileExistAsync(string firstName, string lastName, string? middleName, DateTime dateOfBirth)
     {
