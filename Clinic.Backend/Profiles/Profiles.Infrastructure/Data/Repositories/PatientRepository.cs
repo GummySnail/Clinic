@@ -1,22 +1,50 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Profiles.Core.Entities;
 using Profiles.Core.Interfaces.Data.Repositories;
+using Profiles.Core.Logic;
+using Profiles.Core.Logic.Profile.Responses;
 
 namespace Profiles.Infrastructure.Data.Repositories;
 
 public class PatientRepository : IPatientRepository
 {
     private readonly ProfileDbContext _context;
+    private readonly IMapper _mapper;
 
-    public PatientRepository(ProfileDbContext context)
+    public PatientRepository(ProfileDbContext context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
 
 
     public async Task CreatePatientProfileAsync(Patient patient)
     {
         await _context.Patients.AddAsync(patient);
+    }
+
+    public async Task<PagedList<Patient>> GetPatientsByAdminAsync(SearchParams searchParams)
+    {
+        var query = _context.Patients
+            .Where(d => d.FirstName.ToLower().Contains(searchParams.FullName.ToLower()) ||
+                        d.LastName.ToLower().Contains(searchParams.FullName.ToLower()) ||
+                        d.MiddleName.ToLower().Contains(searchParams.FullName.ToLower()));
+
+        return await PagedList<Patient>
+            .CreateAsync(query, searchParams.PageNumber, searchParams.PageSize);
+    }
+
+    public async Task<ICollection<PatientsProfileSearchByAdminResponse>> MappingToPatientsProfileSearchByAdminResponse(PagedList<Patient> patients)
+    {
+        List<PatientsProfileSearchByAdminResponse> patientsList = new List<PatientsProfileSearchByAdminResponse>();
+
+        foreach (var patient in patients)
+        {
+            patientsList.Add(_mapper.Map<Patient, PatientsProfileSearchByAdminResponse>(patient));
+        }
+
+        return patientsList;
     }
 
     //I can better do this method but later =)

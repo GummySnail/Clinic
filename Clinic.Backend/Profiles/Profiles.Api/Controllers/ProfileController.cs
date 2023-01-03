@@ -74,4 +74,14 @@ public class ProfileController : ControllerBase
 
         return Ok(result);
     }
+    
+    //[Authorize(Roles ="Admin")]
+    [HttpGet("view-patients-by-admin")]
+    public async Task<ActionResult<PatientsProfileSearchByAdminResponse>> GetPatientsByAdmin(
+        [FromQuery] SearchParams searchParams)
+    {
+        var result = await _profileService.GetPatientsByAdminAsync(searchParams);
+
+        return Ok(result);
+    }
 }
