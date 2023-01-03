@@ -22,6 +22,20 @@ public class DoctorRepository : IDoctorRepository
         await _context.Doctors.AddAsync(doctor);
     }
 
+    public Task<Doctor?> GetDoctorByIdAsync(string id)
+    {
+        var result = _context.Doctors.SingleOrDefault(x => x.Id == id);
+        
+        return Task.FromResult(result); 
+    }
+
+    public Task<DoctorProfileResponse> MappingToDoctorProfileResponse(Doctor doctor)
+    {
+        var result = _mapper.Map<Doctor, DoctorProfileResponse>(doctor);
+
+        return Task.FromResult(result);
+    }
+
     public async Task<PagedList<Doctor>> GetDoctorsAtWorkAsync(SearchParams searchParams)
     {
         var query = _context.Doctors
@@ -41,7 +55,7 @@ public class DoctorRepository : IDoctorRepository
             .CreateAsync(query, searchParams.PageNumber, searchParams.PageSize);
     }
 
-    public ICollection<DoctorProfileResponse> MappingToDoctorProfileResponse(PagedList<Doctor> doctors)
+    public Task<ICollection<DoctorProfileResponse>> MappingToCollectionDoctorProfileResponse(PagedList<Doctor> doctors)
     {
         List<DoctorProfileResponse> doctorsList = new List<DoctorProfileResponse>();
 
@@ -50,10 +64,10 @@ public class DoctorRepository : IDoctorRepository
             doctorsList.Add(_mapper.Map<Doctor, DoctorProfileResponse>(doctor));
         }
 
-        return doctorsList;
+        return Task.FromResult<ICollection<DoctorProfileResponse>>(doctorsList);
     }
 
-    public ICollection<DoctorProfileSearchByAdminResponse> MappingToDoctorProfileSearchByAdminResponse(PagedList<Doctor> doctors)
+    public Task<ICollection<DoctorProfileSearchByAdminResponse>> MappingToDoctorProfileSearchByAdminResponse(PagedList<Doctor> doctors)
     {
         List<DoctorProfileSearchByAdminResponse> doctorsList = new List<DoctorProfileSearchByAdminResponse>();
 
@@ -62,7 +76,7 @@ public class DoctorRepository : IDoctorRepository
             doctorsList.Add(_mapper.Map<Doctor, DoctorProfileSearchByAdminResponse>(doctor));
         }
 
-        return doctorsList;
+        return Task.FromResult<ICollection<DoctorProfileSearchByAdminResponse>>(doctorsList);
     }
 
     public async Task<PagedList<Doctor>> GetDoctorsByAdminAsync(SearchParams searchParams)

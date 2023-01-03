@@ -93,4 +93,12 @@ public class ProfileController : ControllerBase
 
         return Ok(result);
     }
+
+    [HttpGet("view-doctor-information/{id}")]
+    public async Task<ActionResult<DoctorProfileResponse>> GetDoctorProfileById(string id)
+    {
+        var result = await _profileService.GetDoctorProfileByIdAsync(id);
+
+        return Ok(result);
+    }
 }
