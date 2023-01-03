@@ -1,0 +1,12 @@
+﻿using System.Collections;
+using Offices.Core.Entities;
+using Offices.Core.Logic.Responses;
+
+namespace Offices.Core.Interfaces.Data.Repositories;
+
+public interface IOfficeRepository
+{
+    public Task CreateAsync(Office office);
+    public Task<List<Office>> GetAsync();
+    public Task<ICollection<OfficesResponse>> MappingToCollectionOfficesResponse(List<Office> offices);
+}
