@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Profiles.Api.Models;
+using Profiles.Core.Logic.Profile.Exceptions;
 
 namespace Profiles.Api.Middleware;
 
@@ -44,6 +45,8 @@ public class ExceptionMiddleware
     {
         return ex switch
         {
+            NotFoundException => (int)HttpStatusCode.NotFound,
+            DatabaseException => (int)HttpStatusCode.BadRequest,
             _ => (int)HttpStatusCode.InternalServerError
         };
     }
