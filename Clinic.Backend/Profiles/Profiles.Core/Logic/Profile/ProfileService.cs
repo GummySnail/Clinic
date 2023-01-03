@@ -78,4 +78,11 @@ public class ProfileService
 
         return await _repositoryManager.ReceptionistRepository.MappingToReceptionistProfileResponse(receptionists);
     }
+
+    public async Task<ICollection<PatientsProfileSearchByAdminResponse>> GetPatientsByAdminAsync(SearchParams searchParams)
+    {
+        var patients = await _repositoryManager.PatientRepository.GetPatientsByAdminAsync(searchParams);
+
+        return await _repositoryManager.PatientRepository.MappingToPatientsProfileSearchByAdminResponse(patients);
+    }
 }
