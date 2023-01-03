@@ -7,8 +7,8 @@ namespace Profiles.Core.Interfaces.Data.Repositories;
 public interface IDoctorRepository
 {
     public Task CreateDoctorProfileAsync(Doctor doctor);
-    public Task<PagedList<Doctor>> GetDoctorsAtWorkAsync(DoctorParams doctorParams);
-    public Task<PagedList<Doctor>> GetDoctorsByAdminAsync(DoctorParams doctorParams);
+    public Task<PagedList<Doctor>> GetDoctorsAtWorkAsync(SearchParams searchParams);
+    public Task<PagedList<Doctor>> GetDoctorsByAdminAsync(SearchParams searchParams);
     public ICollection<DoctorProfileResponse> MappingToDoctorProfileResponse(PagedList<Doctor> doctors);
     public ICollection<DoctorProfileSearchByAdminResponse> MappingToDoctorProfileSearchByAdminResponse(PagedList<Doctor> doctors);
 }

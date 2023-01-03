@@ -14,5 +14,8 @@ public class MapperProfile : Profile
         CreateMap<Doctor, DoctorProfileSearchByAdminResponse>()
             .ConstructUsing(x =>
                 new DoctorProfileSearchByAdminResponse(x.FirstName, x.LastName, x.MiddleName, x.Status, x.DateOfBirth));
+
+        CreateMap<Receptionist, ReceptionistProfileResponse>()
+            .ConstructUsing(x => new ReceptionistProfileResponse(x.FirstName, x.LastName, x.MiddleName));
     }
 }
