@@ -48,6 +48,15 @@ public class ProfileController : ControllerBase
 
         return Ok();
     }
+    
+    //[Authorize(Roles = "Receptionist")]
+    [HttpPost("create-patient's-profile-by-admin")]
+    public async Task<ActionResult> CreatePatientByAdmin([FromBody] CreatePatientProfileByAdminRequest request)
+    {
+        await _profileService.CreatePatientProfileByAdminAsync(request.FirstName, request.LastName, request.MiddleName, request.DateOfBirth);
+
+        return Ok();
+    }
 
     [HttpGet("view-doctors")]
     public async Task<ActionResult<ICollection<DoctorProfileResponse>>> GetDoctorsAtWork([FromQuery] SearchParams searchParams)
