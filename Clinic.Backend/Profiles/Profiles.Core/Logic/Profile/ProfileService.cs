@@ -115,7 +115,7 @@ public class ProfileService
         return result;
     }
 
-    public async Task<PatientProfileByDoctorResponse> GetPatientProfileByIdAsync(string id)
+    public async Task<PatientProfileByDoctorResponse> DoctorGetPatientProfileByIdAsync(string id)
     {
         var patient = await _repositoryManager.PatientRepository.GetPatientByIdAsync(id);
         
@@ -134,6 +134,25 @@ public class ProfileService
         return result;
     }
 
+    public async Task<PatientProfileByAdminResponse> AdminGetPatientProfileByIdAsync(string id)
+    {
+        var patient = await _repositoryManager.PatientRepository.GetPatientByIdAsync(id);
+
+        if (patient is null)
+        {
+            throw new NotFoundException("Patient is not exist");
+        }
+
+        var result = await _repositoryManager.PatientRepository.MappingToPatientProfileByAdminResponse(patient);
+
+        if (result is null)
+        {
+            throw new Exception("Error during mapping");
+        }
+
+        return result;
+    }
+    
     public async Task<DoctorProfileResponse> GetDoctorProfileByIdAsync(string id)
     {
         var doctor = await _repositoryManager.DoctorRepository.GetDoctorByIdAsync(id);
@@ -152,4 +171,5 @@ public class ProfileService
         
         return result;
     }
+
 }

@@ -37,6 +37,13 @@ public class PatientRepository : IPatientRepository
         return Task.FromResult(result);
     }
 
+    public Task<PatientProfileByAdminResponse> MappingToPatientProfileByAdminResponse(Patient patient)
+    {
+        var result = _mapper.Map<Patient, PatientProfileByAdminResponse>(patient);
+
+        return Task.FromResult(result);
+    }
+
     public async Task<PagedList<Patient>> GetPatientsByAdminAsync(SearchParams searchParams)
     {
         var query = _context.Patients

@@ -24,5 +24,7 @@ public class MapperProfile : Profile
 
         CreateMap<Patient, PatientProfileByDoctorResponse>();
 
+        CreateMap<Patient, PatientProfileByAdminResponse>();
+
     }
 }

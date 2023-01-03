@@ -19,6 +19,7 @@ public class ProfileController : ControllerBase
     {
         _profileService = profileService;
     }
+    
     //[Authorize]
     [HttpPost("create-patient-profile")]
     public async Task<ActionResult> CreatePatientProfile([FromBody] CreatePatientProfileRequest request)
@@ -89,7 +90,7 @@ public class ProfileController : ControllerBase
     [HttpGet("view-patient's-profile-by-doctor/{id}")]
     public async Task<ActionResult<PatientProfileByDoctorResponse>> GetPatientProfileById(string id)
     {
-        var result = await _profileService.GetPatientProfileByIdAsync(id);
+        var result = await _profileService.DoctorGetPatientProfileByIdAsync(id);
 
         return Ok(result);
     }
@@ -98,6 +99,15 @@ public class ProfileController : ControllerBase
     public async Task<ActionResult<DoctorProfileResponse>> GetDoctorProfileById(string id)
     {
         var result = await _profileService.GetDoctorProfileByIdAsync(id);
+
+        return Ok(result);
+    }
+    
+    //[Authorize(Roles = "Admin")]
+    [HttpGet("view-patient's-profile-by-admin/{id}")]
+    public async Task<ActionResult<PatientProfileByAdminResponse>> GetPatientsProfiles(string id)
+    {
+        var result = await _profileService.AdminGetPatientProfileByIdAsync(id);
 
         return Ok(result);
     }
