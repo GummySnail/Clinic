@@ -1,6 +1,7 @@
 ﻿using Profiles.Core.Entities;
 using Profiles.Core.Enums;
 using Profiles.Core.Interfaces.Data.Repositories;
+using Profiles.Core.Logic.Profile.Exceptions;
 using Profiles.Core.Logic.Profile.Responses;
 
 namespace Profiles.Core.Logic.Profile;
@@ -24,7 +25,7 @@ public class ProfileService
         
         if (result == 0)
         {
-            throw new Exception();
+            throw new DatabaseException("Unable to create patient");
         }
     }
 
@@ -39,7 +40,7 @@ public class ProfileService
         
         if (result == 0)
         {
-            throw new Exception();
+            throw new DatabaseException("Unable to create profile");
         }
     }
 
@@ -53,7 +54,7 @@ public class ProfileService
         
         if (result == 0)
         {
-            throw new Exception();
+            throw new DatabaseException("Unable to create receptionist");
         }
         
     }
@@ -84,5 +85,17 @@ public class ProfileService
         var patients = await _repositoryManager.PatientRepository.GetPatientsByAdminAsync(searchParams);
 
         return await _repositoryManager.PatientRepository.MappingToPatientsProfileSearchByAdminResponse(patients);
+    }
+
+    public async Task<PatientProfileByDoctorResponse> GetPatientProfileByIdAsync(string id)
+    {
+        var patient = await _repositoryManager.PatientRepository.GetPatientByIdAsync(id);
+        
+        if (patient is null)
+        {
+            throw new NotFoundException("Patient is not exist");
+        }
+
+        return await _repositoryManager.PatientRepository.MappingToPatientProfileByDoctorResponse(patient);
     }
 }

@@ -21,5 +21,8 @@ public class MapperProfile : Profile
         CreateMap<Patient, PatientsProfileSearchByAdminResponse>()
             .ConstructUsing(x =>
                 new PatientsProfileSearchByAdminResponse(x.FirstName, x.LastName, x.MiddleName, x.PhoneNumber));
+
+        CreateMap<Patient, PatientProfileByDoctorResponse>();
+
     }
 }

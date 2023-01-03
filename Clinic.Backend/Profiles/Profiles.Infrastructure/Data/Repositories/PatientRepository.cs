@@ -24,6 +24,20 @@ public class PatientRepository : IPatientRepository
         await _context.Patients.AddAsync(patient);
     }
 
+    public async Task<Patient?> GetPatientByIdAsync(string id)
+    {
+        var patient = _context.Patients.SingleOrDefault(x => x.Id == id);
+        
+        return patient;
+    }
+
+    public async Task<PatientProfileByDoctorResponse> MappingToPatientProfileByDoctorResponse(Patient patient)
+    {
+        var result = _mapper.Map<Patient, PatientProfileByDoctorResponse>(patient);
+
+        return result;
+    }
+
     public async Task<PagedList<Patient>> GetPatientsByAdminAsync(SearchParams searchParams)
     {
         var query = _context.Patients

@@ -84,4 +84,13 @@ public class ProfileController : ControllerBase
 
         return Ok(result);
     }
+    
+    //[Authorize(Roles = "Doctor")]
+    [HttpGet("view-patient's-profile-by-doctor/{id}")]
+    public async Task<ActionResult<PatientProfileByDoctorResponse>> GetPatientProfileById(string id)
+    {
+        var result = await _profileService.GetPatientProfileByIdAsync(id);
+
+        return Ok(result);
+    }
 }
