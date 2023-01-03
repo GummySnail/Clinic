@@ -243,4 +243,23 @@ public class ProfileService
             throw new DatabaseException("Unable to delete receptionist profile");
         }
     }
+
+    public async Task ChangeDoctorStatusAsync(string id, Status status)
+    {
+        var doctor = await _repositoryManager.DoctorRepository.GetDoctorByIdAsync(id);
+
+        if (doctor is null)
+        {
+            throw new NotFoundException("Doctor is not exist");
+        }
+
+        _repositoryManager.DoctorRepository.ChangeDoctorStatusAsync(doctor, status);
+        
+        var result = await _repositoryManager.UnitOfWork.SaveChangesAsync();
+        
+        if (result == 0)
+        {
+            throw new DatabaseException("Unable to change doctor's status");
+        }
+    }
 }

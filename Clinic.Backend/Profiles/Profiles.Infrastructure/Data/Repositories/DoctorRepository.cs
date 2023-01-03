@@ -47,7 +47,12 @@ public class DoctorRepository : IDoctorRepository
         return await PagedList<Doctor>
             .CreateAsync(query, searchParams.PageNumber, searchParams.PageSize);
     }
-    
+
+    public void ChangeDoctorStatusAsync(Doctor doctor, Status status)
+    {
+        doctor.Status = status;
+    }
+
     public Task<DoctorProfileResponse> MappingToDoctorProfileResponse(Doctor doctor)
     {
         var result = _mapper.Map<Doctor, DoctorProfileResponse>(doctor);
