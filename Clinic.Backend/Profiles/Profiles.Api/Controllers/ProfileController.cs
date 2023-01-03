@@ -27,7 +27,7 @@ public class ProfileController : ControllerBase
         await _profileService.CreatePatientProfileAsync(request.FirstName, request.LastName, request?.MiddleName,
             request.DateOfBirth, request.PhoneNumber);
      
-        return Ok();
+        return NoContent();
     }
     
     //[Authorize(Roles = "Receptionist")]
@@ -37,7 +37,7 @@ public class ProfileController : ControllerBase
         await _profileService.CreateDoctorProfileAsync(request.FirstName, request.LastName, request.MiddleName,
             request.DateOfBirth, request.CareerStartYear, request.Status);
 
-        return Ok();
+        return NoContent();
     }
     
     //[Authorize(Roles = "Receptionist")]
@@ -46,7 +46,7 @@ public class ProfileController : ControllerBase
     {
         await _profileService.CreateReceptionistProfileAsync(request.FirstName, request.LastName, request.MiddleName);
 
-        return Ok();
+        return NoContent();
     }
     
     //[Authorize(Roles = "Receptionist")]
@@ -55,7 +55,7 @@ public class ProfileController : ControllerBase
     {
         await _profileService.CreatePatientProfileByAdminAsync(request.FirstName, request.LastName, request.MiddleName, request.DateOfBirth);
 
-        return Ok();
+        return NoContent();
     }
 
     [HttpGet("view-doctors")]
@@ -75,6 +75,7 @@ public class ProfileController : ControllerBase
 
         return Ok(result);
     }
+    
     //[Authorize(Roles = "Receptionist")]
     [HttpGet("view-receptionists")]
     public async Task<ActionResult<ICollection<ReceptionistProfileResponse>>> GetReceptionists(
@@ -97,7 +98,7 @@ public class ProfileController : ControllerBase
     
     //[Authorize(Roles = "Doctor")]
     [HttpGet("view-patient's-profile-by-doctor/{id}")]
-    public async Task<ActionResult<PatientProfileByDoctorResponse>> GetPatientProfileById(string id)
+    public async Task<ActionResult<PatientProfileByDoctorResponse>> GetPatientProfileById([FromRoute] string id)
     {
         var result = await _profileService.DoctorGetPatientProfileByIdAsync(id);
 
@@ -105,7 +106,7 @@ public class ProfileController : ControllerBase
     }
 
     [HttpGet("view-doctor-information/{id}")]
-    public async Task<ActionResult<DoctorProfileResponse>> GetDoctorProfileById(string id)
+    public async Task<ActionResult<DoctorProfileResponse>> GetDoctorProfileById([FromRoute] string id)
     {
         var result = await _profileService.GetDoctorProfileByIdAsync(id);
 
@@ -114,7 +115,7 @@ public class ProfileController : ControllerBase
     
     //[Authorize(Roles = "Admin")]
     [HttpGet("view-patient's-profile-by-admin/{id}")]
-    public async Task<ActionResult<PatientProfileByAdminResponse>> GetPatientsProfiles(string id)
+    public async Task<ActionResult<PatientProfileByAdminResponse>> GetPatientsProfiles([FromRoute] string id)
     {
         var result = await _profileService.AdminGetPatientProfileByIdAsync(id);
 
@@ -123,28 +124,37 @@ public class ProfileController : ControllerBase
     
     //[Authorize(Roles = "Receptionist")]
     [HttpGet("view-receptionist's-profile/{id}")]
-    public async Task<ActionResult<ReceptionistProfileByIdResponse>> GetReceptionistProfileById(string id)
+    public async Task<ActionResult<ReceptionistProfileByIdResponse>> GetReceptionistProfileById([FromRoute] string id)
     {
         var result = await _profileService.GetReceptionistProfileByIdAsync(id);
 
         return Ok(result);
     }
-    
+
     //[Authorize(Roles = "Receptionist")]
     [HttpDelete("delete-patient's-profile/{id}")]
-    public async Task<ActionResult> DeletePatientProfile(string id)
+    public async Task<ActionResult> DeletePatientProfile([FromRoute] string id)
     {
         await _profileService.DeletePatientProfileAsync(id);
 
-        return Ok();
+        return NoContent();
     }
     
     //[Authorize(Roles = "Receptionist")]
     [HttpDelete("delete-receptionist's-profile/{id}")]
-    public async Task<ActionResult> DeleteReceptionistProfile(string id)
+    public async Task<ActionResult> DeleteReceptionistProfile([FromRoute] string id)
     {
         await _profileService.DeleteReceptionistProfileAsync(id);
 
-        return Ok();
+        return NoContent();
+    }
+    
+    //[Authorize(Roles = "Receptionist")]
+    [HttpPatch("change-doctor's-status/{id}")]
+    public async Task<ActionResult> ChangeDoctorStatus([FromRoute] string id, [FromBody] ChangeDoctorStatusRequest request)
+    {
+        await _profileService.ChangeDoctorStatusAsync(id, request.Status);
+
+        return NoContent();
     }
 }
