@@ -91,7 +91,7 @@ public class ProfileService
     {
         var receptionists = await _repositoryManager.ReceptionistRepository.GetReceptionistsAsync(searchParams);
 
-        var result = await _repositoryManager.ReceptionistRepository.MappingToReceptionistProfileResponse(receptionists);
+        var result = await _repositoryManager.ReceptionistRepository.MappingToCollectionReceptionistProfileResponse(receptionists);
 
         if (result is null)
         {
@@ -172,4 +172,22 @@ public class ProfileService
         return result;
     }
 
+    public async Task<ReceptionistProfileByIdResponse> GetReceptionistProfileByIdAsync(string id)
+    {
+        var receptionist = await _repositoryManager.ReceptionistRepository.GetReceptionistByIdAsync(id);
+
+        if (receptionist is null)
+        {
+            throw new NotFoundException("Receptionist is not exist");
+        }
+
+        var result = await _repositoryManager.ReceptionistRepository.MappingToReceptionistProfileByIdResponse(receptionist);
+
+        if (result is null)
+        {
+            throw new Exception("Error during mapping");
+        }
+
+        return result;
+    }
 }

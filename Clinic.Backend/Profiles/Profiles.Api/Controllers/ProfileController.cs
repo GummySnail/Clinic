@@ -111,4 +111,13 @@ public class ProfileController : ControllerBase
 
         return Ok(result);
     }
+    
+    //[Authorize(Roles = "Receptionist")]
+    [HttpGet("view-receptionist's-profile/{id}")]
+    public async Task<ActionResult<ReceptionistProfileByIdResponse>> GetReceptionistProfileById(string id)
+    {
+        var result = await _profileService.GetReceptionistProfileByIdAsync(id);
+
+        return Ok(result);
+    }
 }

@@ -33,7 +33,21 @@ public class ReceptionistRepository : IReceptionistRepository
             .CreateAsync(query, searchParams.PageNumber, searchParams.PageSize);
     }
 
-    public Task<ICollection<ReceptionistProfileResponse>> MappingToReceptionistProfileResponse(PagedList<Receptionist> receptionists)
+    public Task<Receptionist?> GetReceptionistByIdAsync(string id)
+    {
+        var result = _context.Receptionists.SingleOrDefault(x => x.Id == id);
+        
+        return Task.FromResult(result); 
+    }
+
+    public Task<ReceptionistProfileByIdResponse> MappingToReceptionistProfileByIdResponse(Receptionist receptionist)
+    {
+        var result = _mapper.Map<Receptionist, ReceptionistProfileByIdResponse>(receptionist);
+
+        return Task.FromResult(result);
+    }
+
+    public Task<ICollection<ReceptionistProfileResponse>> MappingToCollectionReceptionistProfileResponse(PagedList<Receptionist> receptionists)
     {
         List<ReceptionistProfileResponse> receptionistsList = new List<ReceptionistProfileResponse>();
 
