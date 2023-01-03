@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using Profiles.Core.Entities;
 using Profiles.Core.Interfaces.Data.Repositories;
 using Profiles.Core.Logic;
@@ -24,18 +23,18 @@ public class PatientRepository : IPatientRepository
         await _context.Patients.AddAsync(patient);
     }
 
-    public async Task<Patient?> GetPatientByIdAsync(string id)
+    public Task<Patient?> GetPatientByIdAsync(string id)
     {
         var patient = _context.Patients.SingleOrDefault(x => x.Id == id);
         
-        return patient;
+        return Task.FromResult(patient);
     }
 
-    public async Task<PatientProfileByDoctorResponse> MappingToPatientProfileByDoctorResponse(Patient patient)
+    public Task<PatientProfileByDoctorResponse> MappingToPatientProfileByDoctorResponse(Patient patient)
     {
         var result = _mapper.Map<Patient, PatientProfileByDoctorResponse>(patient);
 
-        return result;
+        return Task.FromResult(result);
     }
 
     public async Task<PagedList<Patient>> GetPatientsByAdminAsync(SearchParams searchParams)
@@ -49,7 +48,7 @@ public class PatientRepository : IPatientRepository
             .CreateAsync(query, searchParams.PageNumber, searchParams.PageSize);
     }
 
-    public async Task<ICollection<PatientsProfileSearchByAdminResponse>> MappingToPatientsProfileSearchByAdminResponse(PagedList<Patient> patients)
+    public Task<ICollection<PatientsProfileSearchByAdminResponse>> MappingToPatientsProfileSearchByAdminResponse(PagedList<Patient> patients)
     {
         List<PatientsProfileSearchByAdminResponse> patientsList = new List<PatientsProfileSearchByAdminResponse>();
 
@@ -58,11 +57,11 @@ public class PatientRepository : IPatientRepository
             patientsList.Add(_mapper.Map<Patient, PatientsProfileSearchByAdminResponse>(patient));
         }
 
-        return patientsList;
+        return Task.FromResult<ICollection<PatientsProfileSearchByAdminResponse>>(patientsList);
     }
 
     //I can better do this method but later =)
-    public async Task<bool> IsProfileExistAsync(string firstName, string lastName, string? middleName, DateTime dateOfBirth)
+    public Task<bool> IsProfileExistAsync(string firstName, string lastName, string? middleName, DateTime dateOfBirth)
     {
         var coeff = 0;
         var profiles = _context.Patients
@@ -95,11 +94,11 @@ public class PatientRepository : IPatientRepository
 
             if (coeff >= 13)
             {
-                return true;
+                return Task.FromResult(true);
                 //return profile;
             }
         }
 
-        return false;
+        return Task.FromResult(false);
     }
 }

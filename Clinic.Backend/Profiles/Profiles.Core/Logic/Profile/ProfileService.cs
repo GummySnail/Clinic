@@ -63,28 +63,56 @@ public class ProfileService
     {
         var doctors = await _repositoryManager.DoctorRepository.GetDoctorsAtWorkAsync(searchParams);
 
-        return _repositoryManager.DoctorRepository.MappingToDoctorProfileResponse(doctors);
+        var result = await _repositoryManager.DoctorRepository.MappingToCollectionDoctorProfileResponse(doctors);
+
+        if (result is null)
+        {
+            throw new Exception("Error during mapping");
+        }
+
+        return result;
     }
 
     public async Task<ICollection<DoctorProfileSearchByAdminResponse>> GetDoctorsByAdminAsync(SearchParams searchParams)
     {
         var doctors = await _repositoryManager.DoctorRepository.GetDoctorsByAdminAsync(searchParams);
         
-        return _repositoryManager.DoctorRepository.MappingToDoctorProfileSearchByAdminResponse(doctors);
+        var result = await _repositoryManager.DoctorRepository.MappingToDoctorProfileSearchByAdminResponse(doctors);
+
+        if (result is null)
+        {
+            throw new Exception("Error during mapping");
+        }
+
+        return result;
     }
 
     public async Task<ICollection<ReceptionistProfileResponse>> GetReceptionistsAsync(SearchParams searchParams)
     {
         var receptionists = await _repositoryManager.ReceptionistRepository.GetReceptionistsAsync(searchParams);
 
-        return await _repositoryManager.ReceptionistRepository.MappingToReceptionistProfileResponse(receptionists);
+        var result = await _repositoryManager.ReceptionistRepository.MappingToReceptionistProfileResponse(receptionists);
+
+        if (result is null)
+        {
+            throw new Exception("Error during mapping");
+        }
+
+        return result;
     }
 
     public async Task<ICollection<PatientsProfileSearchByAdminResponse>> GetPatientsByAdminAsync(SearchParams searchParams)
     {
         var patients = await _repositoryManager.PatientRepository.GetPatientsByAdminAsync(searchParams);
 
-        return await _repositoryManager.PatientRepository.MappingToPatientsProfileSearchByAdminResponse(patients);
+        var result = await _repositoryManager.PatientRepository.MappingToPatientsProfileSearchByAdminResponse(patients);
+
+        if (result is null)
+        {
+            throw new Exception("Error during mapping");
+        }
+
+        return result;
     }
 
     public async Task<PatientProfileByDoctorResponse> GetPatientProfileByIdAsync(string id)
@@ -96,6 +124,32 @@ public class ProfileService
             throw new NotFoundException("Patient is not exist");
         }
 
-        return await _repositoryManager.PatientRepository.MappingToPatientProfileByDoctorResponse(patient);
+        var result = await _repositoryManager.PatientRepository.MappingToPatientProfileByDoctorResponse(patient);
+
+        if (result is null)
+        {
+            throw new Exception("Error during mapping");
+        }
+
+        return result;
+    }
+
+    public async Task<DoctorProfileResponse> GetDoctorProfileByIdAsync(string id)
+    {
+        var doctor = await _repositoryManager.DoctorRepository.GetDoctorByIdAsync(id);
+
+        if (doctor is null)
+        {
+            throw new NotFoundException("Doctor is not exist");
+        }
+
+        var result = await _repositoryManager.DoctorRepository.MappingToDoctorProfileResponse(doctor);
+
+        if (result is null)
+        {
+            throw new Exception("Error during mapping");
+        }
+        
+        return result;
     }
 }
