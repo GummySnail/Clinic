@@ -215,13 +215,32 @@ public class ProfileService
             throw new NotFoundException("Patient is not exist");
         }
 
-        _repositoryManager.PatientRepository.DeletePatientAsync(patient);
+        _repositoryManager.PatientRepository.DeletePatient(patient);
         
         var result = await _repositoryManager.UnitOfWork.SaveChangesAsync();
         
         if (result == 0)
         {
             throw new DatabaseException("Unable to delete patient profile");
+        }
+    }
+
+    public async Task DeleteReceptionistProfileAsync(string id)
+    {
+        var receptionist = await _repositoryManager.ReceptionistRepository.GetReceptionistByIdAsync(id);
+
+        if (receptionist is null)
+        {
+            throw new NotFoundException("Receptionist is not exist");
+        }
+
+        _repositoryManager.ReceptionistRepository.DeleteReceptionist(receptionist);
+
+        var result = await _repositoryManager.UnitOfWork.SaveChangesAsync();
+        
+        if (result == 0)
+        {
+            throw new DatabaseException("Unable to delete receptionist profile");
         }
     }
 }

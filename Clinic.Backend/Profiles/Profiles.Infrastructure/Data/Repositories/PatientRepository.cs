@@ -67,9 +67,9 @@ public class PatientRepository : IPatientRepository
         return Task.FromResult<ICollection<PatientsProfileSearchByAdminResponse>>(patientsList);
     }
 
-    public void DeletePatientAsync(Patient patient)
+    public void DeletePatient(Patient patient)
     {
-        var result = _context.Patients.Remove(patient);
+        _context.Patients.RemoveRange(patient);
     }
 
     //I can better do this method but later =)
