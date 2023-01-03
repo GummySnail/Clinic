@@ -40,6 +40,11 @@ public class ReceptionistRepository : IReceptionistRepository
         return Task.FromResult(result); 
     }
 
+    public void DeleteReceptionist(Receptionist receptionist)
+    {
+        _context.Receptionists.RemoveRange(receptionist);
+    }
+
     public Task<ReceptionistProfileByIdResponse> MappingToReceptionistProfileByIdResponse(Receptionist receptionist)
     {
         var result = _mapper.Map<Receptionist, ReceptionistProfileByIdResponse>(receptionist);

@@ -12,6 +12,6 @@ public interface IPatientRepository
     public Task<PatientProfileByAdminResponse> MappingToPatientProfileByAdminResponse(Patient patient);
     public Task<PagedList<Patient>> GetPatientsByAdminAsync(SearchParams searchParams);
     public Task<ICollection<PatientsProfileSearchByAdminResponse>> MappingToPatientsProfileSearchByAdminResponse(PagedList<Patient> patients);
-    public void DeletePatientAsync(Patient patient);
+    public void DeletePatient(Patient patient);
     public Task<bool> IsProfileExistAsync(string firstName, string lastName, string? middleName, DateTime dateOfBirth);
 }
