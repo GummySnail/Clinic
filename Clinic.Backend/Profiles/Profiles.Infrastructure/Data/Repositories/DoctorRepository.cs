@@ -29,13 +29,6 @@ public class DoctorRepository : IDoctorRepository
         return Task.FromResult(result); 
     }
 
-    public Task<DoctorProfileResponse> MappingToDoctorProfileResponse(Doctor doctor)
-    {
-        var result = _mapper.Map<Doctor, DoctorProfileResponse>(doctor);
-
-        return Task.FromResult(result);
-    }
-
     public async Task<PagedList<Doctor>> GetDoctorsAtWorkAsync(SearchParams searchParams)
     {
         var query = _context.Doctors
@@ -53,6 +46,13 @@ public class DoctorRepository : IDoctorRepository
 
         return await PagedList<Doctor>
             .CreateAsync(query, searchParams.PageNumber, searchParams.PageSize);
+    }
+    
+    public Task<DoctorProfileResponse> MappingToDoctorProfileResponse(Doctor doctor)
+    {
+        var result = _mapper.Map<Doctor, DoctorProfileResponse>(doctor);
+
+        return Task.FromResult(result);
     }
 
     public Task<ICollection<DoctorProfileResponse>> MappingToCollectionDoctorProfileResponse(PagedList<Doctor> doctors)

@@ -1,3 +1,3 @@
 ﻿namespace Profiles.Core.Logic.Profile.Responses;
 
-public record PatientProfileByDoctorResponse(string firstName, string lastName, string? middleName, string phoneNumber, DateTime dateOfBirth);
+public record PatientProfileByDoctorResponse(string FirstName, string LastName, string? MiddleName, string PhoneNumber, DateTime DateOfBirth);

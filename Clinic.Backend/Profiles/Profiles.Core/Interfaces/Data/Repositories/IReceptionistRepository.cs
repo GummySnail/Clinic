@@ -8,7 +8,8 @@ public interface IReceptionistRepository
 {
     public Task CreateReceptionistProfileAsync(Receptionist receptionist);
     public Task<PagedList<Receptionist>> GetReceptionistsAsync(SearchParams searchParams);
-
-    public Task<ICollection<ReceptionistProfileResponse>> MappingToReceptionistProfileResponse(
+    public Task<Receptionist?> GetReceptionistByIdAsync(string id);
+    public Task<ReceptionistProfileByIdResponse> MappingToReceptionistProfileByIdResponse(Receptionist receptionist);
+    public Task<ICollection<ReceptionistProfileResponse>> MappingToCollectionReceptionistProfileResponse(
         PagedList<Receptionist> receptionists);
 }
