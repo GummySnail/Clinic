@@ -3,9 +3,9 @@ using Offices.Api.Models.Office.Requests;
 
 namespace Offices.Api.Models.Office.Validators;
 
-public class CreateOfficeValidator : AbstractValidator<CreateOfficeRequest>
+public class OfficeValidator : AbstractValidator<OfficeRequest>
 {
-    public CreateOfficeValidator()
+    public OfficeValidator()
     {
         RuleFor(x => x.City)
             .NotNull().WithMessage("City can't be null")

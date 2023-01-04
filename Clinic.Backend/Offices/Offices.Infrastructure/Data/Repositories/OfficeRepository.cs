@@ -40,6 +40,12 @@ public class OfficeRepository : IOfficeRepository
         await _officesCollection.UpdateOneAsync(filter, update);
     }
 
+    public async Task EditOfficeAsync(string id, Office newOffice)
+    {
+        newOffice.Id = id;
+        await _officesCollection.ReplaceOneAsync(x => x.Id == id, newOffice);
+    }
+
     public Task<OfficeResponse> MappingToOfficeResponse(Office office)
     {
         var result = _mapper.Map<Office, OfficeResponse>(office);
