@@ -9,6 +9,7 @@ public interface IOfficeRepository
     public Task CreateAsync(Office office);
     public Task<List<Office>> GetOfficesCollectionAsync();
     public Task<Office> GetOfficeByIdAsync(string id);
+    public Task ChangeOfficeStatusAsync(string id, bool isActive);
     public Task<OfficeResponse> MappingToOfficeResponse(Office office);
     public Task<ICollection<OfficesResponse>> MappingToCollectionOfficesResponse(List<Office> offices);
 }

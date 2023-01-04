@@ -42,4 +42,14 @@ public class OfficeController : ControllerBase
 
         return Ok(result);
     }
+
+    //[Authorize(Roles = "Receptionist")]
+    [HttpPatch("{id}")]
+    public async Task<ActionResult> ChangeOfficeStatus([FromRoute] string id,
+        [FromBody] ChangeOfficeStatusRequest request)
+    {
+        await _officeService.ChangeOfficeStatusAsync(id, request.IsActive);
+
+        return NoContent();
+    }
 }
