@@ -7,6 +7,8 @@ namespace Offices.Core.Interfaces.Data.Repositories;
 public interface IOfficeRepository
 {
     public Task CreateAsync(Office office);
-    public Task<List<Office>> GetAsync();
+    public Task<List<Office>> GetOfficesCollectionAsync();
+    public Task<Office> GetOfficeByIdAsync(string id);
+    public Task<OfficeResponse> MappingToOfficeResponse(Office office);
     public Task<ICollection<OfficesResponse>> MappingToCollectionOfficesResponse(List<Office> offices);
 }

@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Offices.Api.Models;
+using Offices.Core.Logic.Exceptions;
 
 namespace Offices.Api.Middleware;
 
@@ -44,6 +45,7 @@ public class ExceptionMiddleware
     {
         return ex switch
         {
+            NotFoundException => (int)HttpStatusCode.NotFound,
             _ => (int)HttpStatusCode.InternalServerError
         };
     }

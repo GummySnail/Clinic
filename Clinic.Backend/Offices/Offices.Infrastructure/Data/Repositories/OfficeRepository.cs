@@ -21,9 +21,21 @@ public class OfficeRepository : IOfficeRepository
         _mapper = mapper;
     }
 
-    public async Task<List<Office>> GetAsync()
+    public async Task<List<Office>> GetOfficesCollectionAsync()
     {
         return await _officesCollection.Find(_ => true).ToListAsync();
+    }
+
+    public async Task<Office> GetOfficeByIdAsync(string id)
+    {
+        return await _officesCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
+    }
+
+    public Task<OfficeResponse> MappingToOfficeResponse(Office office)
+    {
+        var result = _mapper.Map<Office, OfficeResponse>(office);
+
+        return Task.FromResult(result);
     }
 
     public Task<ICollection<OfficesResponse>> MappingToCollectionOfficesResponse(List<Office> offices)
