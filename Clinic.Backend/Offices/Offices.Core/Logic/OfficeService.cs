@@ -1,5 +1,6 @@
 ﻿using Offices.Core.Entities;
 using Offices.Core.Interfaces.Data.Repositories;
+using Offices.Core.Logic.Exceptions;
 using Offices.Core.Logic.Responses;
 
 namespace Offices.Core.Logic;
@@ -13,9 +14,9 @@ public class OfficeService
         _officeRepository = officeRepository;
     }
 
-    public async Task<ICollection<OfficesResponse>> GetAsync()
+    public async Task<ICollection<OfficesResponse>> GetOfficesCollectionAsync()
     {
-        var offices = await _officeRepository.GetAsync();
+        var offices = await _officeRepository.GetOfficesCollectionAsync();
         
         var result = await _officeRepository.MappingToCollectionOfficesResponse(offices);
 
@@ -26,5 +27,24 @@ public class OfficeService
     {
         var office = new Office(city, street, houseNumber, officeNumber, registryPhoneNumber, isActive);
         await _officeRepository.CreateAsync(office);
+    }
+
+    public async Task<OfficeResponse> GetOfficeByIdAsync(string id)
+    {
+        var office = await _officeRepository.GetOfficeByIdAsync(id);
+
+        if (office is null)
+        {
+            throw new NotFoundException("Office is not exist");
+        }
+        
+        var result = await _officeRepository.MappingToOfficeResponse(office);
+
+        if (result is null)
+        {
+            throw new Exception("Exception during mapping");
+        }
+        
+        return result;
     }
 }
