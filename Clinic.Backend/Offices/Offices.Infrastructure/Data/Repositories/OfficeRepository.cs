@@ -31,6 +31,15 @@ public class OfficeRepository : IOfficeRepository
         return await _officesCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
     }
 
+    public async Task ChangeOfficeStatusAsync(string id, bool isActive)
+    {
+        var filter = Builders<Office>.Filter.Eq("_id", id);
+
+        var update = Builders<Office>.Update.Set("IsActive", isActive);
+        
+        await _officesCollection.UpdateOneAsync(filter, update);
+    }
+
     public Task<OfficeResponse> MappingToOfficeResponse(Office office)
     {
         var result = _mapper.Map<Office, OfficeResponse>(office);

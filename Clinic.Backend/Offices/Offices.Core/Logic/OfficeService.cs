@@ -47,4 +47,16 @@ public class OfficeService
         
         return result;
     }
+
+    public async Task ChangeOfficeStatusAsync(string id, bool isActive)
+    {
+        var office = await _officeRepository.GetOfficeByIdAsync(id);
+
+        if (office is null)
+        {
+            throw new NotFoundException("Office is not exist");
+        }
+
+        await _officeRepository.ChangeOfficeStatusAsync(id, isActive);
+    }
 }
