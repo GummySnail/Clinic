@@ -59,4 +59,18 @@ public class OfficeService
 
         await _officeRepository.ChangeOfficeStatusAsync(id, isActive);
     }
+
+    public async Task EditOfficeAsync(string id, string city, string street, string houseNumber, string officeNumber, string registryPhoneNumber, bool isActive)
+    {
+        var office = await _officeRepository.GetOfficeByIdAsync(id);
+
+        if (office is null)
+        {
+            throw new NotFoundException("Office is not exist");
+        }
+
+        var newOffice = new Office(city, street, houseNumber, officeNumber, registryPhoneNumber, isActive);
+        
+        await _officeRepository.EditOfficeAsync(id, newOffice);
+    }
 }
