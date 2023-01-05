@@ -18,4 +18,13 @@ public class ServiceRepository : IServiceRepository
     {
         await _context.Services.AddAsync(service);
     }
+
+    public async Task<ServiceCategory?> GetServiceCategoryAsync(Category serviceCategory)
+    {
+        var category = await _context.ServiceCategories.SingleOrDefaultAsync(x => x.CategoryName == serviceCategory);
+        
+        return category;
+    }
+
+    public async Task<int> SaveChangesAsync() => await _context.SaveChangesAsync();
 }

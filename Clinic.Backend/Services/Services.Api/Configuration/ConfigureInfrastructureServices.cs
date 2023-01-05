@@ -15,7 +15,7 @@ public static class ConfigureInfrastructureServices
                 build => build.MigrationsAssembly(typeof(ServicesDbContext).Assembly.FullName));
         });
 
-        services.AddScoped<IRepositoryManager, RepositoryManager>();
+        services.AddScoped<IServiceRepository, ServiceRepository>();
 
         return services;
     }
