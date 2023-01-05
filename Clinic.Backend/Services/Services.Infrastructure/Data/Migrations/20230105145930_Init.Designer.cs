@@ -11,7 +11,7 @@ using Services.Infrastructure.Data;
 namespace Services.Infrastructure.Migrations
 {
     [DbContext(typeof(ServicesDbContext))]
-    [Migration("20230105092645_Init")]
+    [Migration("20230105145930_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -44,6 +44,7 @@ namespace Services.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SpecializationId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -98,8 +99,10 @@ namespace Services.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Services.Core.Entities.Specialization", "Specialization")
-                        .WithMany()
-                        .HasForeignKey("SpecializationId");
+                        .WithMany("Services")
+                        .HasForeignKey("SpecializationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Category");
 
@@ -107,6 +110,11 @@ namespace Services.Infrastructure.Migrations
                 });
 
             modelBuilder.Entity("Services.Core.Entities.ServiceCategory", b =>
+                {
+                    b.Navigation("Services");
+                });
+
+            modelBuilder.Entity("Services.Core.Entities.Specialization", b =>
                 {
                     b.Navigation("Services");
                 });

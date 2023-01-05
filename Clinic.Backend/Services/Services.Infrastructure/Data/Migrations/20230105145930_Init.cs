@@ -45,7 +45,7 @@ namespace Services.Infrastructure.Migrations
                     Price = table.Column<float>(type: "real", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CategoryId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    SpecializationId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    SpecializationId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -60,7 +60,8 @@ namespace Services.Infrastructure.Migrations
                         name: "FK_Services_Specializations_SpecializationId",
                         column: x => x.SpecializationId,
                         principalTable: "Specializations",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
