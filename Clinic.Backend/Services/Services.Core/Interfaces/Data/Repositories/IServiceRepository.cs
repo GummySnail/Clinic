@@ -7,5 +7,6 @@ public interface IServiceRepository
 {
     public Task AddServiceAsync(Service service);
     public Task<ServiceCategory?> GetServiceCategoryAsync(Category serviceCategory);
+    public Task AddSpecializationAsync(Specialization specialization);
     public Task<int> SaveChangesAsync();
 }
