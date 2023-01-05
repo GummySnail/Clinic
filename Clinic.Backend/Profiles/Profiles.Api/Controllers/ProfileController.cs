@@ -24,8 +24,16 @@ public class ProfileController : ControllerBase
     [HttpPost("create-patient-profile")]
     public async Task<ActionResult> CreatePatientProfile([FromBody] CreatePatientProfileRequest request)
     {
-        await _profileService.CreatePatientProfileAsync(request.FirstName, request.LastName, request?.MiddleName,
-            request.DateOfBirth, request.PhoneNumber);
+        try
+        {
+            await _profileService.CreatePatientProfileAsync(request.FirstName, request.LastName, request?.MiddleName,
+                request.DateOfBirth, request.PhoneNumber);
+            
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.ToString());
+        }
      
         return NoContent();
     }
@@ -34,8 +42,15 @@ public class ProfileController : ControllerBase
     [HttpPost("create-doctor-profile")]
     public async Task<ActionResult> CreateDoctorProfile([FromBody] CreateDoctorProfileRequest request)
     {
-        await _profileService.CreateDoctorProfileAsync(request.FirstName, request.LastName, request.MiddleName,
-            request.DateOfBirth, request.CareerStartYear, request.Status);
+        try
+        {
+            await _profileService.CreateDoctorProfileAsync(request.FirstName, request.LastName, request.MiddleName,
+                request.DateOfBirth, request.CareerStartYear, request.Status);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.ToString());
+        }
 
         return NoContent();
     }
@@ -44,7 +59,14 @@ public class ProfileController : ControllerBase
     [HttpPost("create-receptionist-profile")]
     public async Task<ActionResult> CreateReceptionistProfile([FromBody] CreateReceptionistProfileRequest request)
     {
-        await _profileService.CreateReceptionistProfileAsync(request.FirstName, request.LastName, request.MiddleName);
+        try
+        {
+            await _profileService.CreateReceptionistProfileAsync(request.FirstName, request.LastName, request.MiddleName);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.ToString());
+        }
 
         return NoContent();
     }
@@ -53,7 +75,14 @@ public class ProfileController : ControllerBase
     [HttpPost("create-patient's-profile-by-admin")]
     public async Task<ActionResult> CreatePatientByAdmin([FromBody] CreatePatientProfileByAdminRequest request)
     {
-        await _profileService.CreatePatientProfileByAdminAsync(request.FirstName, request.LastName, request.MiddleName, request.DateOfBirth);
+        try
+        {
+            await _profileService.CreatePatientProfileByAdminAsync(request.FirstName, request.LastName, request.MiddleName, request.DateOfBirth);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.ToString());
+        }
 
         return NoContent();
     }
@@ -61,7 +90,16 @@ public class ProfileController : ControllerBase
     [HttpGet("view-doctors")]
     public async Task<ActionResult<ICollection<DoctorProfileResponse>>> GetDoctorsAtWork([FromQuery] SearchParams searchParams)
     {
-        var result = await _profileService.GetDoctorsAtWorkAsync(searchParams);
+        ICollection<DoctorProfileResponse> result;
+        
+        try
+        {
+            result = await _profileService.GetDoctorsAtWorkAsync(searchParams);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.ToString());
+        }   
 
         return Ok(result);
     }
@@ -71,7 +109,16 @@ public class ProfileController : ControllerBase
     public async Task<ActionResult<DoctorProfileSearchByAdminResponse>> GetDoctorsByAdmin(
         [FromQuery] SearchParams doctorParams)
     {
-        var result = await _profileService.GetDoctorsByAdminAsync(doctorParams);
+        ICollection<DoctorProfileSearchByAdminResponse> result;
+        
+        try
+        {
+            result = await _profileService.GetDoctorsByAdminAsync(doctorParams);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.ToString());
+        }
 
         return Ok(result);
     }
@@ -81,7 +128,16 @@ public class ProfileController : ControllerBase
     public async Task<ActionResult<ICollection<ReceptionistProfileResponse>>> GetReceptionists(
         [FromQuery] SearchParams searchParams)
     {
-        var result = await _profileService.GetReceptionistsAsync(searchParams);
+        ICollection<ReceptionistProfileResponse> result;
+        
+        try
+        {
+            result = await _profileService.GetReceptionistsAsync(searchParams);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.ToString());
+        }    
 
         return Ok(result);
     }
@@ -91,7 +147,16 @@ public class ProfileController : ControllerBase
     public async Task<ActionResult<PatientsProfileSearchByAdminResponse>> GetPatientsByAdmin(
         [FromQuery] SearchParams searchParams)
     {
-        var result = await _profileService.GetPatientsByAdminAsync(searchParams);
+        ICollection<PatientsProfileSearchByAdminResponse> result;
+            
+        try
+        {
+            result = await _profileService.GetPatientsByAdminAsync(searchParams);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.ToString());
+        }
 
         return Ok(result);
     }
@@ -100,7 +165,16 @@ public class ProfileController : ControllerBase
     [HttpGet("view-patient's-profile-by-doctor/{id}")]
     public async Task<ActionResult<PatientProfileByDoctorResponse>> GetPatientProfileById([FromRoute] string id)
     {
-        var result = await _profileService.DoctorGetPatientProfileByIdAsync(id);
+        PatientProfileByDoctorResponse result;
+        
+        try
+        {
+            result = await _profileService.DoctorGetPatientProfileByIdAsync(id);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.ToString());
+        }
 
         return Ok(result);
     }
@@ -108,7 +182,16 @@ public class ProfileController : ControllerBase
     [HttpGet("view-doctor-information/{id}")]
     public async Task<ActionResult<DoctorProfileResponse>> GetDoctorProfileById([FromRoute] string id)
     {
-        var result = await _profileService.GetDoctorProfileByIdAsync(id);
+        DoctorProfileResponse result;
+            
+        try
+        {
+            result = await _profileService.GetDoctorProfileByIdAsync(id);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.ToString());
+        }    
 
         return Ok(result);
     }
@@ -117,7 +200,16 @@ public class ProfileController : ControllerBase
     [HttpGet("view-patient's-profile-by-admin/{id}")]
     public async Task<ActionResult<PatientProfileByAdminResponse>> GetPatientsProfiles([FromRoute] string id)
     {
-        var result = await _profileService.AdminGetPatientProfileByIdAsync(id);
+        PatientProfileByAdminResponse result;
+            
+        try
+        {
+            result = await _profileService.AdminGetPatientProfileByIdAsync(id);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.ToString());
+        }    
 
         return Ok(result);
     }
@@ -126,7 +218,16 @@ public class ProfileController : ControllerBase
     [HttpGet("view-receptionist's-profile/{id}")]
     public async Task<ActionResult<ReceptionistProfileByIdResponse>> GetReceptionistProfileById([FromRoute] string id)
     {
-        var result = await _profileService.GetReceptionistProfileByIdAsync(id);
+        ReceptionistProfileByIdResponse result;
+            
+        try
+        {
+            result = await _profileService.GetReceptionistProfileByIdAsync(id);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.ToString());
+        }
 
         return Ok(result);
     }
@@ -135,7 +236,14 @@ public class ProfileController : ControllerBase
     [HttpDelete("delete-patient's-profile/{id}")]
     public async Task<ActionResult> DeletePatientProfile([FromRoute] string id)
     {
-        await _profileService.DeletePatientProfileAsync(id);
+        try
+        {
+            await _profileService.DeletePatientProfileAsync(id);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.ToString());
+        }
 
         return NoContent();
     }
@@ -144,7 +252,14 @@ public class ProfileController : ControllerBase
     [HttpDelete("delete-receptionist's-profile/{id}")]
     public async Task<ActionResult> DeleteReceptionistProfile([FromRoute] string id)
     {
-        await _profileService.DeleteReceptionistProfileAsync(id);
+        try
+        {
+            await _profileService.DeleteReceptionistProfileAsync(id);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.ToString());
+        }
 
         return NoContent();
     }
@@ -153,7 +268,14 @@ public class ProfileController : ControllerBase
     [HttpPatch("change-doctor's-status/{id}")]
     public async Task<ActionResult> ChangeDoctorStatus([FromRoute] string id, [FromBody] ChangeDoctorStatusRequest request)
     {
-        await _profileService.ChangeDoctorStatusAsync(id, request.Status);
+        try
+        {
+            await _profileService.ChangeDoctorStatusAsync(id, request.Status);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.ToString());
+        }
 
         return NoContent();
     }

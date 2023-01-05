@@ -30,7 +30,7 @@ public class CreateDoctorProfileValidator : AbstractValidator<CreateDoctorProfil
         RuleFor(x => x.Status)
             .NotNull().WithMessage("Status can't be null")
             .NotEmpty().WithMessage("Status can't be empty")
-            .IsInEnum();
+            .IsInEnum().WithMessage("'Status' contains an invalid value.");
     }
     private bool ValidateDateOfBirth(DateTime dateOfBirth) => dateOfBirth <= DateTime.UtcNow.AddYears(-18);
 }

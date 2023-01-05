@@ -10,4 +10,8 @@
       <PackageReference Include="MongoDB.Bson" Version="2.18.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Logic\Exceptions" />
+    </ItemGroup>
+
 </Project>

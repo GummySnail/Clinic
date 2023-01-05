@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Offices.Core.Entities;
+﻿using Offices.Core.Entities;
 using Offices.Core.Logic.Responses;
 
 namespace Offices.Core.Interfaces.Data.Repositories;

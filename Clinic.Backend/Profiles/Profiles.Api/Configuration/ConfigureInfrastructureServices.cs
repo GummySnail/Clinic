@@ -18,7 +18,7 @@ public static class ConfigureInfrastructureServices
 
         services.AddAutoMapper(typeof(MapperProfile).Assembly);
         
-        services.AddScoped<IRepositoryManager, RepositoryManager>();
+        services.AddScoped<IProfileRepository, ProfileRepository>();
 
         return services;
     }

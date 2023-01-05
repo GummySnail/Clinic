@@ -96,4 +96,25 @@ public static class ConfigureInfrastructureServices
         
         return services;
     }
+    public static async Task AddDatabaseConfiguration(this WebApplication app)
+    {
+        using var scope = app.Services.CreateScope();
+        var services = scope.ServiceProvider;
+
+        try
+        {
+            var context = services.GetRequiredService<AuthenticationDbContext>();
+            var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+            var userManager = services.GetRequiredService<UserManager<Account>>();
+
+            await context.Database.MigrateAsync();
+            await DataSeeder.SetApplicationRoleConfiguration(roleManager);
+            await DataSeeder.SetWorkers(userManager);
+        }
+        catch (Exception ex)
+        {
+            var logger = services.GetRequiredService<ILogger<Program>>();
+            logger.LogError(ex, "Error.DatabaseMigration");
+        }
+    }
 }
