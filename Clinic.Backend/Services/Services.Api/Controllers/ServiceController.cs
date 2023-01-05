@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Services.Api.Models.Service.Requests;
 using Services.Core.Logic;
 
@@ -20,8 +19,15 @@ public class ServiceController : ControllerBase
     [HttpPost("create-service")]
     public async Task<ActionResult> CreateService([FromBody] CreateServiceRequest request)
     {
-        await _serviceLogic.AddServiceAsync(request.ServiceName, request.Price, request.ServiceCategory,
-            request.IsActive);
+        try
+        {
+            await _serviceLogic
+                .AddServiceAsync(request.ServiceName, request.Price, request.ServiceCategory, request.IsActive);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.ToString());
+        }
 
         return NoContent();
     }

@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using Services.Api.Models;
-using Services.Core.Logic.Exceptions;
 
 namespace Services.Api.Middleware;
 
@@ -45,8 +44,6 @@ public class ExceptionMiddleware
     {
         return ex switch
         {
-            NotFoundException => (int)HttpStatusCode.NotFound,
-            DatabaseException => (int)HttpStatusCode.BadRequest,
             _ => (int)HttpStatusCode.InternalServerError
         };
     }

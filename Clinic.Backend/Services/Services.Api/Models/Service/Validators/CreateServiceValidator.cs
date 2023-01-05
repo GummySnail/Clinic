@@ -19,7 +19,7 @@ public class CreateServiceValidator : AbstractValidator<CreateServiceRequest>
         RuleFor(x => x.ServiceCategory)
             .NotNull().WithMessage("Service category can't be null")
             .NotEmpty().WithMessage("Service category can't be empty")
-            .IsInEnum();
+            .IsInEnum().WithMessage("'Service Category' contains an invalid value.");
         
     }
 }
