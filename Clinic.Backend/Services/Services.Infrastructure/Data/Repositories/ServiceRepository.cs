@@ -26,10 +26,5 @@ public class ServiceRepository : IServiceRepository
         return category;
     }
 
-    public async Task AddSpecializationAsync(Specialization specialization)
-    {
-        await _context.Specializations.AddAsync(specialization);
-    }
-
     public async Task<int> SaveChangesAsync() => await _context.SaveChangesAsync();
 }

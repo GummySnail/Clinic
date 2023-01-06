@@ -41,7 +41,6 @@ namespace Services.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SpecializationId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -96,10 +95,8 @@ namespace Services.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Services.Core.Entities.Specialization", "Specialization")
-                        .WithMany("Services")
-                        .HasForeignKey("SpecializationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("SpecializationId");
 
                     b.Navigation("Category");
 
@@ -107,11 +104,6 @@ namespace Services.Infrastructure.Migrations
                 });
 
             modelBuilder.Entity("Services.Core.Entities.ServiceCategory", b =>
-                {
-                    b.Navigation("Services");
-                });
-
-            modelBuilder.Entity("Services.Core.Entities.Specialization", b =>
                 {
                     b.Navigation("Services");
                 });

@@ -31,21 +31,5 @@ public class ServiceController : ControllerBase
 
         return NoContent();
     }
-    
-    //[Authorize(Roles="Receptionist")]
-    [HttpPost("create-specialization")]
-    public async Task<ActionResult> CreateSpecialization([FromBody] CreateSpecializationRequest request)
-    {
-        try
-        {
-            await _serviceLogic.AddSpecializationAsync(request.SpecializationName, request.IsActive);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
-
-        return NoContent();
-    }
 
 }
