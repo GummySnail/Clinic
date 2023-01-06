@@ -16,6 +16,5 @@ public class Service
     public bool IsActive { get; set; }
     public string CategoryId { get; set; }
     public ServiceCategory Category { get; set; }
-    public string SpecializationId { get; set; }
-    public Specialization Specialization { get; set; }
+    public ICollection<ServiceSpecialization> Specializations { get; set; }
 }

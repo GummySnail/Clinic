@@ -44,8 +44,7 @@ namespace Services.Infrastructure.Migrations
                     ServiceName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<float>(type: "real", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    CategoryId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    SpecializationId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    CategoryId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -56,8 +55,26 @@ namespace Services.Infrastructure.Migrations
                         principalTable: "ServiceCategories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ServiceSpecializations",
+                columns: table => new
+                {
+                    ServiceId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    SpecializationId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ServiceSpecializations", x => new { x.ServiceId, x.SpecializationId });
                     table.ForeignKey(
-                        name: "FK_Services_Specializations_SpecializationId",
+                        name: "FK_ServiceSpecializations_Services_ServiceId",
+                        column: x => x.ServiceId,
+                        principalTable: "Services",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ServiceSpecializations_Specializations_SpecializationId",
                         column: x => x.SpecializationId,
                         principalTable: "Specializations",
                         principalColumn: "Id",
@@ -70,8 +87,8 @@ namespace Services.Infrastructure.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Services_SpecializationId",
-                table: "Services",
+                name: "IX_ServiceSpecializations_SpecializationId",
+                table: "ServiceSpecializations",
                 column: "SpecializationId");
         }
 
@@ -79,13 +96,16 @@ namespace Services.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "ServiceSpecializations");
+
+            migrationBuilder.DropTable(
                 name: "Services");
 
             migrationBuilder.DropTable(
-                name: "ServiceCategories");
+                name: "Specializations");
 
             migrationBuilder.DropTable(
-                name: "Specializations");
+                name: "ServiceCategories");
         }
     }
 }

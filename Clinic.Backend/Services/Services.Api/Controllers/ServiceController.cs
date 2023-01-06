@@ -38,7 +38,7 @@ public class ServiceController : ControllerBase
     {
         try
         {
-            await _serviceLogic.AddSpecializationAsync(request.SpecializationName, request.IsActive);
+            await _serviceLogic.AddSpecializationAsync(request.SpecializationName, request.IsActive, request.ServiceId);
         }
         catch (Exception ex)
         {
@@ -47,5 +47,4 @@ public class ServiceController : ControllerBase
 
         return NoContent();
     }
-
 }

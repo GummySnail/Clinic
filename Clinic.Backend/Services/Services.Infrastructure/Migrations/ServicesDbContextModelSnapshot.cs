@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Services.Infrastructure.Data;
 
@@ -11,11 +10,9 @@ using Services.Infrastructure.Data;
 namespace Services.Infrastructure.Migrations
 {
     [DbContext(typeof(ServicesDbContext))]
-    [Migration("20230105145930_Init")]
-    partial class Init
+    partial class ServicesDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,15 +40,9 @@ namespace Services.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SpecializationId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("SpecializationId");
 
                     b.ToTable("Services");
                 });
@@ -71,6 +62,21 @@ namespace Services.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ServiceCategories");
+                });
+
+            modelBuilder.Entity("Services.Core.Entities.ServiceSpecialization", b =>
+                {
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SpecializationId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ServiceId", "SpecializationId");
+
+                    b.HasIndex("SpecializationId");
+
+                    b.ToTable("ServiceSpecializations");
                 });
 
             modelBuilder.Entity("Services.Core.Entities.Specialization", b =>
@@ -98,15 +104,31 @@ namespace Services.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Services.Core.Entities.ServiceSpecialization", b =>
+                {
+                    b.HasOne("Services.Core.Entities.Service", "Service")
+                        .WithMany("Specializations")
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Services.Core.Entities.Specialization", "Specialization")
                         .WithMany("Services")
                         .HasForeignKey("SpecializationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Category");
+                    b.Navigation("Service");
 
                     b.Navigation("Specialization");
+                });
+
+            modelBuilder.Entity("Services.Core.Entities.Service", b =>
+                {
+                    b.Navigation("Specializations");
                 });
 
             modelBuilder.Entity("Services.Core.Entities.ServiceCategory", b =>
