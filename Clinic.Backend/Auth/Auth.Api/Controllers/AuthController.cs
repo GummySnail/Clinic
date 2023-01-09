@@ -1,5 +1,5 @@
 ﻿using Auth.Api.Models.Auth;
-using Auth.Core.Logic.Auth;
+using Auth.Core.Interface.Services;
 using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,9 +7,9 @@ namespace Auth.Api.Controllers;
 
 public class AuthController : Controller
 {
-    private readonly AuthService _authService;
+    private readonly IAuthService _authService;
 
-    public AuthController(AuthService authService)
+    public AuthController(IAuthService authService)
     {
         _authService = authService;
     }
@@ -80,7 +80,7 @@ public class AuthController : Controller
     [HttpGet]
     public async Task<IActionResult> Logout()
     {
-        await _authService.logoutAsync();
+        await _authService.LogoutAsync();
         return RedirectToAction("Index", "Home");
     }
 }
