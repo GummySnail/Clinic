@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Services.Api.Models.Service.Requests;
 using Services.Core.Logic;
 
@@ -34,11 +35,11 @@ public class ServiceController : ControllerBase
     
     //[Authorize(Roles="Receptionist")]
     [HttpPost("create-specialization")]
-    public async Task<ActionResult> CreateSpecialization([FromBody] CreateSpecializationRequest request)
+    public async Task<ActionResult> CreateSpecialization([FromBody] SpecializationRequest request)
     {
         try
         {
-            await _serviceLogic.AddSpecializationAsync(request.SpecializationName, request.IsActive);
+            await _serviceLogic.AddSpecializationAsync(request.SpecializationName, request.IsActive, request.ServiceId);
         }
         catch (Exception ex)
         {
@@ -47,5 +48,21 @@ public class ServiceController : ControllerBase
 
         return NoContent();
     }
+    
+    //[Authorize(Roles="Receptionist")]
+    [HttpPut("edit-specialization/{id}")]
+    public async Task<ActionResult> EditSpecialization([FromRoute] string id, [FromBody] SpecializationRequest request)
+    {
+        try
+        {
+            await _serviceLogic.EditSpecializationAsync(id, request.SpecializationName, request.IsActive,
+                request.ServiceId);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.ToString());
+        }
 
+        return NoContent();
+    }
 }

@@ -11,7 +11,7 @@ using Services.Infrastructure.Data;
 namespace Services.Infrastructure.Migrations
 {
     [DbContext(typeof(ServicesDbContext))]
-    [Migration("20230105145930_Init")]
+    [Migration("20230109064853_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -43,15 +43,9 @@ namespace Services.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SpecializationId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("SpecializationId");
 
                     b.ToTable("Services");
                 });
@@ -71,6 +65,21 @@ namespace Services.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ServiceCategories");
+                });
+
+            modelBuilder.Entity("Services.Core.Entities.ServiceSpecialization", b =>
+                {
+                    b.Property<string>("ServiceId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SpecializationId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ServiceId", "SpecializationId");
+
+                    b.HasIndex("SpecializationId");
+
+                    b.ToTable("ServiceSpecializations");
                 });
 
             modelBuilder.Entity("Services.Core.Entities.Specialization", b =>
@@ -98,15 +107,31 @@ namespace Services.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Services.Core.Entities.ServiceSpecialization", b =>
+                {
+                    b.HasOne("Services.Core.Entities.Service", "Service")
+                        .WithMany("Specializations")
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Services.Core.Entities.Specialization", "Specialization")
                         .WithMany("Services")
                         .HasForeignKey("SpecializationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Category");
+                    b.Navigation("Service");
 
                     b.Navigation("Specialization");
+                });
+
+            modelBuilder.Entity("Services.Core.Entities.Service", b =>
+                {
+                    b.Navigation("Specializations");
                 });
 
             modelBuilder.Entity("Services.Core.Entities.ServiceCategory", b =>

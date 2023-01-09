@@ -24,11 +24,20 @@ public class LogicService
         await _serviceRepository.SaveChangesAsync();
     }
 
-    public async Task AddSpecializationAsync(string specializationName, bool isActive)
+    public async Task AddSpecializationAsync(string specializationName, bool isActive, string serviceId)
     {
         var specialization = new Specialization(specializationName, isActive);
 
-        await _serviceRepository.AddSpecializationAsync(specialization);
+        await _serviceRepository.AddSpecializationAsync(specialization, serviceId);
+
+        await _serviceRepository.SaveChangesAsync();
+    }
+
+    public async Task EditSpecializationAsync(string id, string specializationName, bool isActive, string serviceId)
+    {
+        var specialization = await _serviceRepository.GetSpecializationByIdAsync(id);
+        
+        await _serviceRepository.EditSpecializationAsync(specialization, specializationName, isActive, serviceId);
 
         await _serviceRepository.SaveChangesAsync();
     }

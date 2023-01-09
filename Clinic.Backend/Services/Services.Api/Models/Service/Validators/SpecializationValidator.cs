@@ -3,12 +3,16 @@ using Services.Api.Models.Service.Requests;
 
 namespace Services.Api.Models.Service.Validators;
 
-public class CreateSpecializationValidator : AbstractValidator<CreateSpecializationRequest>
+public class SpecializationValidator : AbstractValidator<SpecializationRequest>
 {
-    public CreateSpecializationValidator()
+    public SpecializationValidator()
     {
         RuleFor(x => x.SpecializationName)
             .NotNull().WithMessage("Specialization name can't be null")
             .NotEmpty().WithMessage("Specialization name can't be empty");
+
+        RuleFor(x => x.ServiceId)
+            .NotNull().WithMessage("Service id can't be null")
+            .NotEmpty().WithMessage("Service id can't be empty");
     }
 }
