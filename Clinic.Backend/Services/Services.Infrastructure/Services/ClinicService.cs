@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Services.Core.Entities;
 using Services.Core.Enums;
 using Services.Core.Exceptions;
 using Services.Core.Interfaces.Services;
+using Services.Core.Responses;
 using Services.Infrastructure.Data;
 
 namespace Services.Infrastructure.Services;
@@ -10,10 +12,11 @@ namespace Services.Infrastructure.Services;
 public class ClinicService : IClinicService
 {
     private readonly ServicesDbContext _context;
-
-    public ClinicService(ServicesDbContext context)
+    private readonly IMapper _mapper;
+    public ClinicService(ServicesDbContext context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
     
     public async Task AddServiceAsync(string serviceName, float price, Category serviceCategory, bool isActive)
@@ -70,5 +73,20 @@ public class ClinicService : IClinicService
         await _context.ServiceSpecializations.AddRangeAsync(serviceSpecialization);
 
         await _context.SaveChangesAsync();
+    }
+
+    public async Task<List<GetServicesByCategoryResponse>> GetServicesAsync(Category category)
+    {
+        var servicesCategory = await _context.ServiceCategories.AsNoTracking().SingleOrDefaultAsync(x => x.CategoryName == category);
+        var services = await _context.Services.AsNoTracking().Where(x => x.CategoryId == servicesCategory.Id).ToListAsync();
+        
+        List<GetServicesByCategoryResponse> servicesList = new List<GetServicesByCategoryResponse>();
+
+        foreach (var service in services)
+        {
+            servicesList.Add(_mapper.Map<Service, GetServicesByCategoryResponse>(service));
+        }
+
+        return servicesList;
     }
 }

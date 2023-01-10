@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Services.Api.Models.Service.Requests;
+using Services.Core.Entities;
+using Services.Core.Enums;
 using Services.Core.Interfaces.Services;
+using Services.Core.Responses;
 
 namespace Services.Api.Controllers;
 
@@ -58,6 +62,22 @@ public class ServiceController : ControllerBase
                 request.ServiceId);
             
             return NoContent();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.ToString());
+        }
+    }
+    
+    //[Authorize(Roles = "Patient")]
+    [HttpGet("view-services/{category}")]
+    public async Task<ActionResult<List<GetServicesByCategoryResponse>>> GetServices([FromRoute] Category category)
+    {
+        try
+        {
+            var result = await _clinicService.GetServicesAsync(category);
+            
+            return Ok(result);
         }
         catch (Exception ex)
         {
