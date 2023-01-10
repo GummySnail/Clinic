@@ -89,4 +89,18 @@ public class ClinicService : IClinicService
 
         return servicesList;
     }
+
+    public async Task ChangeSpecializationStatusAsync(string id, bool isActive)
+    {
+        var specialization = await _context.Specializations.SingleOrDefaultAsync(x => x.Id == id);
+
+        if (specialization is null)
+        {
+            throw new NotFoundException("Specialization is not exist");
+        }
+
+        specialization.IsActive = isActive;
+
+        await _context.SaveChangesAsync();
+    }
 }

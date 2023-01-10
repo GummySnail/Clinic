@@ -84,4 +84,20 @@ public class ServiceController : ControllerBase
             throw new Exception(ex.ToString());
         }
     }
+    
+    //[Authorize(Roles = "Receptionist")]
+    [HttpPatch("change-specialization-status/{id}")]
+    public async Task<ActionResult> ChangeSpecializationStatus([FromRoute] string id, [FromBody] ChangeSpecializationStatusRequest request)
+    {
+        try
+        {
+            await _clinicService.ChangeSpecializationStatusAsync(id,request.IsActive);
+            
+            return NoContent(); 
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.ToString());
+        }
+    }
 }
