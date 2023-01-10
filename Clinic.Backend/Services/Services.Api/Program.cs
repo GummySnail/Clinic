@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +8,7 @@ using Services.Api.Filters;
 using Services.Api.Middleware;
 using Services.Core.Interfaces.Services;
 using Services.Infrastructure.Data;
+using Services.Infrastructure.Mapping;
 using Services.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,6 +36,8 @@ builder.Services.AddDbContext<ServicesDbContext>(opt =>
 
 });
 
+services.AddAutoMapper(typeof(MapperProfile).Assembly);
+
 services.AddScoped<IClinicService, ClinicService>();
 
 //-- Api
@@ -41,6 +45,8 @@ services.AddScoped<IClinicService, ClinicService>();
 services.AddHttpContextAccessor();
 services.AddControllers(opt =>
     opt.Filters.Add<ValidationFilter>()
+).AddJsonOptions(opt =>
+    opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles
 );
 
 services.AddCors();
