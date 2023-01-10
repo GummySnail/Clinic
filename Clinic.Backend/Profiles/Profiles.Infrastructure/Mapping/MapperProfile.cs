@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Profiles.Core.Entities;
-using Profiles.Core.Logic.Profile.Responses;
+using Profiles.Core.Responses;
 
 namespace Profiles.Infrastructure.Mapping;
 

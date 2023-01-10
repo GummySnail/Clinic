@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Services.Api.Models.Service.Requests;
-using Services.Core.Logic;
+using Services.Core.Interfaces.Services;
 
 namespace Services.Api.Controllers;
 
@@ -9,11 +8,11 @@ namespace Services.Api.Controllers;
 [Route("api/[controller]")]
 public class ServiceController : ControllerBase
 {
-    private readonly LogicService _serviceLogic;
+    private readonly IClinicService _clinicService;
 
-    public ServiceController(LogicService serviceLogic)
+    public ServiceController(IClinicService clinicService)
     {
-        _serviceLogic = serviceLogic;
+        _clinicService = clinicService;
     }
 
     //[Authorize(Roles = "Receptionist")]
@@ -22,15 +21,15 @@ public class ServiceController : ControllerBase
     {
         try
         {
-            await _serviceLogic
+            await _clinicService
                 .AddServiceAsync(request.ServiceName, request.Price, request.ServiceCategory, request.IsActive);
+            
+            return NoContent();
         }
         catch (Exception ex)
         {
             throw new Exception(ex.ToString());
         }
-
-        return NoContent();
     }
     
     //[Authorize(Roles="Receptionist")]
@@ -39,14 +38,14 @@ public class ServiceController : ControllerBase
     {
         try
         {
-            await _serviceLogic.AddSpecializationAsync(request.SpecializationName, request.IsActive, request.ServiceId);
+            await _clinicService.AddSpecializationAsync(request.SpecializationName, request.IsActive, request.ServiceId);
+            
+            return NoContent();
         }
         catch (Exception ex)
         {
             throw new Exception(ex.ToString());
         }
-
-        return NoContent();
     }
     
     //[Authorize(Roles="Receptionist")]
@@ -55,14 +54,14 @@ public class ServiceController : ControllerBase
     {
         try
         {
-            await _serviceLogic.EditSpecializationAsync(id, request.SpecializationName, request.IsActive,
+            await _clinicService.EditSpecializationAsync(id, request.SpecializationName, request.IsActive,
                 request.ServiceId);
+            
+            return NoContent();
         }
         catch (Exception ex)
         {
             throw new Exception(ex.ToString());
         }
-
-        return NoContent();
     }
 }
