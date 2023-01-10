@@ -14,5 +14,8 @@ public class SpecializationValidator : AbstractValidator<SpecializationRequest>
         RuleFor(x => x.ServiceId)
             .NotNull().WithMessage("Service id can't be null")
             .NotEmpty().WithMessage("Service id can't be empty");
+        
+        RuleFor(x => x.IsActive)
+            .NotNull().WithMessage("Status can't be null");
     }
 }
