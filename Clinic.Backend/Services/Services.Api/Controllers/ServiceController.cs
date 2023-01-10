@@ -86,6 +86,22 @@ public class ServiceController : ControllerBase
     }
     
     //[Authorize(Roles = "Receptionist")]
+    [HttpGet("view-specializations-list")]
+    public async Task<ActionResult<List<GetSpecializationsListResponse>>> GetSpecializations()
+    {
+        try
+        {
+            var result = await _clinicService.GetSpecializationsAsync();
+
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.ToString());
+        }
+    }
+
+    //[Authorize(Roles = "Receptionist")]
     [HttpPatch("change-specialization-status/{id}")]
     public async Task<ActionResult> ChangeSpecializationStatus([FromRoute] string id, [FromBody] ChangeSpecializationStatusRequest request)
     {

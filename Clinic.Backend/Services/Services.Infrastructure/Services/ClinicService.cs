@@ -90,6 +90,20 @@ public class ClinicService : IClinicService
         return servicesList;
     }
 
+    public async Task<List<GetSpecializationsListResponse>> GetSpecializationsAsync()
+    {
+        var specializations = await _context.Specializations.AsNoTracking().ToListAsync();
+
+        List<GetSpecializationsListResponse> specializationsList = new List<GetSpecializationsListResponse>();
+
+        foreach (var specialization in specializations)
+        {
+            specializationsList.Add(_mapper.Map<Specialization, GetSpecializationsListResponse>(specialization));
+        }
+        
+        return specializationsList;
+    }
+
     public async Task ChangeSpecializationStatusAsync(string id, bool isActive)
     {
         var specialization = await _context.Specializations.SingleOrDefaultAsync(x => x.Id == id);
