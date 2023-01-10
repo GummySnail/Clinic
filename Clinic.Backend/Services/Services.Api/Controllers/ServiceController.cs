@@ -85,6 +85,38 @@ public class ServiceController : ControllerBase
             throw new Exception(ex.ToString());
         }
     }
+
+    //[Authorize(Roles = "Receptionist")]
+    [HttpPatch("change-specialization-status/{id}")]
+    public async Task<ActionResult> ChangeSpecializationStatus([FromRoute] string id)
+    {
+        try
+        {
+            await _clinicService.ChangeSpecializationStatusAsync(id);
+            
+            return NoContent(); 
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.ToString());
+        }
+    }
+    
+    //[Authorize(Roles = "Receptionist")]
+    [HttpPatch("change-service-status/{id}")]
+    public async Task<ActionResult> ChangeServiceStatus([FromRoute] string id)
+    {
+        try
+        {
+            await _clinicService.ChangeServiceStatusAsync(id);
+
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.ToString());
+        }
+    }
     
     //[Authorize(Roles = "Patient")]
     [HttpGet("view-services/{category}")]
@@ -119,14 +151,14 @@ public class ServiceController : ControllerBase
     }
 
     //[Authorize(Roles = "Receptionist")]
-    [HttpPatch("change-specialization-status/{id}")]
-    public async Task<ActionResult> ChangeSpecializationStatus([FromRoute] string id)
+    [HttpGet("view-service/{id}")]
+    public async Task<ActionResult> GetService(string id)
     {
         try
         {
-            await _clinicService.ChangeSpecializationStatusAsync(id);
-            
-            return NoContent(); 
+            var result = await _clinicService.GetServiceByIdAsync(id);
+
+            return Ok(result);
         }
         catch (Exception ex)
         {
@@ -134,19 +166,4 @@ public class ServiceController : ControllerBase
         }
     }
     
-    //[Authorize(Roles = "Receptionist")]
-    [HttpPatch("change-service-status/{id}")]
-    public async Task<ActionResult> ChangeServiceStatus([FromRoute] string id)
-    {
-        try
-        {
-            await _clinicService.ChangeServiceStatusAsync(id);
-
-            return NoContent();
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
-    }
 }
