@@ -2,11 +2,11 @@
 
 public class Service
 {
-    public Service(string serviceName, float price, string id, bool isActive)
+    public Service(string serviceName, float price, string categoryId, bool isActive)
     {
         ServiceName = serviceName;
         Price = price;
-        CategoryId = id;
+        CategoryId = categoryId;
         IsActive = isActive;
     }
     

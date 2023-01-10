@@ -104,7 +104,7 @@ public class ClinicService : IClinicService
         return specializationsList;
     }
 
-    public async Task ChangeSpecializationStatusAsync(string id, bool isActive)
+    public async Task ChangeSpecializationStatusAsync(string id)
     {
         var specialization = await _context.Specializations.SingleOrDefaultAsync(x => x.Id == id);
 
@@ -113,7 +113,21 @@ public class ClinicService : IClinicService
             throw new NotFoundException("Specialization is not exist");
         }
 
-        specialization.IsActive = isActive;
+        specialization.IsActive = !specialization.IsActive;
+
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task ChangeServiceStatusAsync(string id)
+    {
+        var service = await _context.Services.SingleOrDefaultAsync(x => x.Id == id);
+        
+        if (service is null)
+        {
+            throw new NotFoundException("Service is not exist");
+        }
+
+        service.IsActive = !service.IsActive;
 
         await _context.SaveChangesAsync();
     }

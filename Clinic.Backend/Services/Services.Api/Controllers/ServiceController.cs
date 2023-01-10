@@ -103,13 +103,29 @@ public class ServiceController : ControllerBase
 
     //[Authorize(Roles = "Receptionist")]
     [HttpPatch("change-specialization-status/{id}")]
-    public async Task<ActionResult> ChangeSpecializationStatus([FromRoute] string id, [FromBody] ChangeSpecializationStatusRequest request)
+    public async Task<ActionResult> ChangeSpecializationStatus([FromRoute] string id)
     {
         try
         {
-            await _clinicService.ChangeSpecializationStatusAsync(id,request.IsActive);
+            await _clinicService.ChangeSpecializationStatusAsync(id);
             
             return NoContent(); 
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.ToString());
+        }
+    }
+    
+    //[Authorize(Roles = "Receptionist")]
+    [HttpPatch("change-service-status/{id}")]
+    public async Task<ActionResult> ChangeServiceStatus([FromRoute] string id)
+    {
+        try
+        {
+            await _clinicService.ChangeServiceStatusAsync(id);
+
+            return NoContent();
         }
         catch (Exception ex)
         {
