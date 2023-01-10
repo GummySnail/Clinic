@@ -75,6 +75,31 @@ public class ClinicService : IClinicService
         await _context.SaveChangesAsync();
     }
 
+    public async Task EditServiceAsync(string id, string serviceName, float price, bool isActive, Category serviceCategory)
+    {
+        var category = await _context.ServiceCategories
+            .SingleOrDefaultAsync(x => x.CategoryName == serviceCategory);
+
+        if (category is null)
+        {
+            throw new NotFoundException("Category is not exist");
+        }
+        
+        var service = await _context.Services.SingleOrDefaultAsync(x => x.Id == id);
+
+        if (service is null)
+        {
+            throw new NotFoundException("Service is not exist");
+        }
+
+        service.ServiceName = serviceName;
+        service.Price = price;
+        service.IsActive = isActive;
+        service.CategoryId = category.Id;
+
+        await _context.SaveChangesAsync();
+    }
+
     public async Task<List<GetServicesByCategoryResponse>> GetServicesAsync(Category category)
     {
         var servicesCategory = await _context.ServiceCategories.AsNoTracking().SingleOrDefaultAsync(x => x.CategoryName == category);

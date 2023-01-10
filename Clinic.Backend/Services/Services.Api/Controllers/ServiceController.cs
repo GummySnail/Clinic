@@ -21,7 +21,7 @@ public class ServiceController : ControllerBase
 
     //[Authorize(Roles = "Receptionist")]
     [HttpPost("create-service")]
-    public async Task<ActionResult> CreateService([FromBody] CreateServiceRequest request)
+    public async Task<ActionResult> CreateService([FromBody] ServiceRequest request)
     {
         try
         {
@@ -61,6 +61,23 @@ public class ServiceController : ControllerBase
             await _clinicService.EditSpecializationAsync(id, request.SpecializationName, request.IsActive,
                 request.ServiceId);
             
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.ToString());
+        }
+    }
+    
+    //[Authorize(Roles = "Receptionist")]
+    [HttpPut("edit-service/{id}")]
+    public async Task<ActionResult> EditService([FromRoute] string id, [FromBody] ServiceRequest request)
+    {
+        try
+        {
+            await _clinicService.EditServiceAsync(id, request.ServiceName, request.Price, request.IsActive,
+                request.ServiceCategory);
+
             return NoContent();
         }
         catch (Exception ex)
