@@ -10,5 +10,8 @@ public class MapperProfile : Profile
     {
         CreateMap<Service, GetServicesByCategoryResponse>()
             .ConstructUsing(x => new GetServicesByCategoryResponse(x.ServiceName, x.Price, x.IsActive));
+
+        CreateMap<Specialization, GetSpecializationsListResponse>()
+            .ConstructUsing(x => new GetSpecializationsListResponse(x.SpecializationName, x.IsActive));
     }
 }
