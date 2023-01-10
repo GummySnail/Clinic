@@ -129,6 +129,20 @@ public class ClinicService : IClinicService
         return specializationsList;
     }
 
+    public async Task<GetServiceResponse> GetServiceByIdAsync(string id)
+    {
+        var service = await _context.Services.AsNoTracking().Include(x => x.Category).SingleOrDefaultAsync(x => x.Id == id);
+
+        if (service is null)
+        {
+            throw new NotFoundException("Service is not exist");
+        }
+
+        var result = _mapper.Map<Service, GetServiceResponse>(service);
+
+        return result;
+    }
+    
     public async Task ChangeSpecializationStatusAsync(string id)
     {
         var specialization = await _context.Specializations.SingleOrDefaultAsync(x => x.Id == id);

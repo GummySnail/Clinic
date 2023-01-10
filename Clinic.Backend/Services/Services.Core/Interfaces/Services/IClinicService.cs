@@ -11,6 +11,7 @@ public interface IClinicService
     public Task EditServiceAsync(string id, string serviceName, float price, bool isActive, Category category);
     public Task<List<GetServicesByCategoryResponse>> GetServicesAsync(Category category);
     public Task<List<GetSpecializationsListResponse>> GetSpecializationsAsync();
+    public Task<GetServiceResponse> GetServiceByIdAsync(string id);
     public Task ChangeSpecializationStatusAsync(string id);
     public Task ChangeServiceStatusAsync(string id);
 }
