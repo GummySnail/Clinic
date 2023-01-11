@@ -47,4 +47,20 @@ public class AppointmentController : ControllerBase
             throw new Exception(ex.ToString());
         }
     }
+    
+    //[Authorize(Roles = "Receptionist")]
+    [HttpDelete("cancel-appointment/{id}")]
+    public async Task<ActionResult> CancelAppointment([FromRoute] string id)
+    {
+        try
+        {
+            await _appointmentService.CancelAppointmentAsync(id);
+
+            return NoContent();
+        }   
+        catch (Exception ex)
+        {
+            throw new Exception(ex.ToString());
+        }
+    }
 }
