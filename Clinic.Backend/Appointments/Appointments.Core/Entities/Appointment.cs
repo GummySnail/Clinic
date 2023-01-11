@@ -2,10 +2,9 @@
 
 public class Appointment
 {
-    public Appointment(DateTime date, bool isApproved)
+    public Appointment(DateTime date)
     {
         Date = date;
-        IsApproved = isApproved;
     }
     public string Id { get; set; } = Guid.NewGuid().ToString();
     public DateTime Date { get; set; }

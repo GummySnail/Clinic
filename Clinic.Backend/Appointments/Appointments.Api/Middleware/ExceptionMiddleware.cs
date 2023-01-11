@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Appointments.Api.Models;
+using Appointments.Infrastructure.Exceptions;
 
 namespace Appointments.Api.Middleware;
 
@@ -44,6 +45,7 @@ public class ExceptionMiddleware
     {
         return ex switch
         {
+            NotFoundException => (int)HttpStatusCode.NotFound,
             _ => (int)HttpStatusCode.InternalServerError
         };
     }
