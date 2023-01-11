@@ -9,9 +9,10 @@ public interface IClinicService
     public Task AddSpecializationAsync(string specializationName, bool isActive, string serviceId);
     public Task EditSpecializationAsync(string id, string specializationName, bool isActive, string serviceId);
     public Task EditServiceAsync(string id, string serviceName, float price, bool isActive, Category category);
-    public Task<List<GetServicesByCategoryResponse>> GetServicesAsync(Category category);
-    public Task<List<GetSpecializationsListResponse>> GetSpecializationsAsync();
-    public Task<GetServiceResponse> GetServiceByIdAsync(string id);
+    public Task<List<GetServicesResponse>> GetServicesAsync(Category category);
+    public Task<List<GetSpecializationsResponse>> GetSpecializationsAsync();
+    public Task<GetServiceResponse> GetServiceAsync(string id);
+    public Task<GetSpecializationResponse> GetSpecializationAsync(string id);
     public Task ChangeSpecializationStatusAsync(string id);
     public Task ChangeServiceStatusAsync(string id);
 }

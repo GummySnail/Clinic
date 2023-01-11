@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Services.Api.Models.Service.Requests;
-using Services.Core.Entities;
 using Services.Core.Enums;
 using Services.Core.Interfaces.Services;
 using Services.Core.Responses;
@@ -120,7 +118,7 @@ public class ServiceController : ControllerBase
     
     //[Authorize(Roles = "Patient")]
     [HttpGet("view-services/{category}")]
-    public async Task<ActionResult<List<GetServicesByCategoryResponse>>> GetServices([FromRoute] Category category)
+    public async Task<ActionResult<List<GetServicesResponse>>> GetServices([FromRoute] Category category)
     {
         try
         {
@@ -136,7 +134,7 @@ public class ServiceController : ControllerBase
     
     //[Authorize(Roles = "Receptionist")]
     [HttpGet("view-specializations-list")]
-    public async Task<ActionResult<List<GetSpecializationsListResponse>>> GetSpecializations()
+    public async Task<ActionResult<List<GetSpecializationsResponse>>> GetSpecializations()
     {
         try
         {
@@ -152,11 +150,11 @@ public class ServiceController : ControllerBase
 
     //[Authorize(Roles = "Receptionist")]
     [HttpGet("view-service/{id}")]
-    public async Task<ActionResult> GetService(string id)
+    public async Task<ActionResult<GetServiceResponse>> GetService([FromRoute] string id)
     {
         try
         {
-            var result = await _clinicService.GetServiceByIdAsync(id);
+            var result = await _clinicService.GetServiceAsync(id);
 
             return Ok(result);
         }
@@ -166,4 +164,20 @@ public class ServiceController : ControllerBase
         }
     }
     
+    //[Authorize(Roles = "Receptionist")]
+    [HttpGet("view-specialization/{id}")]
+    public async Task<ActionResult> GetSpecialization([FromRoute] string id)
+    {
+        try
+        {
+            var result = await _clinicService.GetSpecializationAsync(id);
+
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.ToString());
+        }
+    }
+
 }

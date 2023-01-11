@@ -100,36 +100,36 @@ public class ClinicService : IClinicService
         await _context.SaveChangesAsync();
     }
 
-    public async Task<List<GetServicesByCategoryResponse>> GetServicesAsync(Category category)
+    public async Task<List<GetServicesResponse>> GetServicesAsync(Category category)
     {
         var servicesCategory = await _context.ServiceCategories.AsNoTracking().SingleOrDefaultAsync(x => x.CategoryName == category);
         var services = await _context.Services.AsNoTracking().Where(x => x.CategoryId == servicesCategory.Id).ToListAsync();
         
-        List<GetServicesByCategoryResponse> servicesList = new List<GetServicesByCategoryResponse>();
+        List<GetServicesResponse> servicesList = new List<GetServicesResponse>();
 
         foreach (var service in services)
         {
-            servicesList.Add(_mapper.Map<Service, GetServicesByCategoryResponse>(service));
+            servicesList.Add(_mapper.Map<Service, GetServicesResponse>(service));
         }
 
         return servicesList;
     }
 
-    public async Task<List<GetSpecializationsListResponse>> GetSpecializationsAsync()
+    public async Task<List<GetSpecializationsResponse>> GetSpecializationsAsync()
     {
         var specializations = await _context.Specializations.AsNoTracking().ToListAsync();
 
-        List<GetSpecializationsListResponse> specializationsList = new List<GetSpecializationsListResponse>();
+        List<GetSpecializationsResponse> specializationsList = new List<GetSpecializationsResponse>();
 
         foreach (var specialization in specializations)
         {
-            specializationsList.Add(_mapper.Map<Specialization, GetSpecializationsListResponse>(specialization));
+            specializationsList.Add(_mapper.Map<Specialization, GetSpecializationsResponse>(specialization));
         }
         
         return specializationsList;
     }
 
-    public async Task<GetServiceResponse> GetServiceByIdAsync(string id)
+    public async Task<GetServiceResponse> GetServiceAsync(string id)
     {
         var service = await _context.Services.AsNoTracking().Include(x => x.Category).SingleOrDefaultAsync(x => x.Id == id);
 
@@ -142,7 +142,25 @@ public class ClinicService : IClinicService
 
         return result;
     }
-    
+
+    public async Task<GetSpecializationResponse> GetSpecializationAsync(string id)
+    {
+        var specialization = await _context.Specializations.Include(x => x.Services).ThenInclude(x => x.Service)
+            .ThenInclude(x => x.Category).SingleOrDefaultAsync(x => x.Id == id);
+
+        if (specialization is null)
+        {
+            throw new NotFoundException("Specialization iss not exist");
+        }
+        
+        var result = new GetSpecializationResponse(specialization.SpecializationName,
+            specialization.Services.Select(x => x.Service.Price),
+            specialization.Services.Select(x => x.Service.IsActive),
+            specialization.Services.Select(x => x.Service.Category.CategoryName));
+
+        return result;
+    }
+
     public async Task ChangeSpecializationStatusAsync(string id)
     {
         var specialization = await _context.Specializations.SingleOrDefaultAsync(x => x.Id == id);
