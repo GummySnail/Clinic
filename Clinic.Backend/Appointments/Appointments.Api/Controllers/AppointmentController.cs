@@ -1,5 +1,6 @@
 ﻿using Appointments.Api.Models.Appointment.Requests;
 using Appointments.Core.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Appointments.Api.Controllers;
@@ -21,8 +22,24 @@ public class AppointmentController : ControllerBase
     {
         try
         {
-            await _appointmentService.AddAppointmentAsync(request.AppointmentDate, request.IsApproved);
+            await _appointmentService.AddAppointmentAsync(request.AppointmentDate);
 
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.ToString());
+        }
+    }
+    
+    //[Authorize(Roles = "Receptionist")]
+    [HttpPatch("approve-appointment/{id}")]
+    public async Task<ActionResult> ApproveAppointment([FromRoute] string id)
+    {
+        try
+        {
+            await _appointmentService.ApproveAppointmentAsync(id);
+            
             return NoContent();
         }
         catch (Exception ex)

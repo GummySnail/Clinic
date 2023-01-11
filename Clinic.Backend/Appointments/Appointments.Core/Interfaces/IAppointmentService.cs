@@ -2,5 +2,6 @@
 
 public interface IAppointmentService
 {
-    public Task AddAppointmentAsync(DateTime date, bool IsApproved);
+    public Task AddAppointmentAsync(DateTime date);
+    public Task ApproveAppointmentAsync(string id);
 }
