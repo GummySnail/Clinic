@@ -67,4 +67,21 @@ public class AppointmentService : IAppointmentService
 
         await _context.SaveChangesAsync();
     }
+
+    public async Task EditAppointmentResultAsync(string appointmentResultId, string complaints, string conclusion,
+        string recommendations)
+    {
+        var appointmentResult = await _context.Results.SingleOrDefaultAsync(x => x.Id == appointmentResultId);
+
+        if (appointmentResult is null)
+        {
+            throw new NotFoundException("Appointment result is not exist");
+        }
+        
+        appointmentResult.Complaints = complaints;
+        appointmentResult.Conclusion = conclusion;
+        appointmentResult.Recommendations = recommendations;
+
+        await _context.SaveChangesAsync();
+    }
 }

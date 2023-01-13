@@ -67,7 +67,7 @@ public class AppointmentController : ControllerBase
     //[Authorize(Roles = "Doctor")]
     [HttpPost("create_appointment-result/{appointmentId}")]
     public async Task<ActionResult> CreateAppointmentResult([FromRoute] string appointmentId,
-        [FromBody] CreateAppointmentResultRequest request)
+        [FromBody] AppointmentResultRequest request)
     {
         try
         {
@@ -81,4 +81,21 @@ public class AppointmentController : ControllerBase
             throw new Exception(ex.ToString());
         }
     }
+    
+    //[Authorize(Roles = "Doctor")]
+    [HttpPut("edit-result-information/{appointmentResultId}")]
+    public async Task<ActionResult> EditAppointmentResult([FromRoute] string appointmentResultId, [FromBody] AppointmentResultRequest request)
+    {
+        try
+        {
+            await _appointmentService.EditAppointmentResultAsync(appointmentResultId, request.Complaints, request.Conclusion, request.Recommendations);
+
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.ToString());
+        }
+    }
+
 }

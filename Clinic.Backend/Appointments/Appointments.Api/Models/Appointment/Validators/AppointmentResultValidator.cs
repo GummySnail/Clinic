@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace Appointments.Api.Models.Appointment.Validators;
 
-public class CreateAppointmentResultValidator : AbstractValidator<CreateAppointmentResultRequest>
+public class AppointmentResultValidator : AbstractValidator<AppointmentResultRequest>
 {
-    public CreateAppointmentResultValidator()
+    public AppointmentResultValidator()
     {
         RuleFor(x => x.Complaints)
             .NotNull().WithMessage("Complaints can't be null")
