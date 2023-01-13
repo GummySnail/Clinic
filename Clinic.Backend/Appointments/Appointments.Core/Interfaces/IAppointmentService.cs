@@ -7,4 +7,6 @@ public interface IAppointmentService
     public Task CancelAppointmentAsync(string id);
     public Task CreateAppointmentResultAsync(string appointmentId, string complaints, string conclusion,
         string recommendations);
+    public Task EditAppointmentResultAsync(string appointmentResultId, string complaints, string conclusion,
+        string recommendations);
 }
