@@ -63,4 +63,22 @@ public class AppointmentController : ControllerBase
             throw new Exception(ex.ToString());
         }
     }
+    
+    //[Authorize(Roles = "Doctor")]
+    [HttpPost("create_appointment-result/{appointmentId}")]
+    public async Task<ActionResult> CreateAppointmentResult([FromRoute] string appointmentId,
+        [FromBody] CreateAppointmentResultRequest request)
+    {
+        try
+        {
+            await _appointmentService.CreateAppointmentResultAsync(appointmentId, request.Complaints,
+                request.Conclusion, request.Recommendations);
+
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.ToString());
+        }
+    }
 }

@@ -1,4 +1,4 @@
-﻿namespace Appointments.Infrastructure.Exceptions;
+﻿namespace Appointments.Core.Exceptions;
 
 public class NotFoundException : Exception
 {
