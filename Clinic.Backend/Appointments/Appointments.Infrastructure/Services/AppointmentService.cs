@@ -1,7 +1,7 @@
 ﻿using Appointments.Core.Entities;
+using Appointments.Core.Exceptions;
 using Appointments.Core.Interfaces;
 using Appointments.Infrastructure.Data;
-using Appointments.Infrastructure.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Appointments.Infrastructure.Services;
@@ -48,6 +48,22 @@ public class AppointmentService : IAppointmentService
         }
         
         _context.Appointments.RemoveRange(appointment);
+
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task CreateAppointmentResultAsync(string appointmentId, string complaints, string conclusion, string recommendations)
+    {
+        var appointment = await _context.Appointments.SingleOrDefaultAsync(x => x.Id == appointmentId);
+
+        if (appointment is null)
+        {
+            throw new NotFoundException("Appointment is not exist");
+        }
+
+        var result = new Result(complaints, conclusion, recommendations, appointmentId);
+
+        await _context.AddAsync(result);
 
         await _context.SaveChangesAsync();
     }

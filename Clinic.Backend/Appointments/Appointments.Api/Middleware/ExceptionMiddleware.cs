@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using Appointments.Api.Models;
-using Appointments.Infrastructure.Exceptions;
+using Appointments.Core.Exceptions;
 
 namespace Appointments.Api.Middleware;
 
