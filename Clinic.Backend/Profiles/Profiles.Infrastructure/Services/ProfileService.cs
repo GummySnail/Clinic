@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MassTransit;
 using Profiles.Core.Entities;
 using Profiles.Core.Enums;
 using Profiles.Core.Exceptions;
@@ -6,6 +7,7 @@ using Profiles.Core.Interfaces.Services;
 using Profiles.Core.Pagination;
 using Profiles.Core.Responses;
 using Profiles.Infrastructure.Data;
+using SharedModels;
 
 namespace Profiles.Infrastructure.Services;
 
@@ -13,10 +15,12 @@ public class ProfileService : IProfileService
 {
     private readonly ProfileDbContext _context;
     private readonly IMapper _mapper;
-    public ProfileService(ProfileDbContext context, IMapper mapper)
+    private readonly IPublishEndpoint _publishEndpoint;
+    public ProfileService(ProfileDbContext context, IMapper mapper, IPublishEndpoint publishEndpoint)
     {
         _context = context;
         _mapper = mapper;
+        _publishEndpoint = publishEndpoint;
     }
 
     public async Task CreatePatientProfileAsync(string firstName, string lastName, string? middleName,
@@ -25,8 +29,18 @@ public class ProfileService : IProfileService
         var patient = new Patient(firstName, lastName, middleName, dateOfBirth, phoneNumber);
         
         await _context.Patients.AddAsync(patient);
-        
+
         await _context.SaveChangesAsync();
+
+        await _publishEndpoint.Publish<PatientProfileCreated>(new
+        {
+            patient.Id,
+            patient.FirstName,
+            patient.LastName,
+            patient.MiddleName,
+            patient.DateOfBirth,
+            patient.PhoneNumber
+        });
     }
 
     public async Task CreateDoctorProfileAsync(string firstName, string lastName, string? middleName,

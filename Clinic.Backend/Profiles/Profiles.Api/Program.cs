@@ -1,4 +1,5 @@
 using FluentValidation.AspNetCore;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Profiles.Api.Filters;
@@ -50,6 +51,29 @@ services.AddSwaggerGen();
 services.AddFluentValidation(opt =>
 {
     opt.RegisterValidatorsFromAssembly(typeof(Program).Assembly);
+});
+
+services.AddMassTransit(cfg =>
+{
+    cfg.SetKebabCaseEndpointNameFormatter();
+    cfg.AddDelayedMessageScheduler();
+    cfg.UsingRabbitMq((brc, rbfc) =>
+    {
+        rbfc.UseInMemoryOutbox();
+        rbfc.UseMessageRetry(r =>
+        {
+            r.Incremental(3, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
+        });
+
+        rbfc.UseDelayedMessageScheduler();
+        rbfc.Host("localhost", h =>
+        {
+            h.Username("user");
+            h.Password("password");
+        });
+
+        rbfc.ConfigureEndpoints(brc);
+    });
 });
 
 services.Configure<RouteOptions>(opt => opt.LowercaseUrls = true);
