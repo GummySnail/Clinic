@@ -22,7 +22,7 @@ public class AppointmentController : ControllerBase
     {
         try
         {
-            await _appointmentService.AddAppointmentAsync(request.AppointmentDate);
+            await _appointmentService.AddAppointmentAsync(request.PatientId, request.DoctorId, request.ServiceId,request.AppointmentDate);
 
             return NoContent();
         }
@@ -97,5 +97,4 @@ public class AppointmentController : ControllerBase
             throw new Exception(ex.ToString());
         }
     }
-
 }
