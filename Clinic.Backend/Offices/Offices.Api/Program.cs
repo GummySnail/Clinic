@@ -30,7 +30,9 @@ SelfLog.Enable(Console.Error);
 services.Configure<OfficeDatabaseSettings>(config.GetSection("OfficeDatabase"));
 
 services.AddAutoMapper(typeof(MapperProfile).Assembly);
-        
+
+services.AddSingleton<IAzureService, AzureService>();
+
 services.AddSingleton<IOfficeService, OfficeService>();
 
 //-- Api
