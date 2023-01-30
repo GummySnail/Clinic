@@ -1,11 +1,9 @@
-using Documents.Api.Consumer;
 using Documents.Api.Filters;
 using Documents.Api.Middleware;
 using Documents.Core.Interfaces.Services;
 using Documents.Infrastructure.Data;
 using Documents.Infrastructure.Services;
 using FluentValidation.AspNetCore;
-using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -49,30 +47,6 @@ services.AddFluentValidation(opt =>
 {
     opt.RegisterValidatorsFromAssembly(typeof(Program).Assembly);
 });
-
-services.AddMassTransit(cfg =>
-{
-    cfg.SetKebabCaseEndpointNameFormatter();
-    cfg.AddDelayedMessageScheduler();
-    cfg.AddConsumer<PatientProfileCreatedConsumer>();
-    cfg.UsingRabbitMq((brc, rbfc) =>
-    {
-        rbfc.UseInMemoryOutbox();
-        rbfc.UseMessageRetry(r =>
-        {
-            r.Incremental(3, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
-        });
-
-        rbfc.UseDelayedMessageScheduler();
-        rbfc.Host("localhost", h =>
-        {
-            h.Username("user");
-            h.Password("password");
-        });
-
-        rbfc.ConfigureEndpoints(brc);
-    });
-}).AddMassTransitHostedService();
 
 services.Configure<RouteOptions>(opt => opt.LowercaseUrls = true);
 services.Configure<ApiBehaviorOptions>(opt => opt.SuppressModelStateInvalidFilter = true);

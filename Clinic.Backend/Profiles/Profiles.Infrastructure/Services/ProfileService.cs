@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using MassTransit;
+using Microsoft.AspNetCore.Http;
 using Profiles.Core.Entities;
 using Profiles.Core.Enums;
 using Profiles.Core.Exceptions;
@@ -7,7 +7,6 @@ using Profiles.Core.Interfaces.Services;
 using Profiles.Core.Pagination;
 using Profiles.Core.Responses;
 using Profiles.Infrastructure.Data;
-using SharedModels;
 
 namespace Profiles.Infrastructure.Services;
 
@@ -15,47 +14,58 @@ public class ProfileService : IProfileService
 {
     private readonly ProfileDbContext _context;
     private readonly IMapper _mapper;
-    private readonly IPublishEndpoint _publishEndpoint;
-    public ProfileService(ProfileDbContext context, IMapper mapper, IPublishEndpoint publishEndpoint)
+    private readonly IAzureService _azureService;
+    public ProfileService(ProfileDbContext context, IMapper mapper, IAzureService azureService)
     {
         _context = context;
         _mapper = mapper;
-        _publishEndpoint = publishEndpoint;
+        _azureService = azureService;
     }
 
     public async Task CreatePatientProfileAsync(string firstName, string lastName, string? middleName,
-        DateTime dateOfBirth, string phoneNumber)
+        DateTime dateOfBirth, string phoneNumber, IFormFile? profilePhoto)
     {
-        var patient = new Patient(firstName, lastName, middleName, dateOfBirth, phoneNumber);
+        string url = null;
+        
+        if (profilePhoto is not null)
+        {
+            url = await _azureService.UploadProfilePhotoAsync(profilePhoto);
+        }
+        
+        var patient = new Patient(firstName, lastName, middleName, dateOfBirth, phoneNumber, url);
         
         await _context.Patients.AddAsync(patient);
 
         await _context.SaveChangesAsync();
-
-        await _publishEndpoint.Publish<PatientProfileCreated>(new
-        {
-            patient.Id,
-            patient.FirstName,
-            patient.LastName,
-            patient.MiddleName,
-            patient.DateOfBirth,
-            patient.PhoneNumber
-        });
     }
 
     public async Task CreateDoctorProfileAsync(string firstName, string lastName, string? middleName,
-        DateTime dateOfBirth, int careerStartYear, Status status)
+        DateTime dateOfBirth, int careerStartYear, Status status, IFormFile? profilePhoto)
     {
-        var doctor = new Doctor(firstName, lastName, middleName, dateOfBirth, careerStartYear, status);
+        string url = null;
+        
+        if (profilePhoto is not null)
+        {
+            url = await _azureService.UploadProfilePhotoAsync(profilePhoto);
+        }
+
+        var doctor = new Doctor(firstName, lastName, middleName, dateOfBirth, careerStartYear, status, url);
         
         await _context.Doctors.AddAsync(doctor);
         
         await _context.SaveChangesAsync();
     }
 
-    public async Task CreateReceptionistProfileAsync(string firstName, string lastName, string? middleName)
+    public async Task CreateReceptionistProfileAsync(string firstName, string lastName, string? middleName, IFormFile? profilePhoto)
     {
-        var receptionist = new Receptionist(firstName, lastName, middleName);
+        string url = null;
+        
+        if (profilePhoto is not null)
+        {
+            url = await _azureService.UploadProfilePhotoAsync(profilePhoto);
+        }
+        
+        var receptionist = new Receptionist(firstName, lastName, middleName, url);
         
         await _context.Receptionists.AddAsync(receptionist);
         
