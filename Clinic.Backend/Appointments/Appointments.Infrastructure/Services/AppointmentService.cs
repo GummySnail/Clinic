@@ -15,9 +15,9 @@ public class AppointmentService : IAppointmentService
         _context = context;
     }
 
-    public async Task AddAppointmentAsync(DateTime date)
+    public async Task AddAppointmentAsync(string patientId, string doctorId, string serviceId, DateTime date)
     {
-        var appointment = new Appointment(date);
+        var appointment = new Appointment(doctorId, serviceId, patientId, date);
 
         await _context.Appointments.AddAsync(appointment);
 
