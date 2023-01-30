@@ -50,11 +50,11 @@ public class OfficeController : ControllerBase
 
     //[Authorize(Roles = "Receptionist")]
     [HttpPost]
-    public async Task<ActionResult> Post([FromBody] OfficeRequest request)
+    public async Task<ActionResult> Post([FromForm] OfficeRequest request)
     {
         try
         {
-            await _officeService.CreateAsync(request.City, request.Street, request.HouseNumber, request.OfficeNumber, request.RegistryPhoneNumber, request.IsActive);
+            await _officeService.CreateAsync(request.City, request.Street, request.HouseNumber, request.OfficeNumber, request.RegistryPhoneNumber, request.IsActive, request?.officePhoto);
             
             return NoContent();
         }
@@ -67,12 +67,11 @@ public class OfficeController : ControllerBase
 
     //[Authorize(Roles = "Receptionist")]
     [HttpPatch("{id}")]
-    public async Task<ActionResult> ChangeOfficeStatus([FromRoute] string id,
-        [FromBody] ChangeOfficeStatusRequest request)
+    public async Task<ActionResult> ChangeOfficeStatus([FromRoute] string id)
     {
         try
         {
-            await _officeService.ChangeOfficeStatusAsync(id, request.IsActive);
+            await _officeService.ChangeOfficeStatusAsync(id);
             
             return NoContent();
         }
@@ -84,12 +83,12 @@ public class OfficeController : ControllerBase
     
     //[Authorize(Roles = "Receptionist")]
     [HttpPut("{id}")]
-    public async Task<ActionResult> EditOffice([FromRoute] string id, [FromBody] OfficeRequest request)
+    public async Task<ActionResult> EditOffice([FromRoute] string id, [FromForm] OfficeRequest request)
     {
         try
         {
             await _officeService.EditOfficeAsync(id, request.City, request.Street, request.HouseNumber, request.OfficeNumber,
-                request.RegistryPhoneNumber, request.IsActive);
+                request.RegistryPhoneNumber, request.IsActive, request.officePhoto);
             
             return NoContent();
         }
