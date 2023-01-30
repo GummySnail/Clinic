@@ -3,4 +3,4 @@
 namespace Profiles.Api.Models.Profile.Doctor.Requests;
 
 public record CreateDoctorProfileRequest(string FirstName, string LastName, string? MiddleName,
-    DateTime DateOfBirth, int CareerStartYear, Status Status);
+    DateTime DateOfBirth, int CareerStartYear, Status Status, IFormFile? ProfilePhoto);

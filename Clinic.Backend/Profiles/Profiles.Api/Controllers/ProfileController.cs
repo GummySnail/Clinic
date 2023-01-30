@@ -21,12 +21,12 @@ public class ProfileController : ControllerBase
     
     //[Authorize]
     [HttpPost("create-patient-profile")]
-    public async Task<ActionResult> CreatePatientProfile([FromBody] CreatePatientProfileRequest request)
+    public async Task<ActionResult> CreatePatientProfile([FromForm] CreatePatientProfileRequest request)
     {
         try
         {
             await _profileService.CreatePatientProfileAsync(request.FirstName, request.LastName, request?.MiddleName,
-                request.DateOfBirth, request.PhoneNumber);
+                request.DateOfBirth, request.PhoneNumber, request?.ProfilePhoto);
             
             return NoContent();
         }
@@ -38,12 +38,12 @@ public class ProfileController : ControllerBase
     
     //[Authorize(Roles = "Receptionist")]
     [HttpPost("create-doctor-profile")]
-    public async Task<ActionResult> CreateDoctorProfile([FromBody] CreateDoctorProfileRequest request)
+    public async Task<ActionResult> CreateDoctorProfile([FromForm] CreateDoctorProfileRequest request)
     {
         try
         {
             await _profileService.CreateDoctorProfileAsync(request.FirstName, request.LastName, request.MiddleName,
-                request.DateOfBirth, request.CareerStartYear, request.Status);
+                request.DateOfBirth, request.CareerStartYear, request.Status, request?.ProfilePhoto);
             
             return NoContent();
         }
@@ -55,11 +55,11 @@ public class ProfileController : ControllerBase
     
     //[Authorize(Roles = "Receptionist")]
     [HttpPost("create-receptionist-profile")]
-    public async Task<ActionResult> CreateReceptionistProfile([FromBody] CreateReceptionistProfileRequest request)
+    public async Task<ActionResult> CreateReceptionistProfile([FromForm] CreateReceptionistProfileRequest request)
     {
         try
         {
-            await _profileService.CreateReceptionistProfileAsync(request.FirstName, request.LastName, request.MiddleName);
+            await _profileService.CreateReceptionistProfileAsync(request.FirstName, request.LastName, request.MiddleName, request.ProfilePhoto);
             
             return NoContent();
         }
