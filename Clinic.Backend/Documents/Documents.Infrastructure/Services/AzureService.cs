@@ -1,25 +1,25 @@
 ﻿using Azure;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
+using Azure.Storage.Blobs.Specialized;
 using Documents.Core.Dto;
 using Documents.Core.Entities;
 using Documents.Core.Interfaces.Services;
 using Documents.Core.Responses;
 using Documents.Infrastructure.Data;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace Documents.Infrastructure.Services;
 
-public class DocumentService : IDocumentService
+public class AzureService : IAzureService
 {
     private readonly string _storageConnectionString;
     private readonly string _storageContainerName;
-    private readonly ILogger<DocumentService> _logger;
+    private readonly ILogger<AzureService> _logger;
     private readonly DocumentsDbContext _context;
 
-    public DocumentService(IConfiguration config, ILogger<DocumentService> logger, DocumentsDbContext context)
+    public AzureService(IConfiguration config, ILogger<AzureService> logger, DocumentsDbContext context)
     {
         _logger = logger;
         _context = context;
@@ -69,50 +69,17 @@ public class DocumentService : IDocumentService
 
         return files;
     }
-    public async Task<BlobResponse> UploadProfilePhotoAsync(IFormFile file)
+    public async Task UploadAppointmentResultDocumentAsync(byte[] bytes, string resultId)
     {
-        BlobResponse response = new();
-        
-        BlobContainerClient container = new BlobContainerClient(_storageConnectionString, _storageContainerName);
+        BlobContainerClient client = new BlobContainerClient(_storageConnectionString, _storageContainerName);
+        var blobClient = client.GetBlobClient($"{resultId}.pdf");
 
-        try
-        {
-            BlobClient client = container.GetBlobClient(file.FileName);
-
-            await using (Stream? data = file.OpenReadStream())
-            {
-                await client.UploadAsync(data);
-            }
-            
-            var profilePhoto = new Photo { Url = client.Uri.AbsoluteUri };
-            await _context.Photos.AddAsync(profilePhoto);
-
-            await _context.SaveChangesAsync();
-
-            response.Status = $"File {file.FileName} Uploaded Successfully";
-            response.Error = false;
-            response.Blob.Uri = client.Uri.AbsoluteUri;
-            response.Blob.Name = client.Name;
-        }
-        catch (RequestFailedException ex)
-            when (ex.ErrorCode == BlobErrorCode.BlobAlreadyExists)
-        {
-            _logger.LogError(
-                $"File with name {file.FileName} already exists in container. Set another name to store the file in the container: '{_storageContainerName}.'");
-            response.Status =
-                $"File with name {file.FileName} already exists. Please use another name to store your file.";
-            response.Error = true;
-            return response;
-        }
-        catch (RequestFailedException ex)
-        {
-            _logger.LogError($"Unhandled Exception. ID: {ex.StackTrace} - Message: {ex.Message}");
-            response.Status = $"Unexpected error: {ex.StackTrace}. Check log with StackTrace ID.";
-            response.Error = true;
-            return response;
-        }
-
-        return response;
+        using MemoryStream ms = new MemoryStream(bytes);
+        await blobClient.UploadAsync(ms);
+        var fileUri = blobClient.Uri;
+        var document = new Document { Url = fileUri.ToString() };
+        await _context.Documents.AddAsync(document);
+        await _context.SaveChangesAsync();
     }
 
     public async Task<BlobDto> DownloadAsync(string blobFilename)

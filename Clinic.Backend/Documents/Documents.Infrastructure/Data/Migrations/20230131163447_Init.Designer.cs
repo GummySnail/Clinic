@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Documents.Infrastructure.Migrations
 {
     [DbContext(typeof(DocumentsDbContext))]
-    [Migration("20230116145914_Init")]
+    [Migration("20230131163447_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -24,7 +24,7 @@ namespace Documents.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Documents.Core.Entities.Photo", b =>
+            modelBuilder.Entity("Documents.Core.Entities.Document", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -35,7 +35,7 @@ namespace Documents.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Photos");
+                    b.ToTable("Documents");
                 });
 #pragma warning restore 612, 618
         }

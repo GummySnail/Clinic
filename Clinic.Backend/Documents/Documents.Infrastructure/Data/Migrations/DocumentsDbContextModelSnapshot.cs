@@ -21,7 +21,7 @@ namespace Documents.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Documents.Core.Entities.Photo", b =>
+            modelBuilder.Entity("Documents.Core.Entities.Document", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -32,7 +32,7 @@ namespace Documents.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Photos");
+                    b.ToTable("Documents");
                 });
 #pragma warning restore 612, 618
         }
