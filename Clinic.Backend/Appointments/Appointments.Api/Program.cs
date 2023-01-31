@@ -4,6 +4,7 @@ using Appointments.Core.Interfaces;
 using Appointments.Infrastructure.Data;
 using Appointments.Infrastructure.Services;
 using FluentValidation.AspNetCore;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -42,6 +43,29 @@ services.AddControllers
 (opt =>
     opt.Filters.Add<ValidationFilter>()
 );
+
+services.AddMassTransit(cfg =>
+{
+    cfg.SetKebabCaseEndpointNameFormatter();
+    cfg.AddDelayedMessageScheduler();
+    cfg.UsingRabbitMq((brc, rbfc) =>
+    {
+        rbfc.UseInMemoryOutbox();
+        rbfc.UseMessageRetry(r =>
+        {
+            r.Incremental(3, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
+        });
+
+        rbfc.UseDelayedMessageScheduler();
+        rbfc.Host("localhost", h =>
+        {
+            h.Username("user");
+            h.Password("password");
+        });
+
+        rbfc.ConfigureEndpoints(brc);
+    });
+}).AddMassTransitHostedService();
 
 services.AddCors();
 services.AddEndpointsApiExplorer();

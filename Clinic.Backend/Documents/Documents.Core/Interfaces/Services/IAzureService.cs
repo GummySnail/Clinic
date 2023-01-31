@@ -1,12 +1,11 @@
 ﻿using Documents.Core.Dto;
 using Documents.Core.Responses;
-using Microsoft.AspNetCore.Http;
 
 namespace Documents.Core.Interfaces.Services;
 
-public interface IDocumentService
+public interface IAzureService
 {
-    public Task<BlobResponse> UploadProfilePhotoAsync(IFormFile file);
+    public Task UploadAppointmentResultDocumentAsync(byte[] bytes, string resultId);
     public Task<BlobDto> DownloadAsync(string blobFilename);
     public Task<BlobResponse> DeleteAsync(string blobFilename);
     Task<List<BlobDto>> ListAsync();

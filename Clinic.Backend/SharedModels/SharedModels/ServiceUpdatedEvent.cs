@@ -1,10 +1,9 @@
 ﻿namespace SharedModels;
 
-public class ServiceUpdatedEvent
+public class AppointmentResultCreated
 {
-    public string Id { get; set; }
-    public string ServiceName { get; set; }
-    public float Price { get; set; }
-    public bool IsActive { get; set; }
-    public string CategoryId { get; set; }
+    public string ResultId { get; set; }
+    public string Complaints { get; set; }
+    public string Conclusion { get; set; }
+    public string Recommendations { get; set; }
 }

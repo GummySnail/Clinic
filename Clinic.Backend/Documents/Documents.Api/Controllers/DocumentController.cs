@@ -10,34 +10,18 @@ namespace Documents.Api.Controllers;
 [Route("api/[controller]")]
 public class DocumentController : ControllerBase
 {
-    private readonly IDocumentService _documentService;
+    private readonly IAzureService _azureService;
 
-    public DocumentController(IDocumentService documentService)
+    public DocumentController(IAzureService azureService)
     {
-        _documentService = documentService;
+        _azureService = azureService;
     }
-    
-    //[Authorize]
-    [HttpPost("upload-profile-photo")]
-    public async Task<ActionResult> UploadProfilePhoto(IFormFile file)
-    {
-        try
-        {
-            await _documentService.UploadProfilePhotoAsync(file);
 
-            return NoContent();
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
-    }
-    
     //[Authorize]
     [HttpGet("get-profile-photos")]
     public async Task<IActionResult> Get()
     {
-        List<BlobDto>? files = await _documentService.ListAsync();
+        List<BlobDto>? files = await _azureService.ListAsync();
 
         return Ok(files);
     }
@@ -45,7 +29,7 @@ public class DocumentController : ControllerBase
     [HttpGet("{filename}")]
     public async Task<IActionResult> Get(string filename)
     {
-        BlobDto? file = await _documentService.DownloadAsync(filename);
+        BlobDto? file = await _azureService.DownloadAsync(filename);
 
         if (file == null)
         {
@@ -60,7 +44,7 @@ public class DocumentController : ControllerBase
     [HttpDelete("filename")]
     public async Task<IActionResult> Delete(string filename)
     {
-        BlobResponse response = await _documentService.DeleteAsync(filename);
+        BlobResponse response = await _azureService.DeleteAsync(filename);
 
         if (response.Error == true)
         {
