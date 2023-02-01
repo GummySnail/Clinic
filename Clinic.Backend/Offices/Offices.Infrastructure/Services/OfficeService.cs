@@ -39,7 +39,7 @@ public class OfficeService : IOfficeService
         return officeList;
     }
 
-    public async Task CreateAsync(string city, string street, string houseNumber, string officeNumber, string registryPhoneNumber, bool isActive, IFormFile? officePhoto)
+    public async Task CreateOfficeAsync(string city, string street, string houseNumber, string officeNumber, string registryPhoneNumber, bool isActive, IFormFile? officePhoto)
     {
         string url = null;
         
@@ -67,11 +67,11 @@ public class OfficeService : IOfficeService
         return result;
     }
 
-    public async Task ChangeOfficeStatusAsync(string id)
+    public async Task UpdateOfficeStatusAsync(string officeId)
     {
-        var office = await _officesCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
+        var office = await _officesCollection.Find(x => x.Id == officeId).FirstOrDefaultAsync();
         
-        var filter = Builders<Office>.Filter.Eq("_id", id);
+        var filter = Builders<Office>.Filter.Eq("_id", officeId);
         
         var update = Builders<Office>.Update.Set("IsActive", !office.IsActive);
         
@@ -83,7 +83,7 @@ public class OfficeService : IOfficeService
         }
     }
 
-    public async Task EditOfficeAsync(string id, string city, string street, string houseNumber, string officeNumber, string registryPhoneNumber, bool isActive, IFormFile? officePhoto)
+    public async Task EditOfficeAsync(string officeId, string city, string street, string houseNumber, string officeNumber, string registryPhoneNumber, bool isActive, IFormFile? officePhoto)
     {
         string url = null;
         
@@ -94,10 +94,10 @@ public class OfficeService : IOfficeService
 
         var newOffice = new Office(city, street, houseNumber, officeNumber, registryPhoneNumber, isActive, url)
         {
-            Id = id
+            Id = officeId
         };
 
-        var result = await _officesCollection.ReplaceOneAsync(x => x.Id == id, newOffice);
+        var result = await _officesCollection.ReplaceOneAsync(x => x.Id == officeId, newOffice);
 
         if (result.MatchedCount == 0)
         {

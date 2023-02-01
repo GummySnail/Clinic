@@ -17,84 +17,48 @@ public class OfficeController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<ICollection<OfficeCollectionResponse>>> GetOffices()
+    public async Task<ActionResult<ICollection<OfficeCollectionResponse>>> GetOfficesAsync()
     {
-        try
-        {
-            var result = await _officeService.GetOfficesCollectionAsync();
-            
-            return Ok(result);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
-        
+        var result = await _officeService.GetOfficesCollectionAsync();
+
+        return Ok(result);
     }
     
     //[Authorize(Roles = "Receptionist")]
-    [HttpGet("{id}")]
-    public async Task<ActionResult<OfficeResponse>> GetOffice([FromRoute] string id)
+    [HttpGet("{officeId}")]
+    public async Task<ActionResult<OfficeResponse>> GetOfficeAsync([FromRoute] string officeId)
     {
-        try
-        {
-            var result = await _officeService.GetOfficeByIdAsync(id);
+        var result = await _officeService.GetOfficeByIdAsync(officeId);
             
-            return Ok(result);  
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
+        return Ok(result);
     }
 
     //[Authorize(Roles = "Receptionist")]
     [HttpPost]
-    public async Task<ActionResult> Post([FromForm] OfficeRequest request)
+    public async Task<ActionResult> CreateOfficeAsync([FromForm] OfficeRequest request)
     {
-        try
-        {
-            await _officeService.CreateAsync(request.City, request.Street, request.HouseNumber, request.OfficeNumber, request.RegistryPhoneNumber, request.IsActive, request?.officePhoto);
+        await _officeService.CreateOfficeAsync(request.City, request.Street, request.HouseNumber, request.OfficeNumber, request.RegistryPhoneNumber, request.IsActive, request?.officePhoto);
             
-            return NoContent();
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
+        return NoContent();
     }
     
 
     //[Authorize(Roles = "Receptionist")]
-    [HttpPatch("{id}")]
-    public async Task<ActionResult> ChangeOfficeStatus([FromRoute] string id)
+    [HttpPatch("{officeId}")]
+    public async Task<ActionResult> UpdateOfficeStatusAsync([FromRoute] string officeId)
     {
-        try
-        {
-            await _officeService.ChangeOfficeStatusAsync(id);
+        await _officeService.UpdateOfficeStatusAsync(officeId);
             
-            return NoContent();
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
+        return NoContent();
     }
     
     //[Authorize(Roles = "Receptionist")]
-    [HttpPut("{id}")]
-    public async Task<ActionResult> EditOffice([FromRoute] string id, [FromForm] OfficeRequest request)
+    [HttpPut("{officeId}/edit")]
+    public async Task<ActionResult> EditOfficeAsync([FromRoute] string officeId, [FromForm] OfficeRequest request)
     {
-        try
-        {
-            await _officeService.EditOfficeAsync(id, request.City, request.Street, request.HouseNumber, request.OfficeNumber,
+        await _officeService.EditOfficeAsync(officeId, request.City, request.Street, request.HouseNumber, request.OfficeNumber,
                 request.RegistryPhoneNumber, request.IsActive, request.officePhoto);
             
-            return NoContent();
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
+        return NoContent();
     }
 }
