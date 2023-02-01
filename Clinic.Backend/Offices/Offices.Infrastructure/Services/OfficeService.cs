@@ -53,9 +53,9 @@ public class OfficeService : IOfficeService
         await _officesCollection.InsertOneAsync(office);
     }
 
-    public async Task<OfficeResponse> GetOfficeByIdAsync(string id)
+    public async Task<OfficeResponse> GetOfficeByIdAsync(string officeId)
     {
-        var office = await _officesCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
+        var office = await _officesCollection.Find(x => x.Id == officeId).FirstOrDefaultAsync();
 
         if (office is null)
         {
@@ -67,11 +67,11 @@ public class OfficeService : IOfficeService
         return result;
     }
 
-    public async Task ChangeOfficeStatusAsync(string id)
+    public async Task ChangeOfficeStatusAsync(string officeId)
     {
-        var office = await _officesCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
+        var office = await _officesCollection.Find(x => x.Id == officeId).FirstOrDefaultAsync();
         
-        var filter = Builders<Office>.Filter.Eq("_id", id);
+        var filter = Builders<Office>.Filter.Eq("_id", officeId);
         
         var update = Builders<Office>.Update.Set("IsActive", !office.IsActive);
         

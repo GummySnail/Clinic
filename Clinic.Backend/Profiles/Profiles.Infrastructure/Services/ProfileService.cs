@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Profiles.Core.Entities;
 using Profiles.Core.Enums;
 using Profiles.Core.Exceptions;
@@ -170,9 +171,9 @@ public class ProfileService : IProfileService
         return patientsList;
     }
 
-    public Task<PatientProfileByDoctorResponse> DoctorGetPatientProfileByIdAsync(string id)
+    public async Task<PatientProfileByDoctorResponse> DoctorGetPatientProfileByIdAsync(string patientId)
     {
-        var patient = _context.Patients.SingleOrDefault(x => x.Id == id);
+        var patient = await _context.Patients.SingleOrDefaultAsync(x => x.Id == patientId);
 
         if (patient is null)
         {
@@ -181,12 +182,12 @@ public class ProfileService : IProfileService
         
         var result = _mapper.Map<Patient, PatientProfileByDoctorResponse>(patient);
 
-        return Task.FromResult(result);
+        return result;
     }
 
-    public Task<PatientProfileByAdminResponse> AdminGetPatientProfileByIdAsync(string id)
+    public async Task<PatientProfileByAdminResponse> AdminGetPatientProfileByIdAsync(string patientId)
     {
-        var patient = _context.Patients.SingleOrDefault(x => x.Id == id);
+        var patient = await _context.Patients.SingleOrDefaultAsync(x => x.Id == patientId);
 
         if (patient is null)
         {
@@ -195,12 +196,12 @@ public class ProfileService : IProfileService
         
         var result = _mapper.Map<Patient, PatientProfileByAdminResponse>(patient);
 
-        return Task.FromResult(result);
+        return result;
     }
     
-    public Task<DoctorProfileResponse> GetDoctorProfileByIdAsync(string id)
+    public async Task<DoctorProfileResponse> GetDoctorProfileByIdAsync(string doctorId)
     {
-        var doctor = _context.Doctors.SingleOrDefault(x => x.Id == id);
+        var doctor = await _context.Doctors.SingleOrDefaultAsync(x => x.Id == doctorId);
         
         if (doctor is null)
         {
@@ -209,12 +210,12 @@ public class ProfileService : IProfileService
 
         var result = _mapper.Map<Doctor, DoctorProfileResponse>(doctor);
 
-        return Task.FromResult(result);
+        return result;
     }
 
-    public Task<ReceptionistProfileByIdResponse> GetReceptionistProfileByIdAsync(string id)
+    public async Task<ReceptionistProfileByIdResponse> GetReceptionistProfileByIdAsync(string receptionistId)
     {
-        var receptionist = _context.Receptionists.SingleOrDefault(x => x.Id == id);
+        var receptionist = await _context.Receptionists.SingleOrDefaultAsync(x => x.Id == receptionistId);
 
         if (receptionist is null)
         {
@@ -223,12 +224,12 @@ public class ProfileService : IProfileService
         
         var result = _mapper.Map<Receptionist, ReceptionistProfileByIdResponse>(receptionist);
 
-        return Task.FromResult(result);
+        return result;
     }
 
-    public async Task DeletePatientProfileAsync(string id)
+    public async Task DeletePatientProfileAsync(string patientId)
     {
-        var patient = _context.Patients.SingleOrDefault(x => x.Id == id);
+        var patient = await _context.Patients.SingleOrDefaultAsync(x => x.Id == patientId);
 
         if (patient is null)
         {
@@ -240,9 +241,9 @@ public class ProfileService : IProfileService
         await _context.SaveChangesAsync();
     }
 
-    public async Task DeleteReceptionistProfileAsync(string id)
+    public async Task DeleteReceptionistProfileAsync(string receptionistId)
     {
-        var receptionist = _context.Receptionists.SingleOrDefault(x => x.Id == id);
+        var receptionist = await _context.Receptionists.SingleOrDefaultAsync(x => x.Id == receptionistId);
 
         if (receptionist is null)
         {
@@ -254,9 +255,9 @@ public class ProfileService : IProfileService
         await _context.SaveChangesAsync();
     }
 
-    public async Task ChangeDoctorStatusAsync(string id, Status status)
+    public async Task ChangeDoctorStatusAsync(string doctorId, Status status)
     {
-        var doctor = _context.Doctors.SingleOrDefault(x => x.Id == id);
+        var doctor = await _context.Doctors.SingleOrDefaultAsync(x => x.Id == doctorId);
 
         if (doctor is null)
         {

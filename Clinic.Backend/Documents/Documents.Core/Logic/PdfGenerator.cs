@@ -1,29 +1,14 @@
-﻿using System.Text.Json;
-using Azure.Storage.Blobs;
-using Azure.Storage.Blobs.Specialized;
-using Documents.Core.Interfaces.Logic;
-using Documents.Core.Interfaces.Services;
+﻿using Documents.Core.Interfaces.Logic;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.draw;
-using Microsoft.Extensions.Configuration;
-using StreamReader = System.IO.StreamReader;
 
 
 namespace Documents.Core.Logic;
 
 public class PdfGenerator : IPdfGenerator
 {
-    private readonly string _storageConnectionString;
-    private readonly string _storageContainerName;
-
-    public PdfGenerator(IConfiguration config)
-    {
-        _storageConnectionString = config.GetValue<string>("BlobConnectionString");
-        _storageContainerName = config.GetValue<string>("BlobContainerName");
-    }
-
-    public async Task<byte[]> CreatePdfAsync(string complaints, string conclusion, string recommendations)
+    public Task<byte[]> CreatePdfAsync(string complaints, string conclusion, string recommendations)
     {
         byte[] bytes = null;
 
@@ -94,6 +79,6 @@ public class PdfGenerator : IPdfGenerator
 
             bytes = ms.ToArray();
         }
-        return bytes;
+        return Task.FromResult(bytes);
     }
 }

@@ -18,166 +18,96 @@ public class ServiceController : ControllerBase
     }
 
     //[Authorize(Roles = "Receptionist")]
-    [HttpPost("create-service")]
-    public async Task<ActionResult> CreateService([FromBody] ServiceRequest request)
+    [HttpPost("services")]
+    public async Task<ActionResult> Create([FromBody] ServiceRequest request)
     {
-        try
-        {
-            await _clinicService
-                .AddServiceAsync(request.ServiceName, request.Price, request.ServiceCategory, request.IsActive);
-            
-            return NoContent();
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
+        await _clinicService
+            .AddServiceAsync(request.ServiceName, request.Price, request.ServiceCategory, request.IsActive);
+        
+        return NoContent();
     }
     
     //[Authorize(Roles="Receptionist")]
-    [HttpPost("create-specialization")]
-    public async Task<ActionResult> CreateSpecialization([FromBody] SpecializationRequest request)
+    [HttpPost("specializations")]
+    public async Task<ActionResult> Create([FromBody] SpecializationRequest request)
     {
-        try
-        {
-            await _clinicService.AddSpecializationAsync(request.SpecializationName, request.IsActive, request.ServiceId);
-            
-            return NoContent();
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
+        await _clinicService.AddSpecializationAsync(request.SpecializationName, request.IsActive, request.ServiceId);
+        
+        return NoContent();
     }
     
     //[Authorize(Roles="Receptionist")]
-    [HttpPut("edit-specialization/{id}")]
-    public async Task<ActionResult> EditSpecialization([FromRoute] string id, [FromBody] SpecializationRequest request)
+    [HttpPut("{specializationId}/edit")]
+    public async Task<ActionResult> Edit([FromRoute] string specializationId, [FromBody] SpecializationRequest request)
     {
-        try
-        {
-            await _clinicService.EditSpecializationAsync(id, request.SpecializationName, request.IsActive,
-                request.ServiceId);
-            
-            return NoContent();
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
+        await _clinicService.EditSpecializationAsync(specializationId, request.SpecializationName, request.IsActive,
+            request.ServiceId);
+        
+        return NoContent();
     }
     
     //[Authorize(Roles = "Receptionist")]
-    [HttpPut("edit-service/{id}")]
-    public async Task<ActionResult> EditService([FromRoute] string id, [FromBody] ServiceRequest request)
+    [HttpPut("{serviceId}/edit")]
+    public async Task<ActionResult> Edit([FromRoute] string serviceId, [FromBody] ServiceRequest request)
     {
-        try
-        {
-            await _clinicService.EditServiceAsync(id, request.ServiceName, request.Price, request.IsActive,
-                request.ServiceCategory);
+        await _clinicService.EditServiceAsync(serviceId, request.ServiceName, request.Price, request.IsActive, request.ServiceCategory);
 
-            return NoContent();
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
+        return NoContent();
     }
 
     //[Authorize(Roles = "Receptionist")]
-    [HttpPatch("change-specialization-status/{id}")]
-    public async Task<ActionResult> ChangeSpecializationStatus([FromRoute] string id)
+    [HttpPatch("specializations/{specializationId}")]
+    public async Task<ActionResult> UpdateSpecialization([FromRoute] string specializationId)
     {
-        try
-        {
-            await _clinicService.ChangeSpecializationStatusAsync(id);
+        await _clinicService.ChangeSpecializationStatusAsync(specializationId);
             
-            return NoContent(); 
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
+        return NoContent(); 
+        
     }
     
     //[Authorize(Roles = "Receptionist")]
-    [HttpPatch("change-service-status/{id}")]
-    public async Task<ActionResult> ChangeServiceStatus([FromRoute] string id)
+    [HttpPatch("services/{serviceId}")]
+    public async Task<ActionResult> UpdateService([FromRoute] string serviceId)
     {
-        try
-        {
-            await _clinicService.ChangeServiceStatusAsync(id);
-
-            return NoContent();
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
+        await _clinicService.ChangeServiceStatusAsync(serviceId);
+        
+        return NoContent();
+        
     }
     
     //[Authorize(Roles = "Patient")]
-    [HttpGet("view-services/{category}")]
-    public async Task<ActionResult<List<GetServicesResponse>>> GetServices([FromRoute] Category category)
+    [HttpGet("{serviceCategory}")]
+    public async Task<ActionResult<List<GetServicesResponse>>> Get([FromRoute] Category category)
     {
-        try
-        {
-            var result = await _clinicService.GetServicesAsync(category);
+        var result = await _clinicService.GetServicesAsync(category);
             
-            return Ok(result);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
+        return Ok(result);
     }
     
     //[Authorize(Roles = "Receptionist")]
-    [HttpGet("view-specializations-list")]
+    [HttpGet]
     public async Task<ActionResult<List<GetSpecializationsResponse>>> GetSpecializations()
     {
-        try
-        {
-            var result = await _clinicService.GetSpecializationsAsync();
+        var result = await _clinicService.GetSpecializationsAsync();
 
-            return Ok(result);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
+        return Ok(result);
     }
 
     //[Authorize(Roles = "Receptionist")]
-    [HttpGet("view-service/{id}")]
-    public async Task<ActionResult<GetServiceResponse>> GetService([FromRoute] string id)
+    [HttpGet("{serviceId}")]
+    public async Task<ActionResult<GetServiceResponse>> GetService([FromRoute] string serviceId)
     {
-        try
-        {
-            var result = await _clinicService.GetServiceAsync(id);
-
-            return Ok(result);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
+        var result = await _clinicService.GetServiceAsync(serviceId);
+        
+        return Ok(result);
     }
     
     //[Authorize(Roles = "Receptionist")]
-    [HttpGet("view-specialization/{id}")]
-    public async Task<ActionResult> GetSpecialization([FromRoute] string id)
+    [HttpGet("{specializationId}")]
+    public async Task<ActionResult> GetSpecialization([FromRoute] string specializationId)
     {
-        try
-        {
-            var result = await _clinicService.GetSpecializationAsync(id);
+        var result = await _clinicService.GetSpecializationAsync(specializationId);
 
-            return Ok(result);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
+        return Ok(result);
     }
-
 }

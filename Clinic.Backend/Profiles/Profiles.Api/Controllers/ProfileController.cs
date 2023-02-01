@@ -20,247 +20,140 @@ public class ProfileController : ControllerBase
     }
     
     //[Authorize]
-    [HttpPost("create-patient-profile")]
-    public async Task<ActionResult> CreatePatientProfile([FromForm] CreatePatientProfileRequest request)
+    [HttpPost("create-patient")]
+    public async Task<ActionResult> Create([FromForm] CreatePatientProfileRequest request)
     {
-        try
-        {
-            await _profileService.CreatePatientProfileAsync(request.FirstName, request.LastName, request?.MiddleName,
+        await _profileService.CreatePatientProfileAsync(request.FirstName, request.LastName, request?.MiddleName,
                 request.DateOfBirth, request.PhoneNumber, request?.ProfilePhoto);
             
-            return NoContent();
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
+        return NoContent();
     }
     
     //[Authorize(Roles = "Receptionist")]
-    [HttpPost("create-doctor-profile")]
-    public async Task<ActionResult> CreateDoctorProfile([FromForm] CreateDoctorProfileRequest request)
+    [HttpPost("create-doctor")]
+    public async Task<ActionResult> Create([FromForm] CreateDoctorProfileRequest request)
     {
-        try
-        {
-            await _profileService.CreateDoctorProfileAsync(request.FirstName, request.LastName, request.MiddleName,
+        await _profileService.CreateDoctorProfileAsync(request.FirstName, request.LastName, request.MiddleName,
                 request.DateOfBirth, request.CareerStartYear, request.Status, request?.ProfilePhoto);
             
-            return NoContent();
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
+        return NoContent();
     }
     
     //[Authorize(Roles = "Receptionist")]
-    [HttpPost("create-receptionist-profile")]
-    public async Task<ActionResult> CreateReceptionistProfile([FromForm] CreateReceptionistProfileRequest request)
+    [HttpPost("create-receptionist")]
+    public async Task<ActionResult> Create([FromForm] CreateReceptionistProfileRequest request)
     {
-        try
-        {
-            await _profileService.CreateReceptionistProfileAsync(request.FirstName, request.LastName, request.MiddleName, request.ProfilePhoto);
+        await _profileService.CreateReceptionistProfileAsync(request.FirstName, request.LastName, request.MiddleName, request.ProfilePhoto);
             
-            return NoContent();
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
-
+        return NoContent();
     }
     
     //[Authorize(Roles = "Receptionist")]
-    [HttpPost("create-patient's-profile-by-admin")]
+    [HttpPost("create-patient-by-admin")]
     public async Task<ActionResult> CreatePatientByAdmin([FromBody] CreatePatientProfileByAdminRequest request)
     {
-        try
-        {
-            await _profileService.CreatePatientProfileByAdminAsync(request.FirstName, request.LastName, request.MiddleName, request.DateOfBirth);
+        await _profileService.CreatePatientProfileByAdminAsync(request.FirstName, request.LastName, request.MiddleName, request.DateOfBirth);
             
-            return NoContent();
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
-
+        return NoContent();
     }
 
-    [HttpGet("view-doctors")]
-    public async Task<ActionResult<ICollection<DoctorProfileResponse>>> GetDoctorsAtWork([FromQuery] SearchParams searchParams)
+    [HttpGet("doctors")]
+    public async Task<ActionResult<ICollection<DoctorProfileResponse>>> GetDoctors([FromQuery] SearchParams searchParams)
     {
-        try
-        {
-            var result = await _profileService.GetDoctorsAtWorkAsync(searchParams);
+        var result = await _profileService.GetDoctorsAtWorkAsync(searchParams);
             
-            return Ok(result);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
+        return Ok(result);
     }
     
     //[Authorize(Roles = "Receptionist")]
-    [HttpGet("view-doctors-by-admin")]
+    [HttpGet("doctors-by-admin")]
     public async Task<ActionResult<DoctorProfileSearchByAdminResponse>> GetDoctorsByAdmin(
         [FromQuery] SearchParams doctorParams)
     {
-        try
-        {
-            var result = await _profileService.GetDoctorsByAdminAsync(doctorParams);
+        var result = await _profileService.GetDoctorsByAdminAsync(doctorParams);
             
-            return Ok(result);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
+        return Ok(result);
     }
     
     //[Authorize(Roles = "Receptionist")]
-    [HttpGet("view-receptionists")]
+    [HttpGet("receptionists")]
     public async Task<ActionResult<ICollection<ReceptionistProfileResponse>>> GetReceptionists(
         [FromQuery] SearchParams searchParams)
     {
-        try
-        {
-            var result = await _profileService.GetReceptionistsAsync(searchParams);
+        var result = await _profileService.GetReceptionistsAsync(searchParams);
             
-            return Ok(result);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
+        return Ok(result);
     }
     
     //[Authorize(Roles ="Admin")]
-    [HttpGet("view-patients-by-admin")]
+    [HttpGet("patients")]
     public async Task<ActionResult<PatientsProfileSearchByAdminResponse>> GetPatientsByAdmin(
         [FromQuery] SearchParams searchParams)
     {
-        try
-        {
-            var result = await _profileService.GetPatientsByAdminAsync(searchParams);
+        var result = await _profileService.GetPatientsByAdminAsync(searchParams);
             
-            return Ok(result);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
+        return Ok(result);
     }
     
     //[Authorize(Roles = "Doctor")]
-    [HttpGet("view-patient's-profile-by-doctor/{id}")]
-    public async Task<ActionResult<PatientProfileByDoctorResponse>> GetPatientProfileById([FromRoute] string id)
+    [HttpGet("patients/{patientId}")]
+    public async Task<ActionResult<PatientProfileByDoctorResponse>> GetPatientProfileById([FromRoute] string patientId)
     {
-        try
-        {
-            var result = await _profileService.DoctorGetPatientProfileByIdAsync(id);
+        var result = await _profileService.DoctorGetPatientProfileByIdAsync(patientId);
 
-            return Ok(result);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
+        return Ok(result);
     }
 
-    [HttpGet("view-doctor-information/{id}")]
-    public async Task<ActionResult<DoctorProfileResponse>> GetDoctorProfileById([FromRoute] string id)
+    [HttpGet("doctors/{doctorId}")]
+    public async Task<ActionResult<DoctorProfileResponse>> GetDoctorProfileById([FromRoute] string doctorId)
     {
-        try
-        {
-            var result = await _profileService.GetDoctorProfileByIdAsync(id);
+        var result = await _profileService.GetDoctorProfileByIdAsync(doctorId);
         
-            return Ok(result);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
+        return Ok(result);
     }
     
     //[Authorize(Roles = "Admin")]
-    [HttpGet("view-patient's-profile-by-admin/{id}")]
-    public async Task<ActionResult<PatientProfileByAdminResponse>> GetPatientsProfiles([FromRoute] string id)
+    [HttpGet("patients/admin/{patientId}")]
+    public async Task<ActionResult<PatientProfileByAdminResponse>> GetPatientProfileByAdmin([FromRoute] string patientId)
     {
-        try
-        {
-            var result = await _profileService.AdminGetPatientProfileByIdAsync(id);
-            
-            return Ok(result);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
+        var result = await _profileService.AdminGetPatientProfileByIdAsync(patientId);
+        
+        return Ok(result);
     }
     
     //[Authorize(Roles = "Receptionist")]
-    [HttpGet("view-receptionist's-profile/{id}")]
-    public async Task<ActionResult<ReceptionistProfileByIdResponse>> GetReceptionistProfileById([FromRoute] string id)
+    [HttpGet("receptionists/{receptionistId}")]
+    public async Task<ActionResult<ReceptionistProfileByIdResponse>> GetReceptionistProfileById([FromRoute] string receptionistId)
     {
-        try
-        {
-            var result = await _profileService.GetReceptionistProfileByIdAsync(id);
+        var result = await _profileService.GetReceptionistProfileByIdAsync(receptionistId);
             
-            return Ok(result);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
+        return Ok(result);
     }
 
     //[Authorize(Roles = "Receptionist")]
-    [HttpDelete("delete-patient's-profile/{id}")]
-    public async Task<ActionResult> DeletePatientProfile([FromRoute] string id)
+    [HttpDelete("patients/{patientId}")]
+    public async Task<ActionResult> DestroyPatientProfile([FromRoute] string patientId)
     {
-        try
-        {
-            await _profileService.DeletePatientProfileAsync(id);
+        await _profileService.DeletePatientProfileAsync(patientId);
             
-            return NoContent();
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
+        return NoContent();
     }
     
     //[Authorize(Roles = "Receptionist")]
-    [HttpDelete("delete-receptionist's-profile/{id}")]
-    public async Task<ActionResult> DeleteReceptionistProfile([FromRoute] string id)
+    [HttpDelete("receptionists/{receptionistId}")]
+    public async Task<ActionResult> DestroyReceptionistProfile([FromRoute] string receptionistId)
     {
-        try
-        {
-            await _profileService.DeleteReceptionistProfileAsync(id);
+        await _profileService.DeleteReceptionistProfileAsync(receptionistId);
             
-            return NoContent();
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
+        return NoContent();
     }
     
     //[Authorize(Roles = "Receptionist")]
-    [HttpPatch("change-doctor's-status/{id}")]
-    public async Task<ActionResult> ChangeDoctorStatus([FromRoute] string id, [FromBody] ChangeDoctorStatusRequest request)
+    [HttpPatch("doctors/{doctorId}")]
+    public async Task<ActionResult> UpdateDoctorStatus([FromRoute] string doctorId, [FromBody] ChangeDoctorStatusRequest request)
     {
-        try
-        {
-            await _profileService.ChangeDoctorStatusAsync(id, request.Status);
+        await _profileService.ChangeDoctorStatusAsync(doctorId, request.Status);
             
-            return NoContent();
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
+        return NoContent();
     }
 }

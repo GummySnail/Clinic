@@ -49,10 +49,10 @@ public class ClinicService : IClinicService
         await _context.SaveChangesAsync();
     }
     
-    public async Task EditSpecializationAsync(string id, string specializationName, bool isActive, string serviceId)
+    public async Task EditSpecializationAsync(string specializationId, string specializationName, bool isActive, string serviceId)
     {
         var specialization = await _context.Specializations
-            .SingleOrDefaultAsync(x => x.Id == id);
+            .SingleOrDefaultAsync(x => x.Id == specializationId);
 
         if (specialization is null)
         {
@@ -75,7 +75,7 @@ public class ClinicService : IClinicService
         await _context.SaveChangesAsync();
     }
 
-    public async Task EditServiceAsync(string id, string serviceName, float price, bool isActive, Category serviceCategory)
+    public async Task EditServiceAsync(string serviceId, string serviceName, float price, bool isActive, Category serviceCategory)
     {
         var category = await _context.ServiceCategories
             .SingleOrDefaultAsync(x => x.CategoryName == serviceCategory);
@@ -85,7 +85,7 @@ public class ClinicService : IClinicService
             throw new NotFoundException("Category is not exist");
         }
         
-        var service = await _context.Services.SingleOrDefaultAsync(x => x.Id == id);
+        var service = await _context.Services.SingleOrDefaultAsync(x => x.Id == serviceId);
 
         if (service is null)
         {
@@ -129,9 +129,9 @@ public class ClinicService : IClinicService
         return specializationsList;
     }
 
-    public async Task<GetServiceResponse> GetServiceAsync(string id)
+    public async Task<GetServiceResponse> GetServiceAsync(string serviceId)
     {
-        var service = await _context.Services.AsNoTracking().Include(x => x.Category).SingleOrDefaultAsync(x => x.Id == id);
+        var service = await _context.Services.AsNoTracking().Include(x => x.Category).SingleOrDefaultAsync(x => x.Id == serviceId);
 
         if (service is null)
         {
@@ -143,10 +143,10 @@ public class ClinicService : IClinicService
         return result;
     }
 
-    public async Task<GetSpecializationResponse> GetSpecializationAsync(string id)
+    public async Task<GetSpecializationResponse> GetSpecializationAsync(string specializationId)
     {
         var specialization = await _context.Specializations.Include(x => x.Services).ThenInclude(x => x.Service)
-            .ThenInclude(x => x.Category).SingleOrDefaultAsync(x => x.Id == id);
+            .ThenInclude(x => x.Category).SingleOrDefaultAsync(x => x.Id == specializationId);
 
         if (specialization is null)
         {
@@ -161,9 +161,9 @@ public class ClinicService : IClinicService
         return result;
     }
 
-    public async Task ChangeSpecializationStatusAsync(string id)
+    public async Task ChangeSpecializationStatusAsync(string specializationId)
     {
-        var specialization = await _context.Specializations.SingleOrDefaultAsync(x => x.Id == id);
+        var specialization = await _context.Specializations.SingleOrDefaultAsync(x => x.Id == specializationId);
 
         if (specialization is null)
         {
@@ -175,9 +175,9 @@ public class ClinicService : IClinicService
         await _context.SaveChangesAsync();
     }
 
-    public async Task ChangeServiceStatusAsync(string id)
+    public async Task ChangeServiceStatusAsync(string serviceId)
     {
-        var service = await _context.Services.SingleOrDefaultAsync(x => x.Id == id);
+        var service = await _context.Services.SingleOrDefaultAsync(x => x.Id == serviceId);
         
         if (service is null)
         {
