@@ -46,6 +46,7 @@ public class ExceptionMiddleware
         return ex switch
         {
             NotFoundException => (int)HttpStatusCode.NotFound,
+            FileAlreadyExistException  => (int)HttpStatusCode.BadRequest,
             _ => (int)HttpStatusCode.InternalServerError
         };
     }
