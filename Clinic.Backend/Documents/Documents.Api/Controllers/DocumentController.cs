@@ -1,7 +1,5 @@
 ﻿using Documents.Core.Dto;
 using Documents.Core.Interfaces.Services;
-using Documents.Core.Responses;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Documents.Api.Controllers;
@@ -17,27 +15,11 @@ public class DocumentController : ControllerBase
         _azureService = azureService;
     }
 
-    //[Authorize]
-    [HttpGet("get-profile-photos")]
-    public async Task<IActionResult> Get()
-    {
-        List<BlobDto>? files = await _azureService.ListAsync();
-
-        return Ok(files);
-    }
-    
     [HttpGet("{filename}")]
-    public async Task<IActionResult> Get(string filename)
+    public async Task<IActionResult> GetAsync([FromRoute] string filename)
     {
-        BlobDto? file = await _azureService.DownloadAsync(filename);
-
-        if (file == null)
-        {
-            throw new Exception();
-        }
-        else
-        {
-            return File(file.Content, file.ContentType, file.Name);
-        }
+        BlobDto file = await _azureService.DownloadAsync(filename);
+        
+        return File(file.Content, file.ContentType, file.Name);
     }
 }

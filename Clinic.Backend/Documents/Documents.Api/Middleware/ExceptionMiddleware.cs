@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Documents.Api.Models;
+using Documents.Core.Exceptions;
 
 namespace Documents.Api.Middleware;
 
@@ -44,6 +45,8 @@ public class ExceptionMiddleware
     {
         return ex switch
         {
+            FileAlreadyExistException => (int)HttpStatusCode.BadRequest,
+            NotFoundException => (int)HttpStatusCode.NotFound,
             _ => (int)HttpStatusCode.InternalServerError
         };
     }
