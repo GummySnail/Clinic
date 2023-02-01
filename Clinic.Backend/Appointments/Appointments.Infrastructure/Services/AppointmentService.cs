@@ -29,9 +29,9 @@ public class AppointmentService : IAppointmentService
         await _context.SaveChangesAsync();
     }
 
-    public async Task ApproveAppointmentAsync(string id)
+    public async Task ApproveAppointmentAsync(string appointmentId)
     {
-        var appointment = await _context.Appointments.SingleOrDefaultAsync(x => x.Id == id);
+        var appointment = await _context.Appointments.SingleOrDefaultAsync(x => x.Id == appointmentId);
 
         if (appointment is null)
         {
@@ -43,9 +43,9 @@ public class AppointmentService : IAppointmentService
         await _context.SaveChangesAsync();
     }
 
-    public async Task CancelAppointmentAsync(string id)
+    public async Task CancelAppointmentAsync(string appointmentId)
     {
-        var appointment = await _context.Appointments.SingleOrDefaultAsync(x => x.Id == id);
+        var appointment = await _context.Appointments.SingleOrDefaultAsync(x => x.Id == appointmentId);
         
         if (appointment is null)
         {
@@ -81,10 +81,10 @@ public class AppointmentService : IAppointmentService
         });
     }
 
-    public async Task EditAppointmentResultAsync(string appointmentResultId, string complaints, string conclusion,
+    public async Task EditAppointmentResultAsync(string resultId, string complaints, string conclusion,
         string recommendations)
     {
-        var appointmentResult = await _context.Results.SingleOrDefaultAsync(x => x.Id == appointmentResultId);
+        var appointmentResult = await _context.Results.SingleOrDefaultAsync(x => x.Id == resultId);
 
         if (appointmentResult is null)
         {

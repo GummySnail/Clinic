@@ -1,6 +1,5 @@
 ﻿using Appointments.Api.Models.Appointment.Requests;
 using Appointments.Core.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Appointments.Api.Controllers;
@@ -18,83 +17,48 @@ public class AppointmentController : ControllerBase
     
     //[Authorize(Roles = "Patient")]
     [HttpPost("create-appointment")]
-    public async Task<ActionResult> AddAppointment([FromBody] CreateAppointmentRequest request)
+    public async Task<ActionResult> AddAppointmentAsync([FromBody] CreateAppointmentRequest request)
     {
-        try
-        {
-            await _appointmentService.AddAppointmentAsync(request.PatientId, request.DoctorId, request.ServiceId,request.AppointmentDate);
+        await _appointmentService.AddAppointmentAsync(request.PatientId, request.DoctorId, request.ServiceId,request.AppointmentDate);
 
-            return NoContent();
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
+        return NoContent();
     }
     
     //[Authorize(Roles = "Receptionist")]
-    [HttpPatch("approve-appointment/{id}")]
-    public async Task<ActionResult> ApproveAppointment([FromRoute] string id)
+    [HttpPatch("approve-appointment/{appointmentId}")]
+    public async Task<ActionResult> ApproveAppointmentAsync([FromRoute] string appointmentId)
     {
-        try
-        {
-            await _appointmentService.ApproveAppointmentAsync(id);
+        await _appointmentService.ApproveAppointmentAsync(appointmentId);
             
-            return NoContent();
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
+        return NoContent();
     }
     
     //[Authorize(Roles = "Receptionist")]
-    [HttpDelete("cancel-appointment/{id}")]
-    public async Task<ActionResult> CancelAppointment([FromRoute] string id)
+    [HttpDelete("cancel-appointment/{appointmentId}")]
+    public async Task<ActionResult> CancelAppointmentAsync([FromRoute] string appointmentId)
     {
-        try
-        {
-            await _appointmentService.CancelAppointmentAsync(id);
+        await _appointmentService.CancelAppointmentAsync(appointmentId);
 
-            return NoContent();
-        }   
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
+        return NoContent();
     }
     
     //[Authorize(Roles = "Doctor")]
-    [HttpPost("create_appointment-result/{appointmentId}")]
-    public async Task<ActionResult> CreateAppointmentResult([FromRoute] string appointmentId,
+    [HttpPost("create-appointment-result/{appointmentId}")]
+    public async Task<ActionResult> CreateAppointmentResultAsync([FromRoute] string appointmentId,
         [FromBody] AppointmentResultRequest request)
     {
-        try
-        {
-            await _appointmentService.CreateAppointmentResultAsync(appointmentId, request.Complaints,
+        await _appointmentService.CreateAppointmentResultAsync(appointmentId, request.Complaints,
                 request.Conclusion, request.Recommendations);
 
-            return NoContent();
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
+        return NoContent();
     }
     
     //[Authorize(Roles = "Doctor")]
-    [HttpPut("edit-result-information/{appointmentResultId}")]
-    public async Task<ActionResult> EditAppointmentResult([FromRoute] string appointmentResultId, [FromBody] AppointmentResultRequest request)
+    [HttpPut("edit-result-information/{resultId}")]
+    public async Task<ActionResult> EditAppointmentResultAsync([FromRoute] string resultId, [FromBody] AppointmentResultRequest request)
     {
-        try
-        {
-            await _appointmentService.EditAppointmentResultAsync(appointmentResultId, request.Complaints, request.Conclusion, request.Recommendations);
+        await _appointmentService.EditAppointmentResultAsync(resultId, request.Complaints, request.Conclusion, request.Recommendations);
 
-            return NoContent();
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.ToString());
-        }
+        return NoContent();
     }
 }
