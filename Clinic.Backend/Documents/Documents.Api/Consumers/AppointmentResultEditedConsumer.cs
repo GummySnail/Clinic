@@ -5,21 +5,22 @@ using SharedModels;
 
 namespace Documents.Api.Consumers;
 
-public class AppointmentResultCreatedConsumer : IConsumer<AppointmentResultCreated>
+public class AppointmentResultEditedConsumer : IConsumer<AppointmentResultEdited>
 {
     private readonly IPdfGenerator _pdfGenerator;
     private readonly IAzureService _azureService;
 
-    public AppointmentResultCreatedConsumer(IPdfGenerator pdfGenerator, IAzureService azureService)
+    public AppointmentResultEditedConsumer(IPdfGenerator pdfGenerator, IAzureService azureService)
     {
         _pdfGenerator = pdfGenerator;
         _azureService = azureService;
     }
 
-    public async Task Consume(ConsumeContext<AppointmentResultCreated> context)
+    public async Task Consume(ConsumeContext<AppointmentResultEdited> context)
     {
-        var bytes =await _pdfGenerator.CreatePdfAsync(context.Message.Complaints, context.Message.Conclusion,
+        var bytes = await _pdfGenerator.CreatePdfAsync(context.Message.Complaints, context.Message.Conclusion,
             context.Message.Recommendations);
+        await _azureService.DeleteAsync($"{context.Message.ResultId}.pdf");
         await _azureService.UploadAppointmentResultDocumentAsync(bytes, context.Message.ResultId);
     }
 }

@@ -40,19 +40,4 @@ public class DocumentController : ControllerBase
             return File(file.Content, file.ContentType, file.Name);
         }
     }
-
-    [HttpDelete("filename")]
-    public async Task<IActionResult> Delete(string filename)
-    {
-        BlobResponse response = await _azureService.DeleteAsync(filename);
-
-        if (response.Error == true)
-        {
-            throw new Exception();
-        }
-        else
-        {
-            return Ok(response.Status);
-        }
-    }
 }
