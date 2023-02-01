@@ -58,6 +58,7 @@ services.AddMassTransit(cfg =>
     cfg.SetKebabCaseEndpointNameFormatter();
     cfg.AddDelayedMessageScheduler();
     cfg.AddConsumer<AppointmentResultCreatedConsumer>();
+    cfg.AddConsumer<AppointmentResultEditedConsumer>();
     cfg.UsingRabbitMq((brc, rbfc) =>
     {
         rbfc.UseInMemoryOutbox();

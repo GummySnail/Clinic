@@ -96,5 +96,13 @@ public class AppointmentService : IAppointmentService
         appointmentResult.Recommendations = recommendations;
 
         await _context.SaveChangesAsync();
+        
+        await _publishEndpoint.Publish(new AppointmentResultEdited
+        {
+            ResultId = appointmentResult.Id,
+            Complaints = appointmentResult.Complaints,
+            Conclusion = appointmentResult.Conclusion,
+            Recommendations = appointmentResult.Recommendations
+        });
     }
 }

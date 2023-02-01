@@ -7,6 +7,7 @@ using Documents.Core.Entities;
 using Documents.Core.Interfaces.Services;
 using Documents.Core.Responses;
 using Documents.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -27,24 +28,20 @@ public class AzureService : IAzureService
         _storageContainerName = config.GetValue<string>("BlobContainerName");
     }
 
-    public async Task<BlobResponse> DeleteAsync(string blobFilename)
+    public async Task DeleteAsync(string blobFilename)
     {
         BlobContainerClient client = new BlobContainerClient(_storageConnectionString, _storageContainerName);
 
         BlobClient file = client.GetBlobClient(blobFilename);
-
-        try
+        
+        var document = await _context.Documents.SingleOrDefaultAsync(x => x.Url == file.Uri.ToString());
+        
+        await file.DeleteAsync();
+        
+        if (document is not null)
         {
-            await file.DeleteAsync();
+            _context.Documents.Remove(document);
         }
-        catch (RequestFailedException ex)
-            when(ex.ErrorCode == BlobErrorCode.BlobNotFound)
-        {
-            _logger.LogError($"File {blobFilename} was not found.");
-            return new BlobResponse { Error = true, Status = $"File with name {blobFilename} not found." };
-        }
-
-        return new BlobResponse { Error = false, Status = $"File: {blobFilename} has been successfully deleted." };
     }
 
     public async Task<List<BlobDto>> ListAsync()
