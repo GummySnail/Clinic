@@ -150,7 +150,7 @@ public class ClinicService : IClinicService
 
         if (specialization is null)
         {
-            throw new NotFoundException("Specialization iss not exist");
+            throw new NotFoundException("Specialization is not exist");
         }
         
         var result = new GetSpecializationResponse(specialization.SpecializationName,

@@ -31,5 +31,345 @@
         "Host": "localhost",
         "Port": 5179
       }]
-    }]  
-}
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/create-patient-profile",
+      "UpstreamHttpMethod": ["POST"],
+      "DownstreamPathTemplate": "/api/profile/create-patient-profile",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5122
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/create-doctor-profile",
+      "UpstreamHttpMethod": ["POST"],
+      "DownstreamPathTemplate": "/api/profile/create-doctor-profile",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5122
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/create-receptionist-profile",
+      "UpstreamHttpMethod": ["POST"],
+      "DownstreamPathTemplate": "/api/profile/create-receptionist-profile",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5122
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/create-patient-profile-by-admin",
+      "UpstreamHttpMethod": ["POST"],
+      "DownstreamPathTemplate": "/api/profile/create-patient-profile-by-admin",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5122
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/doctors",
+      "UpstreamHttpMethod": ["GET"],
+      "DownstreamPathTemplate": "/api/profile/doctors",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5122
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/get-doctors-by-admin",
+      "UpstreamHttpMethod": ["GET"],
+      "DownstreamPathTemplate": "/api/profile/get-doctors-by-admin",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5122
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/receptionists",
+      "UpstreamHttpMethod": ["GET"],
+      "DownstreamPathTemplate": "/api/profile/receptionists",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5122
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/get-patients-by-admin",
+      "UpstreamHttpMethod": ["GET"],
+      "DownstreamPathTemplate": "/api/profile/get-patients-by-admin",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5122
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/get-patient-profile-by-doctor/{patientId}",
+      "UpstreamHttpMethod": ["GET"],
+      "DownstreamPathTemplate": "/api/profile/get-patient-profile-by-doctor/{patientId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5122
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/doctors/{doctorId}",
+      "UpstreamHttpMethod": ["GET"],
+      "DownstreamPathTemplate": "/api/profile/doctors/{doctorId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5122
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/get-patient-profile-by-admin/{patientId}",
+      "UpstreamHttpMethod": ["GET"],
+      "DownstreamPathTemplate": "/api/profile/get-patient-profile-by-admin/{patientId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5122
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/receptionists/{receptionistId}",
+      "UpstreamHttpMethod": ["GET"],
+      "DownstreamPathTemplate": "/api/profile/receptionists/{receptionistId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5122
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/patients/{patientId}",
+      "UpstreamHttpMethod": ["DELETE"],
+      "DownstreamPathTemplate": "/api/profile/patients/{patientId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5122
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/receptionists/{receptionistId}",
+      "UpstreamHttpMethod": ["DELETE"],
+      "DownstreamPathTemplate": "/api/profile/receptionists/{receptionistId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5122
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/update-doctor-status/{doctorId}",
+      "UpstreamHttpMethod": ["PATCH"],
+      "DownstreamPathTemplate": "/api/profile/update-doctor-status/{doctorId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5122
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/offices",
+      "UpstreamHttpMethod": ["GET", "POST"],
+      "DownstreamPathTemplate": "/api/office",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5188
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/offices/{officeId}",
+      "UpstreamHttpMethod": ["GET", "PATCH"],
+      "DownstreamPathTemplate": "/api/office/{officeId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5188
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/offices/{officeId}/edit",
+      "UpstreamHttpMethod": ["PUT"],
+      "DownstreamPathTemplate": "/api/office/{officeId}/edit",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5188
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/services/create-service",
+      "UpstreamHttpMethod": ["POST"],
+      "DownstreamPathTemplate": "/api/service/create-service",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5144
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/services/create-specialization",
+      "UpstreamHttpMethod": ["POST"],
+      "DownstreamPathTemplate": "/api/service/create-specialization",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5144
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/services/{specializationId}/edit-specialization",
+      "UpstreamHttpMethod": ["PUT"],
+      "DownstreamPathTemplate": "/api/service/{specializationId}/edit-specialization",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5144
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/services/{serviceId}/edit-service",
+      "UpstreamHttpMethod": ["PUT"],
+      "DownstreamPathTemplate": "/api/service/{serviceId}/edit-service",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5144
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/services/update-specialization-status/{specializationId}",
+      "UpstreamHttpMethod": ["PATCH"],
+      "DownstreamPathTemplate": "/api/service/update-specialization-status/{specializationId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5144
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/services/update-service-status/{serviceId}",
+      "UpstreamHttpMethod": ["PATCH"],
+      "DownstreamPathTemplate": "/api/service/update-service-status/{serviceId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5144
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/services/{category}",
+      "UpstreamHttpMethod": ["GET"],
+      "DownstreamPathTemplate": "/api/service/services/{category}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5144
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/services/specializations",
+      "UpstreamHttpMethod": ["GET"],
+      "DownstreamPathTemplate": "/api/service/specializations",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5144
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/services/{serviceId}",
+      "UpstreamHttpMethod": ["GET"],
+      "DownstreamPathTemplate": "/api/service/{serviceId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5144
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/specializations/{specializationId}",
+      "UpstreamHttpMethod": ["GET"],
+      "DownstreamPathTemplate": "/api/service/specializations/{specializationId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5144
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/appointments/create-appointment",
+      "UpstreamHttpMethod": ["POST"],
+      "DownstreamPathTemplate": "/api/appointment/create-appointment",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5195
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/appointments/approve-appointment/{appointmentId}",
+      "UpstreamHttpMethod": ["PATCH"],
+      "DownstreamPathTemplate": "/api/appointment/approve-appointment/{appointmentId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5195
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/appointments/cancel-appointment/{appointmentId}",
+      "UpstreamHttpMethod": ["DELETE"],
+      "DownstreamPathTemplate": "/api/appointment/cancel-appointment/{appointmentId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5195
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/appointments/create-appointment-result/{appointmentId}",
+      "UpstreamHttpMethod": ["POST"],
+      "DownstreamPathTemplate": "/api/appointment/create-appointment-result/{appointmentId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5195
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/appointments/{resultId}/edit",
+      "UpstreamHttpMethod": ["PUT"],
+      "DownstreamPathTemplate": "/api/appointment/{resultId}/edit",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5195
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/document/{filename}",
+      "UpstreamHttpMethod": ["GET"],
+      "DownstreamPathTemplate": "/api/document/{filename}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5246
+      }]
+    }]
+  }

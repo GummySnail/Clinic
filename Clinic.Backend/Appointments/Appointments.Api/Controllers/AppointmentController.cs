@@ -54,7 +54,7 @@ public class AppointmentController : ControllerBase
     }
     
     //[Authorize(Roles = "Doctor")]
-    [HttpPut("edit-result-information/{resultId}")]
+    [HttpPut("{resultId}/edit")]
     public async Task<ActionResult> EditAppointmentResultAsync([FromRoute] string resultId, [FromBody] AppointmentResultRequest request)
     {
         await _appointmentService.EditAppointmentResultAsync(resultId, request.Complaints, request.Conclusion, request.Recommendations);

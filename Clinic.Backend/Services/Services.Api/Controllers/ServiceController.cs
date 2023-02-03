@@ -93,7 +93,7 @@ public class ServiceController : ControllerBase
     }
 
     //[Authorize(Roles = "Receptionist")]
-    [HttpGet("services/{serviceId}")]
+    [HttpGet("{serviceId}")]
     public async Task<ActionResult<GetServiceResponse>> GetServiceAsync([FromRoute] string serviceId)
     {
         var result = await _clinicService.GetServiceAsync(serviceId);
