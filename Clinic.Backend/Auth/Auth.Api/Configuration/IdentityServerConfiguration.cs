@@ -19,23 +19,87 @@ public static class IdentityServerConfiguration
         {
             new("UserInfoScope",new List<string>
             {
-                JwtClaimTypes.Subject, JwtClaimTypes.Name, JwtClaimTypes.Role, JwtClaimTypes.ClientId
+                JwtClaimTypes.Name, JwtClaimTypes.Role, JwtClaimTypes.ClientId
             })
         };
 
-    public static IEnumerable<ApiResource> ApiResources =>
+    public static IEnumerable<ApiResource> ApiResources(IConfiguration config) =>
         new List<ApiResource>
         {
             new("Client")
             {
+                ApiSecrets =
+                {
+                    new Secret(config["ClientSecret"].Sha256())
+                },
                 Scopes =
                 {
                     "UserInfoScope"
                 }
+            },
+            new("Profiles.Api")
+            {
+                ApiSecrets =
+                {
+                    new Secret(config["ClientSecret"].Sha256())
+                },
+                Scopes =
+                {
+                    "UserInfoScope",
+                    "ApiScope"
+                }
+            },
+            new("Offices.Api")
+            {
+                ApiSecrets =
+                {
+                    new Secret(config["ClientSecret"].Sha256())
+                },
+                Scopes =
+                {
+                    "UserInfoScope",
+                    "ApiScope"
+                }
+            },
+            new("Services.Api")
+            {
+                ApiSecrets =
+                {
+                    new Secret(config["ClientSecret"].Sha256())
+                },
+                Scopes =
+                {
+                    "UserInfoScope",
+                    "ApiScope"
+                }
+            },
+            new("Appointments.Api")
+            {
+                ApiSecrets =
+                {
+                    new Secret(config["ClientSecret"].Sha256())
+                },
+                Scopes =
+                {
+                    "UserInfoScope",
+                    "ApiScope"
+                }
+            },
+            new("Documents.Api")
+            {
+                ApiSecrets =
+                {
+                    new Secret(config["ClientSecret"].Sha256())
+                },
+                Scopes =
+                {
+                    "UserInfoScope",
+                    "ApiScope"
+                }
             }
         };
 
-    public static IEnumerable<Client> Clients =>
+    public static IEnumerable<Client> Clients(IConfiguration config) =>
         new List<Client>
         {
             new()
@@ -43,7 +107,7 @@ public static class IdentityServerConfiguration
                 ClientId = "client",
                 ClientSecrets =
                 {
-                    new Secret("client-secret".Sha256())
+                    new Secret(config["ClientSecret"].Sha256())
                 },
                 AllowedGrantTypes = GrantTypes.Code,
                 RedirectUris = new List<string>{ "https://localhost:5005/signin-oidc" },
@@ -61,6 +125,20 @@ public static class IdentityServerConfiguration
                 AllowOfflineAccess = true,
                 UpdateAccessTokenClaimsOnRefresh = true,
                 RequirePkce = true,
+            },
+            new()
+            {
+                ClientId = "api",
+                AllowedGrantTypes = GrantTypes.ClientCredentials,
+                ClientSecrets =
+                {
+                    new Secret(config["ClientSecret"].Sha256())
+                },
+                AllowedScopes =
+                {
+                  "ApiScope"  
+                },
+                AllowOfflineAccess = true
             }
         };
 }

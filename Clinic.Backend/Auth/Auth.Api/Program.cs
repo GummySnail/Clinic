@@ -37,10 +37,10 @@ var identityServerBuilder = services.AddIdentityServer(opt =>
         opt.EmitStaticAudienceClaim = true;
     })
     .AddAspNetIdentity<Account>()
-    .AddInMemoryApiResources(IdentityServerConfiguration.ApiResources)
+    .AddInMemoryApiResources(IdentityServerConfiguration.ApiResources(config))
     .AddInMemoryIdentityResources(IdentityServerConfiguration.IdentityResources)
     .AddInMemoryApiScopes(IdentityServerConfiguration.ApiScopes)
-    .AddInMemoryClients(IdentityServerConfiguration.Clients);
+    .AddInMemoryClients(IdentityServerConfiguration.Clients(config));
     
 identityServerBuilder.AddDeveloperSigningCredential();
 
@@ -66,7 +66,7 @@ services.AddAuthentication(opt =>
         opt.Authority = "https://localhost:5005";
         opt.RequireHttpsMetadata = false;
         opt.ClientId = "client";
-        opt.ClientSecret = "client-secret";
+        opt.ClientSecret = config["ClientSecret"];
         opt.ResponseType = "code";
         opt.SaveTokens = true;
         
