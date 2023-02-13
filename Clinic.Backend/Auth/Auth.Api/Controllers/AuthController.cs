@@ -21,7 +21,7 @@ public class AuthController : Controller
     }
     
     [HttpPost]
-    public async Task<IActionResult> SignUp(SignUpModel signUpModel)
+    public async Task<IActionResult> SignUp([FromForm] SignUpModel signUpModel)
     {
         if (!ModelState.IsValid)
         {
@@ -50,7 +50,7 @@ public class AuthController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> SignIn(SignInModel signInModel)
+    public async Task<IActionResult> SignIn([FromForm] SignInModel signInModel)
     {
         if (!ModelState.IsValid)
         {
