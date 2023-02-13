@@ -75,6 +75,7 @@ services.AddAuthentication(opt =>
         opt.Scope.Clear();
         opt.Scope.Add("openid");
         opt.Scope.Add("offline_access");
+        //opt.Scope.Add("ApiScope");
         opt.Scope.Add("UserInfoScope");
         opt.Scope.Add("user-profile");
     });

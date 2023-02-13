@@ -11,7 +11,7 @@ public static class IdentityServerConfiguration
         {
             new IdentityResources.OpenId(),
             new("user-profile", "Your profile data", 
-                new List<string>{ "name", "role", "email" })
+                new List<string>{ "name", "role", "email" }),
         };
 
     public static IEnumerable<ApiScope> ApiScopes =>
@@ -20,7 +20,8 @@ public static class IdentityServerConfiguration
             new("UserInfoScope",new List<string>
             {
                 JwtClaimTypes.Name, JwtClaimTypes.Role, JwtClaimTypes.ClientId
-            })
+            }),
+            new("ApiScope")
         };
 
     public static IEnumerable<ApiResource> ApiResources(IConfiguration config) =>
