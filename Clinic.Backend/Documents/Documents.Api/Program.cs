@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Debugging;
-using SharedModels;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -68,7 +67,7 @@ services.AddMassTransit(cfg =>
         });
 
         rbfc.UseDelayedMessageScheduler();
-        rbfc.Host("localhost", h =>
+        rbfc.Host("amqp://@rabbitmq:5672",h =>
         {
             h.Username("user");
             h.Password("password");
@@ -90,8 +89,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseMiddleware<ExceptionMiddleware>();
-
-app.UseHttpsRedirection();
 
 app.UseCors(policy => policy
     .AllowAnyMethod()

@@ -2,16 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c280bc09-25ef-4e9e-8eeb-7dab3f5f0645" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Documents.Api/.dockerignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Documents.Api/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Profiles/Profiles.Api/.dockerignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Profiles/Profiles.Api/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Auth/Auth.Api/Configuration/IdentityServerConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Auth/Auth.Api/Configuration/IdentityServerConfiguration.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Auth/Auth.Api/Controllers/AuthController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Auth/Auth.Api/Controllers/AuthController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Auth/Auth.Api/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Auth/Auth.Api/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Documents.Api/Documents.Api.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Documents.Api/Documents.Api.csproj" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Appointments/Appointments.Api/.dockerignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Appointments/Appointments.Api/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Appointments/Appointments.Api/Appointments.Api.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../Appointments/Appointments.Api/Appointments.Api.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Documents.Api/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Documents.Api/Program.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Documents.Api/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/Documents.Api/appsettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Profiles/Profiles.Api/Profiles.Api.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../Profiles/Profiles.Api/Profiles.Api.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Profiles/Profiles.Api/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Profiles/Profiles.Api/appsettings.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../docker-compose.yml" afterDir="false" />
     </list>
@@ -66,7 +62,7 @@
       <option name="presentableId" value="Default" />
       <updated>1676278739285</updated>
       <workItem from="1676278740922" duration="20658000" />
-      <workItem from="1676305744535" duration="688000" />
+      <workItem from="1676305744535" duration="8332000" />
     </task>
     <servers />
   </component>
