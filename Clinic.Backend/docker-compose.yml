@@ -5,9 +5,9 @@ services:
     image: docker.io/library/profile-image
     depends_on:
       - "mssql_db"
-    container_name: profile-app-services
+    container_name: profile-app-service
     ports:
-      - "8087:80"
+      - "8085:80"
     build:
       context: ./Profiles
       dockerfile: Profiles.Api/Dockerfile
@@ -23,19 +23,34 @@ services:
       SA_PASSWORD: "Pa55w0rd2023"
       ACCEPT_EULA: "Y"
 
+  appointments-app:
+    image: docker.io/library/appointment-image
+    depends_on:
+      - "postgresql_db"
+      - "rabbitmq"
+    container_name: appointment-app-service
+    ports:
+      - "8087:80"
+    build:
+      context: ./Appointments
+      dockerfile: Appointments.Api/Dockerfile
+    environment:
+      - ConnectionStrings__DefaultConnection=User ID=postgres;Password=rootroot;Server=postgresql_db;Port=5432;Database=AppointmentsDB; IntegratedSecurity=true;Pooling=true;
+      - ASPNETCORE_URLS=http://+:80
+
   documents-app:
     image: docker.io/library/document-image
     depends_on:
       - "postgresql_db"
       - "rabbitmq"
-    container_name: document-app-services
+    container_name: document-app-service
     ports:
       - "8088:80"
     build:
       context: ./Documents
       dockerfile: Documents.Api/Dockerfile
     environment:
-      - ConnectionStrings__DefaultConnection=User ID=postgres;Password=rootroot;Server=postgresql_db;Port=5432;Database=DocumentsDb; IntegratedSecurity=true;Pooling=true;
+      - ConnectionStrings__DefaultConnection=User ID=postgres;Password=rootroot;Server=postgresql_db;Port=5432;Database=DocumentsDB; IntegratedSecurity=true;Pooling=true;
       - ASPNETCORE_URLS=http://+:80
 
   rabbitmq:
@@ -54,7 +69,6 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=rootroot
-      - POSTGRES_DB=DocumentsDb
     ports:
       - "5433:5432"
     restart: always
