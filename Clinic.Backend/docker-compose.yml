@@ -1,71 +1,93 @@
 version: '3.8'
 
+networks:
+  localNetwork:
+    external: true
+
 services:
   profiles-app:
     image: docker.io/library/profile-image
     depends_on:
-      - "mssql_db"
-    container_name: profile-app-service
+      - mssql_db
+    container_name: profile-app-microservice
     ports:
       - "8085:80"
+    restart: always
     build:
       context: ./Profiles
       dockerfile: Profiles.Api/Dockerfile
     environment:
-      DBServer: "mssql_db"
-
-  mssql_db:
-    container_name: mssql_db
-    image: mcr.microsoft.com/mssql/server:2019-latest
-    ports:
-      - "1433:1433"
-    environment:
-      SA_PASSWORD: "Pa55w0rd2023"
-      ACCEPT_EULA: "Y"
+      - ConnectionStrings__DefaultConnection=Server=mssql_db;Database=ProfilesDB;User Id=sa;Password=Pa55w0rd2023;TrustServerCertificate=True;
+    networks:
+      - localNetwork
 
   appointments-app:
     image: docker.io/library/appointment-image
     depends_on:
-      - "postgresql_db"
-      - "rabbitmq"
-    container_name: appointment-app-service
+      - postgresql_db
+      - rabbitmq
+    container_name: appointment-app-microservice
     ports:
       - "8087:80"
+    restart: always
     build:
       context: ./Appointments
       dockerfile: Appointments.Api/Dockerfile
     environment:
       - ConnectionStrings__DefaultConnection=User ID=postgres;Password=rootroot;Server=postgresql_db;Port=5432;Database=AppointmentsDB; IntegratedSecurity=true;Pooling=true;
-      - ASPNETCORE_URLS=http://+:80
+    networks:
+      - localNetwork
 
   documents-app:
     image: docker.io/library/document-image
     depends_on:
-      - "postgresql_db"
-      - "rabbitmq"
-    container_name: document-app-service
+      - postgresql_db
+      - rabbitmq
+    container_name: document-app-microservice
     ports:
       - "8088:80"
+    restart: always
     build:
       context: ./Documents
       dockerfile: Documents.Api/Dockerfile
     environment:
       - ConnectionStrings__DefaultConnection=User ID=postgres;Password=rootroot;Server=postgresql_db;Port=5432;Database=DocumentsDB; IntegratedSecurity=true;Pooling=true;
-      - ASPNETCORE_URLS=http://+:80
+    networks:
+      - localNetwork
 
   rabbitmq:
     image: rabbitmq:3.8-management-alpine
-    container_name: rabbitmq
+    container_name: "rabbitmq"
     environment:
       - RABBITMQ_DEFAULT_USER=user
       - RABBITMQ_DEFAULT_PASS=password
     ports:
       - '5672:5672'
       - '15672:15672'
+    restart: always
+    volumes:
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    networks:
+      - localNetwork
+
+  mssql_db:
+    container_name: "MSSQL_SERVER"
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+      - "1433:1433"
+    restart: always
+    environment:
+      - SA_PASSWORD=Pa55w0rd2023
+      - ACCEPT_EULA=Y
+    volumes:
+      - /var/opt/mssql
+    networks:
+      - localNetwork
 
   postgresql_db:
     image: postgres:latest
-    container_name: postgresql_db
+    container_name: "POSTGRESQL_SERVER"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=rootroot
@@ -73,8 +95,7 @@ services:
       - "5433:5432"
     restart: always
     volumes:
-      - app_data:/var/lib/postgresql/data
-
-volumes:
-  app_data:
+      - /var/opt/postgresql
+    networks:
+      - localNetwork
 

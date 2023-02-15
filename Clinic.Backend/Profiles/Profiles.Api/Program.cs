@@ -96,6 +96,7 @@ catch (Exception ex)
 {
     var loggerDb = servicesProvider.GetRequiredService<ILogger<Program>>();
     loggerDb.LogError(ex, "Error during database migration");
+    throw;
 }
 
 await app.RunAsync();
