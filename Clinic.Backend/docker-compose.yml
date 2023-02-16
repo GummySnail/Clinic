@@ -5,6 +5,80 @@ networks:
     external: true
 
 services:
+  rabbitmq:
+    image: rabbitmq:3.8-management-alpine
+    container_name: "rabbitmq"
+    environment:
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=password
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    restart: always
+    volumes:
+      - rabbit:/var/lib/rabbitmq/
+      - rabbit:/var/log/rabbitmq
+    networks:
+      - localNetwork
+
+  mssql_db:
+    container_name: "MSSQL_SERVER"
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+      - "1433:1433"
+    restart: always
+    environment:
+      - SA_PASSWORD=Pa55w0rd2023
+      - ACCEPT_EULA=Y
+    volumes:
+      - mssql-db:/data/db
+    networks:
+      - localNetwork
+
+  postgresql_db:
+    image: postgres:latest
+    container_name: "POSTGRESQL_SERVER"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=rootroot
+    ports:
+      - "5433:5432"
+    restart: always
+    volumes:
+      - postgresql-db:/data/db
+    networks:
+      - localNetwork
+
+  mongo_db:
+    image: mongo
+    container_name: "MONGO_SERVER"
+    restart: always
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongo-db:/data/db
+    networks:
+      - localNetwork
+
+  offices-app:
+    image: docker.io/library/office-image
+    depends_on:
+      - mongo_db
+    container_name: office-app-microservice
+    ports:
+      - "8084:80"
+    restart: always
+    build:
+      context: ./Offices
+      dockerfile: Offices.Api/Dockerfile
+    environment:
+      - OfficeDatabase__ConnectionString=mongodb://mongo_db:27017
+      - OfficeDatabase__DatabaseName=OfficesDB
+      - OfficeDatabase__OfficesCollectionName=Offices
+    networks:
+      - localNetwork
+
+
   profiles-app:
     image: docker.io/library/profile-image
     depends_on:
@@ -71,51 +145,8 @@ services:
     networks:
       - localNetwork
 
-  rabbitmq:
-    image: rabbitmq:3.8-management-alpine
-    container_name: "rabbitmq"
-    environment:
-      - RABBITMQ_DEFAULT_USER=user
-      - RABBITMQ_DEFAULT_PASS=password
-    ports:
-      - '5672:5672'
-      - '15672:15672'
-    restart: always
-    volumes:
-      - rabbit:/var/lib/rabbitmq/
-      - rabbit:/var/log/rabbitmq
-    networks:
-      - localNetwork
-
-  mssql_db:
-    container_name: "MSSQL_SERVER"
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    ports:
-      - "1433:1433"
-    restart: always
-    environment:
-      - SA_PASSWORD=Pa55w0rd2023
-      - ACCEPT_EULA=Y
-    volumes:
-      - mssql-db:/data/db
-    networks:
-      - localNetwork
-
-  postgresql_db:
-    image: postgres:latest
-    container_name: "POSTGRESQL_SERVER"
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=rootroot
-    ports:
-      - "5433:5432"
-    restart: always
-    volumes:
-      - postgresql-db:/data/db
-    networks:
-      - localNetwork
-
 volumes:
   rabbit:
   mssql-db:
   postgresql-db:
+  mongo-db:
