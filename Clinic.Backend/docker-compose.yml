@@ -21,6 +21,22 @@ services:
     networks:
       - localNetwork
 
+  services-app:
+    image: docker.io/library/service-image
+    depends_on:
+      - mssql_db
+    container_name: service-app-microservice
+    ports:
+      - "8086:80"
+    restart: always
+    build:
+      context: ./Services
+      dockerfile: Services.Api/Dockerfile
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=mssql_db;Database=ServicesDB;User Id=sa;Password=Pa55w0rd2023;TrustServerCertificate=True;
+    networks:
+      - localNetwork
+
   appointments-app:
     image: docker.io/library/appointment-image
     depends_on:
@@ -66,14 +82,14 @@ services:
       - '15672:15672'
     restart: always
     volumes:
-      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
-      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+      - rabbit:/var/lib/rabbitmq/
+      - rabbit:/var/log/rabbitmq
     networks:
       - localNetwork
 
   mssql_db:
     container_name: "MSSQL_SERVER"
-    image: mcr.microsoft.com/mssql/server:2019-latest
+    image: mcr.microsoft.com/mssql/server:2022-latest
     ports:
       - "1433:1433"
     restart: always
@@ -81,7 +97,7 @@ services:
       - SA_PASSWORD=Pa55w0rd2023
       - ACCEPT_EULA=Y
     volumes:
-      - /var/opt/mssql
+      - mssql-db:/data/db
     networks:
       - localNetwork
 
@@ -95,7 +111,11 @@ services:
       - "5433:5432"
     restart: always
     volumes:
-      - /var/opt/postgresql
+      - postgresql-db:/data/db
     networks:
       - localNetwork
 
+volumes:
+  rabbit:
+  mssql-db:
+  postgresql-db:
