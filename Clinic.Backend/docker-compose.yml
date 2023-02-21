@@ -65,7 +65,7 @@ services:
     container_name: "GATEWAY"
     restart: always
     ports:
-      - "7192:80"
+      - "5267:80"
     build:
       context: ./Gateway
       dockerfile: Gateway.Api/Dockerfile
