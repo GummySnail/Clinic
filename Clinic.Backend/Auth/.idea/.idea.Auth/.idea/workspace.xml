@@ -13,135 +13,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d0d32a1c-147d-46ce-87f6-d7a402384d64" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.dockerignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Auth.Api/Controllers/TokenController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Auth.Api/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Auth.Api/Extensions/ClaimsPrincipalExtensions.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Auth.Api/Filters/ValidationFilter.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Auth.Api/Middleware/ExceptionMiddleware.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Auth.Api/Models/Auth/Requests/SignInRequest.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Auth.Api/Models/Auth/Requests/SignUpRequest.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Auth.Api/Models/Auth/Validators/SignInValidator.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Auth.Api/Models/Auth/Validators/SignUpValidator.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Auth.Api/Models/ErrorModel.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Auth.Api/Models/Responses/ValidationErrorResponse.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Auth.Api/Models/Token/Requests/RefreshTokenRequest.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Auth.Api/Models/Token/Requests/RevokeTokenRequest.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Auth.Api/Models/Token/Validators/RefreshTokenValidator.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Auth.Api/Models/Token/Validators/RevokeTokenValidator.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Auth.Api/Models/ValidationErrorModel.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Auth.Core/Exceptions/BadRequestException.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Auth.Core/Exceptions/NotFoundException.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Auth.Core/Interfaces/IAuthService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Auth.Core/Interfaces/IEmailService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Auth.Core/Interfaces/ITokenService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Auth.Core/Services/Responses/AuthenticatedResponse.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Auth.Infrastructure/Data/AuthDbContext.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Auth.Infrastructure/Services/TokenService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Gateway/.dockerignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Gateway/Gateway.Api/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Auth/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Auth/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Auth/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/Auth.Api.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Auth.Api/Auth.Api.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/Configuration/IdentityServerConfiguration.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/Controllers/AuthController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Auth.Api/Controllers/AuthController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/Controllers/HomeController.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/Models/Auth/SignInModel.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/Models/Auth/SignUpModel.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/Models/ErrorViewModel.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Auth.Api/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/Auth.Api/Properties/launchSettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/Views/Auth/EmailVerification.cshtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/Views/Auth/SignIn.cshtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/Views/Auth/SignUp.cshtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/Views/Auth/VerifyEmail.cshtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/Views/Home/Index.cshtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/Views/Home/Privacy.cshtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/Views/Shared/Error.cshtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/Views/Shared/_AuthPartial.cshtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/Views/Shared/_Layout.cshtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/Views/Shared/_Layout.cshtml.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/Views/Shared/_ValidationScriptsPartial.cshtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/Views/Shared/_ValidationSummary.cshtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/Views/_ViewImports.cshtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/Views/_ViewStart.cshtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/Auth.Api/appsettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/tempkey.jwk" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/css/site.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/favicon.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/js/site.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.css.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.css.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.min.css.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/css/bootstrap.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/css/bootstrap.css.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.css.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.min.css.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.min.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/js/bootstrap.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/js/bootstrap.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/jquery-validation-unobtrusive/LICENSE.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/jquery-validation/LICENSE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/jquery-validation/dist/additional-methods.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/jquery-validation/dist/additional-methods.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/jquery-validation/dist/jquery.validate.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/jquery-validation/dist/jquery.validate.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/jquery/LICENSE.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/jquery/dist/jquery.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/jquery/dist/jquery.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Api/wwwroot/lib/jquery/dist/jquery.min.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Core/Auth.Core.csproj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Core/Entities/Account.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Auth.Core/Entities/Account.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Core/Interface/Services/IAuthService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Core/Interface/Services/IEmailService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Infrastructure/Auth.Infrastructure.csproj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Infrastructure/Data/AuthenticationDbContext.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Infrastructure/Data/Migrations/20221223140229_Init.Designer.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Infrastructure/Data/Migrations/20221223140229_Init.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Infrastructure/Data/Migrations/AuthenticationDbContextModelSnapshot.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Infrastructure/Services/AuthService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Auth.Infrastructure/Services/AuthService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.Infrastructure/Services/EmailService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Auth.Infrastructure/Services/EmailService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Auth.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Auth.sln" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Gateway/Gateway.Api/Gateway.Api.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../Gateway/Gateway.Api/Gateway.Api.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Gateway/Gateway.Api/ocelot.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Gateway/Gateway.Api/ocelot.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Gateway/Gateway.Api/ocelot.Docker.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Auth/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Auth/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Gateway/Gateway.Api/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Gateway/Gateway.Api/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Gateway/Gateway.Api/ocelot.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Gateway/Gateway.Api/ocelot.Development.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -326,7 +201,7 @@
       <option name="presentableId" value="Default" />
       <updated>1676637401470</updated>
       <workItem from="1676637401984" duration="10279000" />
-      <workItem from="1676969170653" duration="16166000" />
+      <workItem from="1676969170653" duration="16951000" />
     </task>
     <servers />
   </component>
