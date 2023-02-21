@@ -1,5 +1,9 @@
-﻿using Auth.Core.Entities;
-using Auth.Core.Interface.Services;
+﻿using System.Security.Claims;
+using Auth.Core.Entities;
+using Auth.Core.Exceptions;
+using Auth.Core.Interfaces;
+using Auth.Core.Services.Responses;
+using Auth.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,24 +14,30 @@ public class AuthService : IAuthService
     private readonly IEmailService _emailService;
     private readonly UserManager<Account> _userManager;
     private readonly SignInManager<Account> _signInManager;
+    private readonly ITokenService _tokenService;
+    private readonly AuthDbContext _context;
 
     public AuthService(
-        IEmailService emailService,
+        UserManager<Account> userManager,
         SignInManager<Account> signInManager,
-        UserManager<Account> userManager)
+        IEmailService emailService,
+        ITokenService tokenService,
+        AuthDbContext context)
     {
-        _emailService = emailService;
-        _signInManager = signInManager;
         _userManager = userManager;
+        _signInManager = signInManager;
+        _emailService = emailService;
+        _tokenService = tokenService;
+        _context = context;
     }
 
-    public async Task<string> SignUpAsync(string email, string password)
+    public async Task SignUpAsync(string email, string password)
     {
         var isUserExist = await _userManager.Users.AnyAsync(x => x.NormalizedEmail == email.ToUpperInvariant());
-        
+
         if (isUserExist)
         {
-            return "Someone already uses this email";
+            throw new BadRequestException("Someone already uses this email");
         }
 
         var account = new Account
@@ -38,54 +48,66 @@ public class AuthService : IAuthService
 
         var createUserResult = await _userManager.CreateAsync(account, password);
         var addToRoleResult = await _userManager.AddToRoleAsync(account, "Patient");
-        
+
         if (!createUserResult.Succeeded && !addToRoleResult.Succeeded)
         {
-            return "Unable to create user";
+            throw new BadRequestException("Unable to create user");
         }
 
         var user = await _userManager.FindByEmailAsync(email.ToUpperInvariant());
         
         var token = await _emailService.GenerateEmailConfirmationTokenAsync(user);
-
-        var link = _emailService.GenerateEmailConfirmationLink(token, user.Email);
-
-        await _emailService.SendEmailAsync(user.Email, "Confirm your email", link);
         
-        return "";
+        var link = _emailService.GenerateEmailConfirmationLink(token, user.Email);
+        
+        await _emailService.SendEmailAsync(user.Email, "Confirm your email", link);
     }
 
-    public async Task<string> SignInAsync(string email, string password)
+    public async Task<AuthenticatedResponse> SignInAsync(string email, string password)
     {
         var user = await _userManager.FindByEmailAsync(email.ToUpperInvariant());
-        
+
         var isPasswordCorrect = await _userManager.CheckPasswordAsync(user, password);
 
         if (user is null || !isPasswordCorrect)
         {
-            return "Either an email or a password is incorrect";
+            throw new BadRequestException("Either an email or a password is incorrect");
         }
 
         var isEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
+
         if (!isEmailConfirmed)
         {
-            return "Email is not confirmed";
+            throw new BadRequestException("Email is not confirmed");
         }
-        
+
         await _signInManager.PasswordSignInAsync(user, password, false, false);
 
-        return "";
-    }
-    
-    public async Task ConfirmEmailAsync(string email, string token)
-    {
-        var user = await _userManager.FindByEmailAsync(email.ToUpperInvariant());
-        await _emailService.ConfirmEmailAsync(user, token);
-    }
+        var roles = await _userManager.GetRolesAsync(user);
 
-    public async Task LogoutAsync()
-    {
-        await _signInManager.SignOutAsync();
+        var claims = new List<Claim>
+        {
+            new(ClaimTypes.NameIdentifier, user.Id),
+            new(ClaimTypes.Email, user.Email),
+        };
         
+        foreach (var role in roles)
+        {
+            claims.Add(new(ClaimTypes.Role, role));
+        }
+        
+        var accessToken = _tokenService.GenerateAccessToken(claims);
+        var refreshToken = _tokenService.GenerateRefreshToken();
+
+        user.RefreshToken = refreshToken;
+        user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
+
+        await _context.SaveChangesAsync();
+        
+        return new AuthenticatedResponse
+        {
+            AccessToken = accessToken,
+            RefreshToken = refreshToken
+        };
     }
 }

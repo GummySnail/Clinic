@@ -1,7 +1,7 @@
 ﻿using MailKit.Net.Smtp;
 using System.Web;
 using Auth.Core.Entities;
-using Auth.Core.Interface.Services;
+using Auth.Core.Interfaces;
 using MailKit.Security;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -14,10 +14,10 @@ public class EmailService : IEmailService
     private readonly UserManager<Account> _userManager;
     private readonly IConfiguration _config;
 
-    public EmailService(IConfiguration config, UserManager<Account> userManager)
+    public EmailService(UserManager<Account> userManager, IConfiguration config)
     {
-        _config = config;
         _userManager = userManager;
+        _config = config;
     }
 
     public async Task<string> GenerateEmailConfirmationTokenAsync(Account user)
