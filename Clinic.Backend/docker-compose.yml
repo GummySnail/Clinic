@@ -60,6 +60,43 @@ services:
     networks:
       - localNetwork
 
+  _gateway:
+    image: docker.io/library/gateway-image
+    container_name: "GATEWAY"
+    restart: always
+    ports:
+      - "7192:80"
+    build:
+      context: ./Gateway
+      dockerfile: Gateway.Api/Dockerfile
+    depends_on:
+      - auth-app
+      - offices-app
+      - profiles-app
+      - services-app
+      - appointments-app
+      - documents-app
+    networks:
+      - localNetwork
+
+
+
+  auth-app:
+    image: docker.io/library/auth-image
+    depends_on:
+      - mssql_db
+    container_name: auth-app-microservice
+    ports:
+      - "8083:80"
+    restart: always
+    build:
+      context: ./Auth
+      dockerfile: Auth.Api/Dockerfile
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=mssql_db;Database=AuthDB;User Id=sa;Password=Pa55w0rd2023;TrustServerCertificate=True;
+    networks:
+      - localNetwork
+
   offices-app:
     image: docker.io/library/office-image
     depends_on:

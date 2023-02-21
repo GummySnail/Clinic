@@ -1,11 +1,12 @@
-﻿using Auth.Api.Models.Auth;
-using Auth.Core.Interface.Services;
-using IdentityServer4.Extensions;
+﻿using Auth.Api.Models.Auth.Requests;
+using Auth.Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Auth.Api.Controllers;
 
-public class AuthController : Controller
+[ApiController]
+[Route("api/[controller]")]
+public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;
 
@@ -14,73 +15,19 @@ public class AuthController : Controller
         _authService = authService;
     }
 
-    [HttpGet]
-    public IActionResult SignUp()
+    [HttpPost("sign-up")]
+    public async Task<ActionResult> SignUpAsync([FromBody] SignUpRequest request)
     {
-        return View();
-    }
-    
-    [HttpPost]
-    public async Task<IActionResult> SignUp([FromForm] SignUpModel signUpModel)
-    {
-        if (!ModelState.IsValid)
-        {
-            return View(signUpModel);
-        }
+        await _authService.SignUpAsync(request.Email, request.Password);
 
-        var result = await _authService.SignUpAsync(signUpModel.Email, signUpModel.Password);
-
-        if (!string.IsNullOrEmpty(result))
-        {
-            ModelState.AddModelError(String.Empty, result);
-            return View(signUpModel);
-        }
-
-        return RedirectToAction("EmailVerification");
+        return NoContent();
     }
 
-    [HttpGet]
-    public async Task<IActionResult> SignIn(string? returnUrl)
+    [HttpPost("sign-in")]
+    public async Task<ActionResult> SignInAsync([FromBody] SignInRequest request)
     {
-        var signInModel = new SignInModel
-        {
-            ReturnUrl = returnUrl.IsNullOrEmpty() ? "https://localhost:5005" : returnUrl
-        };
-        return View(signInModel);
-    }
+        var result = await _authService.SignInAsync(request.Email, request.Password);
 
-    [HttpPost]
-    public async Task<IActionResult> SignIn([FromForm] SignInModel signInModel)
-    {
-        if (!ModelState.IsValid)
-        {
-            return View(signInModel);
-        }
-
-        var result = await _authService.SignInAsync(signInModel.Email, signInModel.Password);
-        
-        if (!string.IsNullOrEmpty(result))
-        {
-            ModelState.AddModelError(String.Empty, result);
-            return View(signInModel);
-        }
-        
-
-        return Redirect(signInModel.ReturnUrl);
-    }
-    
-    public IActionResult EmailVerification() => View();
-    
-    public async Task<IActionResult> VerifyEmail(string token, string email)
-    {
-        await _authService.ConfirmEmailAsync(email, token);
-        return View();
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> Logout()
-    {
-        await _authService.LogoutAsync();
-        return RedirectToAction("Index", "Home");
+        return Ok(result);
     }
 }

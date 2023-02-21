@@ -3,33 +3,43 @@
     "BaseUrl": "https://localhost:5001"
   },
     "Routes": [{
-      "UpstreamPathTemplate": "/gateway/signin",
-      "UpstreamHttpMethod": ["GET", "POST"],
-      "DownstreamPathTemplate": "/auth/signin",
+      "UpstreamPathTemplate": "/gateway/sign-in",
+      "UpstreamHttpMethod": ["POST"],
+      "DownstreamPathTemplate": "api/auth/sign-in",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [{
         "Host": "localhost",
-        "Port": 5179
+        "Port": 5247
       }]
     },
     {
-    "UpstreamPathTemplate": "/gateway/signup",
-    "UpstreamHttpMethod": ["POST", "GET"],
-    "DownstreamPathTemplate": "/auth/signup",
+    "UpstreamPathTemplate": "/gateway/sign-up",
+    "UpstreamHttpMethod": ["POST"],
+    "DownstreamPathTemplate": "api/auth/sign-up",
     "DownstreamScheme": "http",
     "DownstreamHostAndPorts": [{
       "Host": "localhost",
-      "Port": 5179
+      "Port": 5247
     }]
     },
     {
       "UpstreamPathTemplate": "/gateway/logout",
-      "UpstreamHttpMethod": ["GET"],
-      "DownstreamPathTemplate": "/auth/logout",
+      "UpstreamHttpMethod": ["POST"],
+      "DownstreamPathTemplate": "api/token/revoke",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [{
         "Host": "localhost",
-        "Port": 5179
+        "Port": 5247
+      }]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/refresh",
+      "UpstreamHttpMethod": ["POST"],
+      "DownstreamPathTemplate": "api/token/refresh",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "localhost",
+        "Port": 5247
       }]
     },
     {
