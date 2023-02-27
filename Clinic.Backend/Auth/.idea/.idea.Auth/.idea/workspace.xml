@@ -13,11 +13,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d0d32a1c-147d-46ce-87f6-d7a402384d64" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../Gateway/Gateway.Api/ocelot.Docker.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Clinic.Frontend/src/app/core/models/Account.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Clinic.Frontend/src/app/core/models/requests/sign-in-request.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Clinic.Frontend/src/app/core/models/requests/sign-up-request.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Clinic.Frontend/src/app/shared/custom-encoder.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Clinic.Frontend/src/app/shared/validation/confirmPasswordValidation.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Auth/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Auth/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Gateway/Gateway.Api/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Gateway/Gateway.Api/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Gateway/Gateway.Api/ocelot.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Gateway/Gateway.Api/ocelot.Development.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Auth.Api/Controllers/AuthController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Auth.Api/Controllers/AuthController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Auth.Api/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/Auth.Api/appsettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Auth.Core/Interfaces/IAuthService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Auth.Core/Interfaces/IAuthService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Auth.Infrastructure/Services/AuthService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Auth.Infrastructure/Services/AuthService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Auth.Infrastructure/Services/EmailService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Auth.Infrastructure/Services/EmailService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Gateway/Gateway.Api/ocelot.Docker.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Gateway/Gateway.Api/ocelot.Docker.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SharedModels/SharedModels/SharedModels.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../SharedModels/SharedModels/SharedModels.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Clinic.Frontend/angular.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../Clinic.Frontend/angular.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Clinic.Frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../Clinic.Frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Clinic.Frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../Clinic.Frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Clinic.Frontend/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../Clinic.Frontend/src/app/app-routing.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Clinic.Frontend/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../Clinic.Frontend/src/app/app.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Clinic.Frontend/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../Clinic.Frontend/src/app/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Clinic.Frontend/src/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../Clinic.Frontend/src/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Clinic.Frontend/src/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../Clinic.Frontend/src/styles.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -202,6 +218,8 @@
       <updated>1676637401470</updated>
       <workItem from="1676637401984" duration="10279000" />
       <workItem from="1676969170653" duration="16951000" />
+      <workItem from="1677169742002" duration="4806000" />
+      <workItem from="1677242776411" duration="731000" />
     </task>
     <servers />
   </component>
@@ -211,5 +229,24 @@
   <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Auth.Api/Controllers/AuthController.cs</url>
+          <line>35</line>
+          <properties documentPath="C:\Common\Programming\Innowise Internship\Clinic\Clinic.Backend\Auth\Auth.Api\Controllers\AuthController.cs" initialLine="35" containingFunctionPresentation="method 'ConfirmEmailAsync'">
+            <startOffsets>
+              <option value="977" />
+            </startOffsets>
+            <endOffsets>
+              <option value="978" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -110,4 +110,19 @@ public class AuthService : IAuthService
             RefreshToken = refreshToken
         };
     }
+
+    public async Task ConfirmEmailAsync(string email, string token)
+    {
+        var user = await _userManager.FindByEmailAsync(email);
+        if (user == null)
+        {
+            throw new BadRequestException("Invalid Email Confirmation Request");
+        }
+
+        var confirmResult = await _userManager.ConfirmEmailAsync(user, token);
+        if (!confirmResult.Succeeded)
+        {
+            throw new BadRequestException("Invalid Email Confirmation Request");
+        }
+    }
 }

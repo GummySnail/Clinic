@@ -1,0 +1,25 @@
+<header class="header">
+  <div class="header__logo">Logo</div>
+  <div class="header__menu">
+    <button mat-button routerLink="/">Home</button>
+    <button mat-button routerLink="/about">About</button>
+    <button mat-button routerLink="/contact">Contact</button>
+  </div>
+  <div class="header__sign-in">
+    <ng-container *ngIf="(authService.currentUser$ | async) as user">
+      <p>{{user.email}}</p>
+    </ng-container>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>person</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <ng-container *ngIf="!(authService.currentUser$ | async)">
+        <button mat-menu-item routerLink="auth/sign-in">Sign In</button>
+        <button mat-menu-item routerLink="auth/sign-up">Sign Up</button>
+      </ng-container>
+      <ng-container *ngIf="(authService.currentUser$ | async)">
+        <button mat-menu-item (click)="logout()">Logout</button>
+      </ng-container>
+    </mat-menu>
+  </div>
+</header>

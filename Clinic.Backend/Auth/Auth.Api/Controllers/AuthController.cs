@@ -30,4 +30,12 @@ public class AuthController : ControllerBase
 
         return Ok(result);
     }
+
+    [HttpGet("email-confirmation")]
+    public async Task<IActionResult> ConfirmEmailAsync([FromQuery] string email, [FromQuery] string token)
+    {
+        await _authService.ConfirmEmailAsync(email, token);
+
+        return NoContent();
+    }
 }

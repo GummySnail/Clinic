@@ -1,0 +1,38 @@
+<html>
+  <body>
+    <div class="container">
+      <mat-card>
+        <mat-card-title>
+          Sign In
+        </mat-card-title>
+        <mat-card-content>
+
+          <form [formGroup]="signInForm" autocomplete="off" (ngSubmit)="!errorType && signInForm.valid && signIn()">
+            <mat-form-field appearance="outline">
+              <mat-label>Email</mat-label>
+              <input matInput [autofocus]="false" formControlName="email" type="email">
+              <mat-error *ngIf="signInForm.controls['email'].invalid">Length must be from 6</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Password</mat-label>
+              <input matInput [type]="hidePassword ? 'password' : 'text'" [autofocus]="false" formControlName="password">
+              <button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
+                      [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+                <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+              <mat-error *ngIf="signInForm.controls['password'].invalid">Length must be from 8 to 32</mat-error>
+            </mat-form-field>
+
+            <button mat-raised-button color="primary" type="submit" [disabled]="!signInForm.valid || isError()">Sign In</button>
+
+          </form>
+
+          <div class="error-message">
+            <p *ngIf="errorType">{{errorMessage}}</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </body>
+</html>
