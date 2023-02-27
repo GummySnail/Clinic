@@ -43,6 +43,16 @@
       }]
     },
     {
+      "UpstreamPathTemplate": "/gateway/email-confirmation",
+      "UpstreamHttpMethod": ["POST"],
+      "DownstreamPathTemplate": "/api/auth/email-confirmation",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [{
+        "Host": "auth-app",
+        "Port": 80
+      }]
+    },
+    {
       "UpstreamPathTemplate": "/gateway/create-patient-profile",
       "UpstreamHttpMethod": ["POST"],
       "DownstreamPathTemplate": "/api/profile/create-patient-profile",

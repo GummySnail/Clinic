@@ -31,8 +31,8 @@ public class EmailService : IEmailService
     {
         var uriBuilder = new UriBuilder(_config["ReturnPaths:ConfirmEmail"]);
         var query = HttpUtility.ParseQueryString(uriBuilder.Query);
-        query["token"] = confirmEmailToken;
         query["email"] = email;
+        query["token"] = confirmEmailToken;
         uriBuilder.Query = query.ToString();
         var urlString = uriBuilder.ToString();
         
