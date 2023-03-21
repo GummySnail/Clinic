@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {SignInRequest} from "../../../models/requests/sign-in-request";
+import {SignInRequest} from "../../../models/requests/auth/sign-in-request";
 import {AuthService} from "../../../services/auth.service";
 import {MatSnackBar, MatSnackBarConfig} from "@angular/material/snack-bar";
 import {catchError, throwError} from "rxjs";

@@ -1,6 +1,9 @@
+using System.Text;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Profiles.Api.Filters;
 using Profiles.Api.Middleware;
 using Profiles.Core.Interfaces.Services;
@@ -32,6 +35,37 @@ services.AddDbContext<ProfileDbContext>(opt =>
 {
     opt.UseSqlServer(config.GetConnectionString("DefaultConnection"),
         build => build.MigrationsAssembly(typeof(ProfileDbContext).Assembly.FullName));
+});
+
+services.AddAuthentication(x =>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(opt =>
+{
+    opt.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidIssuer = config["JWT:Issuer"],
+        ValidateAudience = true,
+        ValidAudience = config["JWT:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JWT:SecretKey"])),
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.Zero
+    };
+    opt.Events = new JwtBearerEvents
+    {
+        OnAuthenticationFailed = context =>
+        {
+            if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+            {
+                context.Response.Headers.Add("IS-TOKEN-EXPIRED", "true");
+            }
+
+            return Task.CompletedTask;
+        }
+    };
 });
 
 services.AddAutoMapper(typeof(MapperProfile).Assembly);

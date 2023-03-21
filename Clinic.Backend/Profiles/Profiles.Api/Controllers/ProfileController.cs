@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Profiles.Api.Models.Profile.Doctor.Requests;
 using Profiles.Api.Models.Profile.Patient.Requests;
 using Profiles.Api.Models.Profile.Receptionist.Requests;
@@ -19,7 +20,7 @@ public class ProfileController : ControllerBase
         _profileService = profileService;
     }
     
-    //[Authorize]
+    [Authorize]
     [HttpPost("create-patient-profile")]
     public async Task<ActionResult> CreatePatientProfileAsync([FromForm] CreatePatientProfileRequest request)
     {
@@ -30,7 +31,7 @@ public class ProfileController : ControllerBase
         return NoContent();
     }
     
-    //[Authorize(Roles = "Receptionist")]
+    [Authorize(Roles = "Receptionist")]
     [HttpPost("create-doctor-profile")]
     public async Task<ActionResult> CreateDoctorProfileAsync([FromForm] CreateDoctorProfileRequest request)
     {
@@ -40,7 +41,7 @@ public class ProfileController : ControllerBase
         return NoContent();
     }
     
-    //[Authorize(Roles = "Receptionist")]
+    [Authorize(Roles = "Receptionist")]
     [HttpPost("create-receptionist-profile")]
     public async Task<ActionResult> CreateReceptionistProfileAsync([FromForm] CreateReceptionistProfileRequest request)
     {
@@ -49,7 +50,7 @@ public class ProfileController : ControllerBase
         return NoContent();
     }
     
-    //[Authorize(Roles = "Receptionist")]
+    [Authorize(Roles = "Receptionist")]
     [HttpPost("create-patient-profile-by-admin")]
     public async Task<ActionResult> CreatePatientByAdminAsync([FromBody] CreatePatientProfileByAdminRequest request)
     {
@@ -66,7 +67,7 @@ public class ProfileController : ControllerBase
         return Ok(result);
     }
     
-    //[Authorize(Roles = "Receptionist")]
+    [Authorize(Roles = "Receptionist")]
     [HttpGet("get-doctors-by-admin")]
     public async Task<ActionResult<DoctorProfileSearchByAdminResponse>> GetDoctorsByAdminAsync(
         [FromQuery] SearchParams doctorParams)
@@ -76,7 +77,7 @@ public class ProfileController : ControllerBase
         return Ok(result);
     }
     
-    //[Authorize(Roles = "Receptionist")]
+    [Authorize(Roles = "Receptionist")]
     [HttpGet("receptionists")]
     public async Task<ActionResult<ICollection<ReceptionistProfileResponse>>> GetReceptionistsAsync(
         [FromQuery] SearchParams searchParams)
@@ -86,7 +87,7 @@ public class ProfileController : ControllerBase
         return Ok(result);
     }
     
-    //[Authorize(Roles ="Admin")]
+    [Authorize(Roles = "Receptionist")]
     [HttpGet("get-patients-by-admin")]
     public async Task<ActionResult<PatientsProfileSearchByAdminResponse>> GetPatientsByAdminAsync(
         [FromQuery] SearchParams searchParams)
@@ -96,7 +97,7 @@ public class ProfileController : ControllerBase
         return Ok(result);
     }
     
-    //[Authorize(Roles = "Doctor")]
+    [Authorize(Roles = "Doctor")]
     [HttpGet("get-patient-profile-by-doctor/{patientId}")]
     public async Task<ActionResult<PatientProfileByDoctorResponse>> GetPatientProfileByDoctorAsync([FromRoute] string patientId)
     {
@@ -113,7 +114,7 @@ public class ProfileController : ControllerBase
         return Ok(result);
     }
     
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Receptionist")]
     [HttpGet("get-patient-profile-by-admin/{patientId}")]
     public async Task<ActionResult<PatientProfileByAdminResponse>> GetPatientProfileByAdminAsync([FromRoute] string patientId)
     {
@@ -122,7 +123,7 @@ public class ProfileController : ControllerBase
         return Ok(result);
     }
     
-    //[Authorize(Roles = "Receptionist")]
+    [Authorize(Roles = "Receptionist")]
     [HttpGet("receptionists/{receptionistId}")]
     public async Task<ActionResult<ReceptionistProfileByIdResponse>> GetReceptionistProfileByIdAsync([FromRoute] string receptionistId)
     {
@@ -131,7 +132,7 @@ public class ProfileController : ControllerBase
         return Ok(result);
     }
 
-    //[Authorize(Roles = "Receptionist")]
+    [Authorize(Roles = "Receptionist")]
     [HttpDelete("patients/{patientId}")]
     public async Task<ActionResult> DeletePatientProfileAsync([FromRoute] string patientId)
     {
@@ -140,7 +141,7 @@ public class ProfileController : ControllerBase
         return NoContent();
     }
     
-    //[Authorize(Roles = "Receptionist")]
+    [Authorize(Roles = "Receptionist")]
     [HttpDelete("receptionists/{receptionistId}")]
     public async Task<ActionResult> DeleteReceptionistProfileAsync([FromRoute] string receptionistId)
     {
@@ -149,7 +150,7 @@ public class ProfileController : ControllerBase
         return NoContent();
     }
     
-    //[Authorize(Roles = "Receptionist")]
+    [Authorize(Roles = "Receptionist")]
     [HttpPatch("update-doctor-status/{doctorId}")]
     public async Task<ActionResult> UpdateDoctorStatusAsync([FromRoute] string doctorId, [FromBody] ChangeDoctorStatusRequest request)
     {
