@@ -4,7 +4,7 @@ import {AuthService} from "../../../services/auth.service";
 import {Router} from "@angular/router";
 import {MatSnackBar, MatSnackBarConfig} from "@angular/material/snack-bar";
 import {catchError, throwError} from "rxjs";
-import {SignUpRequest} from "../../../models/requests/sign-up-request";
+import {SignUpRequest} from "../../../models/requests/auth/sign-up-request";
 import Validation from '../../../../shared/validation/confirmPasswordValidation';
 
 @Component({

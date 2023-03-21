@@ -1,0 +1,65 @@
+<html>
+<body>
+<div class="container">
+  <mat-card>
+    <mat-card-title>
+      Create Patient Profile
+    </mat-card-title>
+    <mat-card-content>
+
+      <form [formGroup]="createPatientProfileForm" autocomplete="off" (ngSubmit)="!errorType && createPatientProfileForm.valid && create()">
+
+        <mat-form-field appearance="outline">
+          <mat-label>First Name</mat-label>
+          <input matInput [autofocus]="false" formControlName="firstName" type="text">
+          <mat-error *ngIf="createPatientProfileForm.controls['firstName'].invalid">Invalid First Name</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Last Name</mat-label>
+          <input matInput [autofocus]="false" formControlName="lastName" type="text">
+          <mat-error *ngIf="createPatientProfileForm.controls['lastName'].invalid">Invalid Last Name</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Middle Name</mat-label>
+          <input matInput [autofocus]="false" formControlName="middleName" type="text">
+          <mat-error *ngIf="createPatientProfileForm.controls['middleName'].invalid">Invalid Middle Name</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Date Of Birthday</mat-label>
+          <input matInput [matDatepicker]="dob"  [min]="minDate" [max]="maxDate" formControlName="dateOfBirth">
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="dob"></mat-datepicker-toggle>
+          <mat-datepicker #dob></mat-datepicker>
+          <mat-error *ngIf="createPatientProfileForm.controls['dateOfBirth'].invalid">Invalid Date</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Phone Number</mat-label>
+          <input matInput [autofocus]="false" formControlName="phoneNumber" type="text">
+          <span matPrefix><mat-icon>add</mat-icon></span>
+          <mat-error *ngIf="createPatientProfileForm.controls['phoneNumber'].invalid">Invalid Phone Number</mat-error>
+        </mat-form-field>
+
+        <mat-label>
+          <input type="file" (change)="onFileSelected($event)">
+        </mat-label>
+
+
+          <input #fileInput type="file" (change)="onFileSelected($event)" style="display: none;">
+
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="!createPatientProfileForm.valid || isError()">Create</button>
+
+      </form>
+
+      <div class="error-message">
+        <p *ngIf="errorType">{{errorMessage}}</p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+</body>
+</html>

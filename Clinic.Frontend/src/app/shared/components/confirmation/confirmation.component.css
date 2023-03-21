@@ -1,4 +1,5 @@
 .container {
+  width: 400px;
   min-width: 220px;
 }
 
@@ -8,18 +9,16 @@ h2 {
 }
 
 mat-dialog-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   position: relative;
   margin-top: 10px;
 }
 
-button:first-child {
-  display: inline-block;
-  position: absolute;
-  left: 0;
-}
-
-button:last-child {
-  display: inline-block;
-  position: absolute;
-  right: 0;
+button
+{
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
 }

@@ -3,10 +3,10 @@ import {environment} from "../../../environments/environment.development";
 import {HttpClient} from "@angular/common/http";
 import {AuthService} from "./auth.service";
 import {map, Observable} from "rxjs";
-import {RefreshTokensRequest} from "../models/requests/refresh-tokens-request";
+import {RefreshTokensRequest} from "../models/requests/auth/refresh-tokens-request";
 import {RefreshTokensResponse} from "../models/responses/refresh-tokens-response";
 import {Account} from "../models/Account";
-import {RevokeTokenRequest} from "../models/requests/revoke-token-request";
+import {RevokeTokenRequest} from "../models/requests/auth/revoke-token-request";
 
 @Injectable({
   providedIn: 'root'

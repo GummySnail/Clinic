@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment'
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {SignInRequest} from "../models/requests/sign-in-request";
+import {SignInRequest} from "../models/requests/auth/sign-in-request";
 import {map, Observable, ReplaySubject} from "rxjs";
 import {Account} from "../models/Account";
-import {SignUpRequest} from "../models/requests/sign-up-request";
+import {SignUpRequest} from "../models/requests/auth/sign-up-request";
 import {CustomEncoder} from "../../shared/custom-encoder";
 
 @Injectable({
@@ -39,6 +39,10 @@ export class AuthService {
 
   public getCurrentUser(): Account{
     return JSON.parse(localStorage.getItem('user')!);
+  }
+
+  public isAuthenticated() : boolean {
+    return !!localStorage.getItem("user");
   }
 
   public deleteCurrentUser(): void {
